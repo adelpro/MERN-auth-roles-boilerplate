@@ -10,12 +10,12 @@ export default function DashLayoutHeader() {
   const logoutHandler = () => {
     setIsloading(true);
     setError(null);
-    fetch("http://localhost:3500/auth/logout", {
+    fetch(`${process.env.REACT_APP_BASEURL}/auth/logout`, {
       method: "POST",
-      mode: "cors",
-      credentials: "include", // include, *same-origin, omit
+      //credentials: "include", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${AccessToken}`,
       },
     })
       .then((res) => {

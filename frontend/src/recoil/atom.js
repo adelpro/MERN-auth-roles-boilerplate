@@ -1,10 +1,10 @@
 import { atom } from "recoil";
-import { recoilPersist } from "recoil-persist";
+//import { recoilPersist } from "recoil-persist";
 
-const { persistAtom } = recoilPersist();
+//const { persistAtom } = recoilPersist();
 
 export const AccessToken = atom({
   key: "AccessToken",
   default: null,
-  effects_UNSTABLE: [persistAtom],
+  // effects_UNSTABLE: [persistAtom],
 });

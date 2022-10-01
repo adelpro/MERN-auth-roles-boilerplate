@@ -28,9 +28,8 @@ export default function NewUserFrom() {
       roles: ["admin"],
     });
 
-    fetch("http://localhost:3500/users", {
+    fetch(`${process.env.REACT_APP_BASEURL}/users`, {
       method: "POST",
-      mode: "cors",
       headers: {
         "Content-Type": "application/json ",
       },

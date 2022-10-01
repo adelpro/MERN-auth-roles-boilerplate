@@ -1,65 +1,68 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { AccessToken } from "../../recoil/atom";
 
 export default function UsersList() {
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
+  const [persist] = useLocalStorage("persist", false);
   const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsloading] = useState(false);
   const [error, setError] = useState(null);
   useEffect(() => {
-    setIsLoading(true);
-    fetch("http://localhost:3500/users", {
+    console.log({ persist });
+    setIsloading(true);
+    fetch(`${process.env.REACT_APP_BASEURL}/users`, {
       method: "GET",
-      mode: "cors",
-      credentials: "include",
+      //credentials: "include",
       headers: {
+        "Content-Type": "application/json ",
         authorization: `Bearer ${accessToken}`,
       },
     })
       .then((res) => {
-        if (res.status === 403) {
-          return fetch("http://localhost:3500/auth/refresh", {
+        if (res.status === 403 && persist) {
+          //Refresh token only on trusted devices
+          fetch(`${process.env.REACT_APP_BASEURL}/auth/refresh`, {
             method: "GET",
-            mode: "cors",
-            credentials: "include",
+            //credentials: "include",
             headers: {
+              "Content-Type": "application/json ",
               authorization: `Bearer ${accessToken}`,
             },
-          });
+          })
+            .then((res) => {
+              if (res && res.status === 403) {
+              }
+              return res.json();
+            })
+            .then((result) => {
+              setAccessToken(result.accessToken);
+              setIsloading(false);
+              setError(null);
+            });
         }
-        setData(res);
-        setIsLoading(false);
+        return res.json();
       })
+      .then((result) => {
+        setData(result);
+        setError(null);
+        setIsloading(false);
+      })
+
       .catch((err) => {
-        setIsLoading(false);
+        console.log("error userlist");
+        setData(null);
+        setIsloading(false);
         setError(err);
       });
   }, [accessToken]);
-  const refreshAccessToken = () => {
-    console.log({ accessToken });
-    fetch("http://localhost:3500/auth/refresh", {
-      method: "GET",
-      mode: "cors",
-      //credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
   if (error) return <div>{error.message}</div>;
   if (isLoading) return <div>Loading...</div>;
   if (!data || !data.length)
     return (
       <>
-        <button onClick={refreshAccessToken}>refresh token</button>
         <div>No data to show</div>
       </>
     );
@@ -68,14 +71,13 @@ export default function UsersList() {
   return (
     <>
       <h1>UsersList</h1>
-      <button onClick={refreshAccessToken}>refresh token</button>
       <ul>
-        {data.json().map((user) => {
+        {data.map((user) => {
           return (
-            <li key={user.id}>
+            <li key={user._id}>
               {user.username} - [
               {user.roles.map((role) => (
-                <span key={role}>" " + role + " "</span>
+                <span key={role}>{role} ,</span>
               ))}
               ]
             </li>

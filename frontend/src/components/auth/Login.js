@@ -17,10 +17,10 @@ export default function Login() {
     e.preventDefault();
     setIsloading(true);
     setError(null);
-    fetch("http://localhost:3500/auth", {
+    fetch(process.env.REACT_APP_BASEURL + "/auth", {
       method: "POST",
       mode: "cors",
-      credentials: "include", // include, *same-origin, omit
+      //credentials: "include", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
       },

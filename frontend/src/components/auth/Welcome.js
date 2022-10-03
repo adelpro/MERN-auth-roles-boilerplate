@@ -1,23 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 export default function Welcome() {
-  const date = new Date();
-  const today = new Intl.DateTimeFormat("fr-DZ", {
-    dateStyle: "full",
-    timeStyle: "long",
-  }).format(date);
-
+  const { username, status, isAdmin } = useAuth();
   return (
     <>
-      <div>Welcome</div>
-      <p>{today}</p>
+      <p>
+        Welcome {username} [ {status} ]
+      </p>
       <p>
         <Link to="/dash/notes"> View Notes</Link>
       </p>
-      <p>
-        <Link to="/dash/users"> View Users</Link>
-      </p>
+      {isAdmin && (
+        <p>
+          <Link to="/dash/users"> View Users</Link>
+        </p>
+      )}
     </>
   );
 }

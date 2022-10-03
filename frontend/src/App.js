@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/auth/Login";
@@ -10,6 +9,8 @@ import NotesList from "./components/notes/NotesList";
 import UsersList from "./components/users/UsersList";
 import NewUserFrom from "./components/users/NewUserFrom";
 import PersistLogin from "./components/auth/PersistLogin";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import { ROLES } from "./config/roles";
 function App() {
   return (
     <Routes>
@@ -24,9 +25,17 @@ function App() {
           <Route path="notes">
             <Route index element={<NotesList />} />
           </Route>
-          <Route path="users">
-            <Route index element={<UsersList />} />
-            <Route path="signin" element={<NewUserFrom />} />
+          <Route
+            element={
+              <ProtectedRoutes allowedRoles={[ROLES.Admin, ROLES.Manager]} />
+            }
+          >
+            <Route path="users">
+              <Route index element={<UsersList />} />
+              <Route element={<ProtectedRoutes allowedRoles={[ROLES.Admin]} />}>
+                <Route path="signin" element={<NewUserFrom />} />
+              </Route>
+            </Route>
           </Route>
         </Route>
       </Route>

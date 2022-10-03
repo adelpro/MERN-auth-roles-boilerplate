@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { AccessToken } from "../../recoil/atom";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import styles from "./Login.module.css";
 export default function Login() {
-  const [accessToken, setAccessToken] = useRecoilState(AccessToken);
+  const setAccessToken = useSetRecoilState(AccessToken);
   const [persist, setPersist] = useLocalStorage("persist", false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -49,7 +50,8 @@ export default function Login() {
         } else if (err.status === 401) {
           setError("Unauthorized");
         } else {
-          setError(err);
+          console.log(err);
+          setError(err.statusText);
         }
         setIsloading(false);
         errorRef.current.focus();
@@ -60,41 +62,46 @@ export default function Login() {
   return (
     <>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <p ref={errorRef} aria-live="assertive">
-          {error}
-        </p>
+      <form onSubmit={handleSubmit} className={styles.form__container}>
         <div>
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            ref={usernameRef}
-          />
-          <label htmlFor="password">Username</label>
-          <input
-            id="password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            ref={usernameRef}
-          />
+          <div className={styles.form__control__container}>
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              ref={usernameRef}
+            />
+          </div>
+          <div className={styles.form__control__container}>
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              ref={usernameRef}
+            />
+          </div>
         </div>
-        <div>
+        <div className={styles.form__control__container}>
           <input
             id="persist"
             type="checkbox"
             checked={persist}
             onChange={() => setPersist((current) => !current)}
           />
-
           <label htmlFor="persist">Trust this device</label>
         </div>
-        <button type="submit">LogIn</button>
+        <button type="submit" disabled={isloading}>
+          {!isloading ? "Login" : "Loading..."}
+        </button>
+        <p ref={errorRef} aria-live="assertive">
+          {error}
+        </p>
       </form>
     </>
   );

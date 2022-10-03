@@ -1,0 +1,17 @@
+.form__control__container {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    padding: 5px;
+}
+
+.form__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    border-radius: 3px;
+    border-color: #cccc;
+    border: 2px;
+}

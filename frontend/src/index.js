@@ -14,7 +14,15 @@ root.render(
     <RecoilRoot>
       <BrowserRouter>
         <Routes>
-          <Route path="/*" element={<App />} />
+          <Route
+            path="/*"
+            element={
+              <>
+                {/*<RecoilizeDebugger />*/}
+                <App />
+              </>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>

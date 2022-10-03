@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { AccessToken } from "../../recoil/atom";
@@ -9,8 +10,8 @@ export default function UsersList() {
   const [data, setData] = useState(null);
   const [isLoading, setIsloading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
-    console.log({ persist });
     setIsloading(true);
     fetch(`${process.env.REACT_APP_BASEURL}/users`, {
       method: "GET",
@@ -51,7 +52,6 @@ export default function UsersList() {
       })
 
       .catch((err) => {
-        console.log("error userlist");
         setData(null);
         setIsloading(false);
         setError(err);
@@ -84,7 +84,10 @@ export default function UsersList() {
           );
         })}
       </ul>
-      <p>user list data...</p>
+
+      <button onClick={() => navigate("/dash/users/signin")}>
+        Add new user
+      </button>
     </>
   );
 }

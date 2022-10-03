@@ -1,13 +1,13 @@
 import { useRecoilValue } from "recoil";
-import { Token } from "../recoil/atom";
-import { jwtDecode } from "jwt-decoder";
+import { AccessToken } from "../recoil/atom";
+import jwtDecode from "jwt-decode";
 const useAuth = () => {
-  const [token] = useRecoilValue(Token);
+  const accessToken = useRecoilValue(AccessToken);
   let isAdmin = false;
   let isManager = false;
   let status = "Employee";
-  if (token) {
-    const decode = jwtDecode(token);
+  if (accessToken) {
+    const decode = jwtDecode(accessToken);
     const { username, roles } = decode.UserInfo;
     isAdmin = roles.includes("Admin");
     isManager = roles.includes("Manager");

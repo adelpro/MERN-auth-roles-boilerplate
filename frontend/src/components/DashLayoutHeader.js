@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { AccessToken } from "../recoil/atom";
+import styles from "./DashLayoutHeader.module.css";
 export default function DashLayoutHeader() {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
   const [isloading, setIsloading] = useState(false);
-  const [error, setError] = useState(null);
   const logoutHandler = () => {
     setIsloading(true);
-    setError(null);
     fetch(`${process.env.REACT_APP_BASEURL}/auth/logout`, {
       method: "POST",
       //credentials: "include", // include, *same-origin, omit
@@ -18,26 +17,27 @@ export default function DashLayoutHeader() {
         authorization: `Bearer ${AccessToken}`,
       },
     })
-      .then((res) => {
+      .then(() => {
         setAccessToken(null);
         setIsloading(false);
-        setError(null);
         navigate("/");
       })
-      .catch((err) => {
-        setError(err);
+      .catch(() => {
         setIsloading(false);
       });
   };
   return (
     <>
-      {accessToken && (
-        <>
-          <button disabled={isloading} onClick={logoutHandler}>
-            {isloading ? "..." : "Logout"}
-          </button>
-        </>
-      )}
+      <div className={styles.dash__header__container}>
+        <h1>MERN auth - roles</h1>
+        {accessToken && (
+          <>
+            <button disabled={isloading} onClick={logoutHandler}>
+              {isloading ? "Loading..." : "Logout"}
+            </button>
+          </>
+        )}
+      </div>
     </>
   );
 }

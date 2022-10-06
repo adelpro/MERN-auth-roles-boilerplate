@@ -18,12 +18,14 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // @Route POST /users
 // @Access Private
 const createNewUser = asyncHandler(async (req, res) => {
-  const { username, password, roles } = req.body;
+  const { username, password, email, roles } = req.body;
   //Confirm data
   if (
     !username ||
+    username.length < 4 ||
     !password ||
-    password.length < 5 ||
+    password.length < 6 ||
+    !email ||
     !Array.isArray(roles) ||
     !roles.length
   ) {
@@ -41,6 +43,7 @@ const createNewUser = asyncHandler(async (req, res) => {
   const newUser = await user.create({
     username,
     password: hashedPassword,
+    email,
     roles,
   });
   if (newUser) {
@@ -76,7 +79,6 @@ const updateUser = asyncHandler(async (req, res) => {
     !roles.length ||
     typeof active !== Boolean
   ) {
-    console.log("test");
     return res
       .status(400)
       .json({ message: "Verify your data and proceed again" });

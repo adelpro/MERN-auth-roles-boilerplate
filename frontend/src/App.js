@@ -11,6 +11,7 @@ import NewUserFrom from "./components/users/NewUserFrom";
 import PersistLogin from "./components/auth/PersistLogin";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { ROLES } from "./config/roles";
+import EditUserForm from "./components/users/EditUserForm";
 function App() {
   return (
     <Routes>
@@ -34,6 +35,7 @@ function App() {
               <Route index element={<UsersList />} />
               <Route element={<ProtectedRoutes allowedRoles={[ROLES.Admin]} />}>
                 <Route path="signin" element={<NewUserFrom />} />
+                <Route path=":id" element={<EditUserForm />} />
               </Route>
             </Route>
           </Route>

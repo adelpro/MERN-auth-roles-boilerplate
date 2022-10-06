@@ -24,7 +24,7 @@ const login = asyncHandler(async (req, res) => {
       UserInfo: { username: foundUser.username, roles: foundUser.roles },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "60s" }
+    { expiresIn: "30s" }
   );
   const refreshToken = jwt.sign(
     {
@@ -70,7 +70,6 @@ const refresh = asyncHandler(async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "30s" }
       );
-      console.log("token refreched");
       res.json({ accessToken });
     })
   );

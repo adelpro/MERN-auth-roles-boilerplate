@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500&display=swap');
+
 .form__control__container {
     display: flex;
     flex-direction: row;
@@ -10,8 +12,59 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #F8EDE3;
+    width: 400px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+section {
+    display: flex;
+    margin: 30px;
+    background-color: #7D6E83;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     flex: 1;
-    border-radius: 3px;
-    border-color: #cccc;
-    border: 2px;
+    font-family: "Montserrat";
+    font-size: larger;
+}
+
+button {
+    background-color: #9369a3;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    padding: 3px;
+    width: 100px;
+    height: 40px;
+
+}
+
+input,
+label {
+    margin: 2px;
+    padding: 3px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+input[type=text],
+input[type=password] {
+    width: 200px;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.error {
+    margin: 3px;
+    text-align: center;
+    font-family: "Montserrat";
+    color: #802a36;
 }

@@ -1,27 +1,24 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRecoilState } from "recoil";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import styles from "./NewUserFrom.module.css";
-
-export default function NewUserFrom() {
+import styles from "./EditUserForm.module.css";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import { AccessToken } from "../../recoil/atom";
+import { useParams } from "react-router-dom";
+export default function EditUserForm() {
+  const [accessToken, setAccessToken] = useRecoilState(AccessToken);
+  const [persist] = useLocalStorage("persist", false);
   const messageRef = useRef();
   const [isloading, setIsloading] = useState(false);
   const [message, setMessage] = useState(null);
-
+  const { id } = useParams();
   const schema = yup.object().shape({
-    username: yup
-      .string()
-      .min(4)
-      .required("Username is required"),
-    email: yup
-      .string()
-      .email("Invalid email")
-      .required("Email is required"),
-    password: yup
-      .string()
-      .min(6, "Min 6 characters")
-      .required("Password is required"),
+    username: yup.string().min(4).required("Username is required"),
+    email: yup.string().email("Invalid email").required("Email is required"),
+    //password: yup.string().min(6, "Min 6 characters"),
+    //.required("Password is required"),
     //confirmationPassword: yup.string().oneOf([yupref("password"), null]),
     roles: yup
       .array()
@@ -32,18 +29,73 @@ export default function NewUserFrom() {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     //shouldUseNativeValidation: true,
     resolver: yupResolver(schema),
   });
+  //fetching default user data with id:
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_BASEURL}/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json ",
+        authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => {
+        if (res.status === 403 && persist) {
+          console.log("refreching token error 403 - 1");
+          //Refresh token only on trusted devices
+          fetch(`${process.env.REACT_APP_BASEURL}/auth/refresh`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json ",
+              authorization: `Bearer ${accessToken}`,
+            },
+          })
+            .then((res) => {
+              return res.json();
+            })
+            .then((result) => {
+              console.log("refreched token error 403 -2 no error");
+              setAccessToken(result.accessToken);
+              setIsloading(false);
+              setMessage(null);
+            });
+        }
+        return res.json();
+      })
+      .then((result) => {
+        const UserToEdit = result.find((item) => (item._id = id));
+        const { username, email, roles, active } = UserToEdit;
+        console.log({ username, email, roles, active });
+        reset({ username, email, roles, active });
+        setMessage(null);
+        setIsloading(false);
+      })
+
+      .catch((err) => {
+        setIsloading(false);
+        setMessage(err);
+      });
+  }, [accessToken, persist, setAccessToken, setValue, id]);
+
   const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
     console.log({ data });
-    const body = JSON.stringify(data);
+    const { username, password, email, roles, active } = data;
+    let body = null;
+
+    if (password) {
+      body = JSON.stringify({ ...data, id });
+    } else {
+      body = JSON.stringify({ id, username, email, roles, active });
+    }
     fetch(`${process.env.REACT_APP_BASEURL}/users`, {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json ",
       },
@@ -73,7 +125,7 @@ export default function NewUserFrom() {
   if (isloading) return <p>Loading ...</p>;
   return (
     <>
-      <h1>Singup</h1>
+      <h1>Update user</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={styles.form__container}

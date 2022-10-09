@@ -85,7 +85,7 @@ const logout = asyncHandler(async (req, res) => {
     return res.sendStatus(204); //No content
   }
   res.clearCookie("jwt", { httpOnly: true, samSite: "None", secure: true });
-  res.json({ message: "Cookie cleared" });
+  res.json({ message: "Logged out successfully" });
 });
 
 module.exports = { login, refresh, logout };

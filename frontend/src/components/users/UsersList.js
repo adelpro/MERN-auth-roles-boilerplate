@@ -25,23 +25,6 @@ export default function UsersList() {
       },
     })
       .then((res) => {
-        if (res.status === 403 && persist) {
-          //Refresh token only on trusted devices
-          fetch(`${process.env.REACT_APP_BASEURL}/auth/refresh`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json ",
-              authorization: `Bearer ${accessToken}`,
-            },
-          })
-            .then((res) => {
-              return res.json();
-            })
-            .then((result) => {
-              console.log(result);
-              setAccessToken(result.accessToken);
-            });
-        }
         return res.json();
       })
       .then((result) => {
@@ -120,6 +103,7 @@ export default function UsersList() {
         Add new user
       </button>
       <button onClick={() => getNewToken()}>Refresh Token</button>
+      <p>{refreshTokenError?.message}</p>
       <p ref={messageRef} aria-live="assertive">
         {message?.message}
       </p>

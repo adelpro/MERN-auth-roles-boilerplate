@@ -1,9 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Ring } from "@uiball/loaders";
 import { useSetRecoilState } from "recoil";
 import { AccessToken } from "../../recoil/atom";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import styles from "./Login.module.css";
+import axios from "../../api/axios";
 export default function Login() {
   const setAccessToken = useSetRecoilState(AccessToken);
   const [persist, setPersist] = useLocalStorage("persist", false);
@@ -18,20 +20,16 @@ export default function Login() {
     e.preventDefault();
     setIsloading(true);
     setError(null);
+    axios.post(process.env.REACT_APP_BASEURL + "/auth");
     fetch(process.env.REACT_APP_BASEURL + "/auth", {
       method: "POST",
       mode: "cors",
-      //credentials: "include", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
     })
       .then((res) => {
-        if (res.status !== 200) {
-          setIsloading(false);
-          throw res;
-        }
         return res.json();
       })
       .then((result) => {
@@ -60,7 +58,7 @@ export default function Login() {
   useEffect(() => usernameRef.current.focus(), []);
   useEffect(() => setError(null), [username, password]);
   return (
-    <>
+    <section>
       <h1>Login</h1>
       <form onSubmit={handleSubmit} className={styles.form__container}>
         <div>
@@ -96,13 +94,19 @@ export default function Login() {
           />
           <label htmlFor="persist">Trust this device</label>
         </div>
-        <button type="submit" disabled={isloading}>
-          {!isloading ? "Login" : "Loading..."}
+        <button className={styles.button} type="submit" disabled={isloading}>
+          {!isloading ? (
+            "Login"
+          ) : (
+            <div className={styles.loaders__container}>
+              {<Ring color="white" />}
+            </div>
+          )}
         </button>
         <p ref={errorRef} aria-live="assertive">
           {error}
         </p>
       </form>
-    </>
+    </section>
   );
 }

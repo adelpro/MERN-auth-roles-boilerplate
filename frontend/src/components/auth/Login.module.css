@@ -68,3 +68,28 @@ h1 {
     font-family: "Montserrat";
     color: #802a36;
 }
+
+.button {
+    margin: 10px;
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    color: #dff6ff;
+    background-color: #06283d;
+    cursor: pointer;
+    text-align: "center";
+}
+
+.button:hover {
+    background-color: #083755;
+    font-weight: bold;
+    height: 41px;
+    width: 204px;
+    border-color: rgba(88, 88, 88, 0.8);
+}
+
+.loaders__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -13,6 +13,7 @@ export default function DashLayout() {
       <DashLayoutHeader />
       <div>Dash</div>
       <p>accessToken: {accessToken}</p>
+      <p>Current server: {process.env.REACT_APP_BASEURL}</p>
       <Outlet />
       <DashLayoutFooter />
     </>

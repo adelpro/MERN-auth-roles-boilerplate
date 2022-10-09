@@ -9,6 +9,8 @@ const useRefetch = () => {
     setRefreshTokenError(null);
     fetch(`${process.env.REACT_APP_BASEURL}/auth/refresh`, {
       method: "GET",
+      mode: "cors",
+      credentials: "include", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json ",
         authorization: `Bearer ${accessToken}`,
@@ -20,7 +22,10 @@ const useRefetch = () => {
       })
       .then((result) => {
         console.log({ result });
-        setAccessToken(result.accessToken);
+        if (result.accessToken) {
+          return setAccessToken(result.accessToken);
+        }
+        return null;
       })
       .catch((err) => {
         console.log({ err });

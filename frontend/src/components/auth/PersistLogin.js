@@ -9,6 +9,6 @@ export default function PersistLogin() {
     if (!accessToken) {
       navigate("/");
     }
-  }, [accessToken]);
+  }, [accessToken, navigate]);
   return <Outlet />;
 }

@@ -1,4 +1,6 @@
 const allowedOrigins = require("./allowedOrigins");
+
+//const port = process.env.PORT || 3500;
 const corsConfigs = {
   origin: (origin, callback) => {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -9,6 +11,8 @@ const corsConfigs = {
       callback(new Error("origin not allowed by Cors"));
     }
   },
-  optionsSuccesStatus: 200,
+  //origin: [`http://localhost:${port}`, `https://localhost:${port}`],
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 module.exports = corsConfigs;

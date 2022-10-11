@@ -10,14 +10,8 @@ export default function NewUserFrom() {
   const [message, setMessage] = useState(null);
 
   const schema = yup.object().shape({
-    username: yup
-      .string()
-      .min(4)
-      .required("Username is required"),
-    email: yup
-      .string()
-      .email("Invalid email")
-      .required("Email is required"),
+    username: yup.string().min(4).required("Username is required"),
+    email: yup.string().email("Invalid email").required("Email is required"),
     password: yup
       .string()
       .min(6, "Min 6 characters")
@@ -34,13 +28,11 @@ export default function NewUserFrom() {
     reset,
     formState: { errors },
   } = useForm({
-    //shouldUseNativeValidation: true,
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
-    console.log({ data });
     const body = JSON.stringify(data);
     fetch(`${process.env.REACT_APP_BASEURL}/users`, {
       method: "POST",

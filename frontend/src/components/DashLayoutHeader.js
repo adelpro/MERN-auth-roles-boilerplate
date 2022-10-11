@@ -2,21 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { AccessToken } from "../recoil/atom";
-import styles from "./DashLayoutHeader.module.css";
+import { axiosPrivate } from "../api/axios";
+import styles from "../App.module.css";
+import dashstyles from "./DashLayoutHeader.module.css";
+import { Ring } from "@uiball/loaders";
 export default function DashLayoutHeader() {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
   const [isloading, setIsloading] = useState(false);
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
     setIsloading(true);
-    fetch(`${process.env.REACT_APP_BASEURL}/auth/logout`, {
-      method: "POST",
-      //credentials: "include", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${AccessToken}`,
-      },
-    })
+    axiosPrivate
+      .post("/auth/logout")
       .then(() => {
         setAccessToken(null);
         setIsloading(false);
@@ -28,12 +25,22 @@ export default function DashLayoutHeader() {
   };
   return (
     <>
-      <div className={styles.dash__header__container}>
-        <h1>MERN auth - roles</h1>
+      <div className={dashstyles.dash__header__container}>
+        <h1>MERN - auth - roles</h1>
         {accessToken && (
           <>
-            <button disabled={isloading} onClick={logoutHandler}>
-              {isloading ? "Loading..." : "Logout"}
+            <button
+              className={styles.button}
+              onClick={logoutHandler}
+              disabled={isloading}
+            >
+              {!isloading ? (
+                "Logout"
+              ) : (
+                <div className={styles.loaders__container}>
+                  {<Ring size={18} color="white" />}
+                </div>
+              )}
             </button>
           </>
         )}

@@ -46,7 +46,6 @@ export default function EditUserForm() {
     })
       .then((res) => {
         if (res.status === 403 && persist) {
-          console.log("refreching token error 403 - 1");
           //Refresh token only on trusted devices
           fetch(`${process.env.REACT_APP_BASEURL}/auth/refresh`, {
             method: "GET",
@@ -59,7 +58,6 @@ export default function EditUserForm() {
               return res.json();
             })
             .then((result) => {
-              console.log("refreched token error 403 -2 no error");
               setAccessToken(result.accessToken);
               setIsloading(false);
               setMessage(null);
@@ -70,7 +68,6 @@ export default function EditUserForm() {
       .then((result) => {
         const UserToEdit = result.find((item) => (item._id = id));
         const { username, email, roles, active } = UserToEdit;
-        console.log({ username, email, roles, active });
         reset({ username, email, roles, active });
         setMessage(null);
         setIsloading(false);
@@ -85,7 +82,6 @@ export default function EditUserForm() {
   const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
-    console.log({ data });
     const { username, password, email, roles, active } = data;
     let body = null;
 

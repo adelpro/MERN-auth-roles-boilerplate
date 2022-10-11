@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import useRefetch from "../../hooks/useRefetch";
 import { AccessToken } from "../../recoil/atom";
-
 export default function UsersList() {
-  const { refreshTokenError, getNewToken } = useRefetch();
+  const axiosPrivate = useAxiosPrivate();
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
   const [persist] = useLocalStorage("persist", false);
   const [data, setData] = useState(null);
@@ -15,32 +14,32 @@ export default function UsersList() {
   const [message, setMessage] = useState(null);
   const messageRef = useRef();
   const navigate = useNavigate();
+
   useEffect(() => {
     setIsloading(true);
-    fetch(`${process.env.REACT_APP_BASEURL}/users`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json ",
-        authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setData(result);
+    const controller = new AbortController();
+    const getUsers = async () => {
+      try {
+        const result = await axiosPrivate.get("/users", {
+          signal: controller.signal,
+        });
+        setData(result?.data);
         setError(null);
         setIsloading(false);
-      })
-
-      .catch((err) => {
+      } catch (err) {
         setData(null);
         setIsloading(false);
-        setError(err);
-      });
-  }, [accessToken, persist, setAccessToken]);
-  const handleDeleteUser = (id) => {
-    fetch(`${process.env.REACT_APP_BASEURL}/users`, {
+        setError(err?.response?.message);
+      }
+    };
+
+    getUsers();
+    return () => {
+      controller?.abort();
+    };
+  }, [accessToken, persist, setAccessToken, axiosPrivate]);
+  const handleDeleteUser = async (id) => {
+    await fetch(`${process.env.REACT_APP_BASEURL}/users`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json ",
@@ -50,10 +49,6 @@ export default function UsersList() {
     })
       .then((res) => {
         if (res.status === 403 && persist) {
-          getNewToken();
-          if (refreshTokenError) {
-            setMessage(refreshTokenError);
-          }
         }
         if (res.status === 200) {
           setData((prev) => {
@@ -102,8 +97,6 @@ export default function UsersList() {
       <button onClick={() => navigate("/dash/users/signin")}>
         Add new user
       </button>
-      <button onClick={() => getNewToken()}>Refresh Token</button>
-      <p>{refreshTokenError?.message}</p>
       <p ref={messageRef} aria-live="assertive">
         {message?.message}
       </p>

@@ -1,8 +1,8 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { AccessToken } from "../recoil/atom";
 import jwtDecode from "jwt-decode";
 const useAuth = () => {
-  const accessToken = useRecoilValue(AccessToken);
+  const [accessToken, setAccessToken] = useRecoilState(AccessToken);
   let isAdmin = false;
   let isManager = false;
   let status = "Employee";
@@ -15,6 +15,14 @@ const useAuth = () => {
     if (isAdmin) status = "Admin";
     return { username, roles, status, isAdmin, isManager };
   }
-  return { username: "", roles: [], status, isAdmin, isManager };
+  return {
+    accessToken,
+    setAccessToken,
+    username: "",
+    roles: [],
+    status,
+    isAdmin,
+    isManager,
+  };
 };
 export default useAuth;

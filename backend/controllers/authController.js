@@ -7,10 +7,9 @@ const jwt = require("jsonwebtoken");
 // @Route POST /auth
 // @Access Public
 const login = asyncHandler(async (req, res) => {
-  const cookie = req.cookies;
   const { username, password } = req.body;
   if (!username || !password) {
-    return res.status(400).json({ message: "All field are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
   const foundUser = await User.findOne({ username }).exec();
   if (!foundUser || !foundUser.active) {
@@ -25,7 +24,7 @@ const login = asyncHandler(async (req, res) => {
       UserInfo: { username: foundUser.username, roles: foundUser.roles },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "30s" }
+    { expiresIn: "3s" }
   );
   const refreshToken = jwt.sign(
     {
@@ -34,22 +33,15 @@ const login = asyncHandler(async (req, res) => {
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "7d" }
   );
-  //Delete old cookie if it contain jwt
-  if (cookie?.jwt) {
-    res.clearCookie("jwt", {
-      httpOnly: true,
-      samSite: "None",
-      //secure: true - only server with https
-    });
-  }
+
   //Create secure cookie with refresh token
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
-    sameSite: "None",
+    SameSite: "None",
     //secure: true, //-only for server with https
     maxAge: 24 * 60 * 60 * 1000,
   });
-  //then send access token wit username and roles
+  //then send access token with username and roles
   res.json({ accessToken });
 });
 
@@ -58,13 +50,12 @@ const login = asyncHandler(async (req, res) => {
 // @Access Public
 const refresh = asyncHandler(async (req, res) => {
   const cookies = req.cookies;
-
+  //TODO testing refresh
   if (!cookies?.jwt) {
     return res.status(401).json({ message: "Unauthorized r65472" });
   }
 
   const refreshToken = cookies.jwt;
-
   jwt.verify(
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET,
@@ -79,22 +70,9 @@ const refresh = asyncHandler(async (req, res) => {
       const accessToken = jwt.sign(
         { UserInfo: { username: foundUser.username, roles: foundUser.roles } },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "30s" }
+        { expiresIn: "3s" }
       );
-      //Delete old cookie
-      res.clearCookie("jwt", {
-        httpOnly: true,
-        samSite: "None",
-        //secure: true - only server with https
-      });
-      //Create secure cookie with refresh token
-      res.cookie("jwt", refreshToken, {
-        httpOnly: true,
-        sameSite: "None",
-        //secure: true, //-only for server with https
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-      //then send access token wit username and roles
+      //Send accessToken with username and roles
       res.json({ accessToken });
     })
   );
@@ -110,7 +88,7 @@ const logout = asyncHandler(async (req, res) => {
   }
   res.clearCookie("jwt", {
     httpOnly: true,
-    samSite: "None",
+    SamSite: "None",
     //secure: true - only server with https
   });
   res.json({ message: "Logged out successfully" });

@@ -1,10 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500&display=swap');
 
-.form__control__container {
-    display: flex;
-    flex-direction: row;
-    margin: 10px;
-    padding: 5px;
+body {
+    font-family: Montserrat, Arial, sans-serif;
 }
 
 .form__container {
@@ -20,6 +17,13 @@
     padding: 5px;
 }
 
+.form__control__container {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    padding: 5px;
+}
+
 section {
     display: flex;
     margin: 30px;
@@ -32,17 +36,6 @@ section {
     font-size: larger;
 }
 
-button {
-    background-color: #9369a3;
-    border-radius: 10px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: black;
-    padding: 3px;
-    width: 100px;
-    height: 40px;
-
-}
 
 input,
 label {
@@ -92,4 +85,5 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+
 }

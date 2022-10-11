@@ -61,16 +61,6 @@ const createNewUser = asyncHandler(async (req, res) => {
 const updateUser = asyncHandler(async (req, res) => {
   const { id, username, password, roles, active } = req.body;
   //Confirm data
-  console.log(req.body);
-  console.log(
-    !username,
-    !password,
-    password.length < 5,
-    !Array.isArray(roles),
-    !roles.length,
-    typeof active !== "boolean"
-  );
-
   if (
     !username ||
     !password ||

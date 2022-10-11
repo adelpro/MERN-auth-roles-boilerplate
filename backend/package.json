@@ -1,7 +1,7 @@
 {
-  "name": "mern-notes",
+  "name": "MERN-AUTH-ROLES-Backend",
   "version": "1.0.0",
-  "description": "merne notes app with user auth and permissions",
+  "description": "MERN app with user auth and permissions",
   "main": "server.js",
   "scripts": {
     "start": "node server",

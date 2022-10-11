@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Ring } from "@uiball/loaders";
 import { useSetRecoilState } from "recoil";
 import { AccessToken } from "../../recoil/atom";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import styles from "./Login.module.css";
+import styles from "../../App.module.css";
 import axios from "../../api/axios";
 export default function Login() {
   const setAccessToken = useSetRecoilState(AccessToken);
@@ -15,45 +15,37 @@ export default function Login() {
   const [error, setError] = useState(null);
   const usernameRef = useRef();
   const errorRef = useRef();
+  const location = useLocation();
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsloading(true);
     setError(null);
-    axios.post(process.env.REACT_APP_BASEURL + "/auth");
-    fetch(process.env.REACT_APP_BASEURL + "/auth", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((result) => {
-        setAccessToken(result.accessToken);
-        setIsloading(false);
-        setError(null);
-        setUsername("");
-        setPassword("");
-        navigate("/dash");
-      })
-      .catch((err) => {
-        if (!err.status) {
-          setError("No server response");
-        } else if (err.status === 400) {
-          setError("Missing username or password");
-        } else if (err.status === 401) {
-          setError("Unauthorized");
-        } else {
-          console.log(err);
-          setError(err.statusText);
-        }
-        setIsloading(false);
-        errorRef.current.focus();
-      });
+    try {
+      const result = await axios.post(
+        "/auth",
+        { username, password },
+        { withCredentials: true }
+      );
+      setAccessToken(result?.data?.accessToken);
+      setIsloading(false);
+      setError(null);
+      setUsername("");
+      setPassword("");
+      navigate(location.state?.from?.pathname || "/dash", { replace: true });
+    } catch (err) {
+      if (!err?.response?.status) {
+        setError("No server response");
+      } else if (err?.response?.status === 400) {
+        setError("Missing username or password");
+      } else if (err?.response?.status === 401) {
+        setError("Unauthorized");
+      } else {
+        setError(err?.message);
+      }
+      setIsloading(false);
+      errorRef.current.focus();
+    }
   };
   useEffect(() => usernameRef.current.focus(), []);
   useEffect(() => setError(null), [username, password]);
@@ -99,7 +91,7 @@ export default function Login() {
             "Login"
           ) : (
             <div className={styles.loaders__container}>
-              {<Ring color="white" />}
+              {<Ring size={18} color="white" />}
             </div>
           )}
         </button>

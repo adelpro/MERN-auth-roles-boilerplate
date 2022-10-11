@@ -1,49 +1,78 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { AccessToken } from "../recoil/atom";
-import { axiosPrivate } from "../api/axios";
+import { MdLogout, MdHome } from "react-icons/md";
+import axios from "../api/axios";
 import styles from "../App.module.css";
 import dashstyles from "./DashLayoutHeader.module.css";
 import { Ring } from "@uiball/loaders";
 export default function DashLayoutHeader() {
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useRecoilState(AccessToken);
+  const location = useLocation();
+  const setAccessToken = useSetRecoilState(AccessToken);
   const [isloading, setIsloading] = useState(false);
   const logoutHandler = async () => {
     setIsloading(true);
-    axiosPrivate
+    await axios
       .post("/auth/logout")
       .then(() => {
         setAccessToken(null);
         setIsloading(false);
         navigate("/");
       })
-      .catch(() => {
+      .catch((err) => {
         setIsloading(false);
+        console.log(err);
       });
   };
   return (
     <>
       <div className={dashstyles.dash__header__container}>
-        <h1>MERN - auth - roles</h1>
-        {accessToken && (
-          <>
-            <button
-              className={styles.button__small}
-              onClick={logoutHandler}
-              disabled={isloading}
+        MERN - auth - roles
+        <div>
+          <button
+            className={styles.button}
+            onClick={() => {
+              navigate(location.state?.from?.pathname || "/dash", {
+                replace: true,
+              });
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              {!isloading ? (
-                "Logout"
-              ) : (
-                <div className={styles.loaders__container}>
-                  {<Ring size={18} color="white" />}
-                </div>
-              )}
-            </button>
-          </>
-        )}
+              <MdHome size={30} style={{ marginRight: 10 }} />
+              Home
+            </div>
+          </button>
+          <button
+            className={styles.button}
+            onClick={logoutHandler}
+            disabled={isloading}
+          >
+            {!isloading ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MdLogout size={30} style={{ marginRight: 10 }} />
+                Logout
+              </div>
+            ) : (
+              <div className={styles.loaders__container}>
+                {<Ring size={18} color="white" />}
+              </div>
+            )}
+          </button>
+        </div>
       </div>
     </>
   );

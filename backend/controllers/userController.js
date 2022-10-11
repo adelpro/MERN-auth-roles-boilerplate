@@ -101,6 +101,7 @@ const updateUser = asyncHandler(async (req, res) => {
 // @Private access
 const deleteUser = asyncHandler(async (req, res) => {
   const { id } = req.body;
+  console.log(id);
   if (!id) {
     return res
       .status(400)

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -29,7 +29,6 @@ export default function EditUserForm() {
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors },
   } = useForm({
     //shouldUseNativeValidation: true,
@@ -77,7 +76,7 @@ export default function EditUserForm() {
         setIsloading(false);
         setMessage(err);
       });
-  }, [accessToken, persist, setAccessToken, setValue, id]);
+  }, [accessToken, id, persist, reset, setAccessToken]);
 
   const onSubmit = async (data) => {
     setIsloading(true);

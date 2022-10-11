@@ -1,17 +1,18 @@
 import { useEffect } from "react";
 import { axiosPrivate } from "../api/axios";
 import useRefreshAccessToken from "./useRefreshAccessToken";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { AccessToken } from "../recoil/atom";
 
 const useAxiosPrivate = () => {
-  const accessToken = useRecoilValue(AccessToken);
+  //TODO testing refresh error here !!!
+  const [accessToken, setAccessToken] = useRecoilState(AccessToken);
+
   const getNewToken = useRefreshAccessToken();
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"] && accessToken) {
-          console.log("requestIntercept", accessToken);
           config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
         return config;
@@ -23,12 +24,13 @@ const useAxiosPrivate = () => {
     const responseIntercept = axiosPrivate.interceptors.response.use(
       (response) => response,
       async (error) => {
-        //TODO testing refresh error here !!!
         const prevRequest = error?.config;
         if (error?.response?.status === 403 && !prevRequest?.sent) {
           prevRequest.sent = true;
           const newAccessToken = await getNewToken();
-          console.log("responseIntercept", newAccessToken);
+
+          setAccessToken(newAccessToken);
+
           prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axiosPrivate(prevRequest);
         }
@@ -39,7 +41,7 @@ const useAxiosPrivate = () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);
     };
-  }, [accessToken, getNewToken]);
+  }, [accessToken, getNewToken, setAccessToken]);
 
   return axiosPrivate;
 };

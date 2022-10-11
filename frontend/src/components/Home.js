@@ -1,6 +1,6 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../App.module.css";
+import { MdLogin } from "react-icons/md";
 export default function Home() {
   const navigate = useNavigate();
   return (
@@ -9,7 +9,16 @@ export default function Home() {
 
       <p>Welcome to MERN auth with roles application</p>
       <button className={styles.button} onClick={() => navigate("/login")}>
-        Login
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <MdLogin size={30} style={{ marginRight: 10 }} />
+          Login
+        </div>
       </button>
     </>
   );

@@ -64,7 +64,7 @@ h1 {
 
 .button {
     margin: 10px;
-    width: 200px;
+    width: 90px;
     height: 40px;
     border-radius: 5px;
     color: #dff6ff;
@@ -72,36 +72,16 @@ h1 {
     cursor: pointer;
     text-align: "center";
     cursor: pointer;
+    /*grow effect*/
+    transition: all .1s ease-in-out;
 }
 
 .button:hover {
     background-color: #083755;
     font-weight: bold;
-    height: 41px;
-    width: 204px;
     border-color: rgba(88, 88, 88, 0.8);
-
-}
-
-.button__small {
-    margin: 10px;
-    width: 80px;
-    height: 40px;
-    border-radius: 5px;
-    color: #dff6ff;
-    background-color: #06283d;
-    cursor: pointer;
-    text-align: "center";
-    cursor: pointer;
-}
-
-.button__small:hover {
-    background-color: #083755;
-    font-weight: bold;
-    height: 41px;
-    width: 82px;
-    border-color: rgba(88, 88, 88, 0.8);
-
+    /*grow effect*/
+    transform: scale(1.1);
 }
 
 .loaders__container {

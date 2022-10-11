@@ -24,7 +24,7 @@ const login = asyncHandler(async (req, res) => {
       UserInfo: { username: foundUser.username, roles: foundUser.roles },
     },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "3s" }
+    { expiresIn: "30s" }
   );
   const refreshToken = jwt.sign(
     {
@@ -70,7 +70,7 @@ const refresh = asyncHandler(async (req, res) => {
       const accessToken = jwt.sign(
         { UserInfo: { username: foundUser.username, roles: foundUser.roles } },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "3s" }
+        { expiresIn: "30s" }
       );
       //Send accessToken with username and roles
       res.json({ accessToken });
@@ -82,7 +82,7 @@ const refresh = asyncHandler(async (req, res) => {
 // @Route POST /auth/logout
 // @Access Public
 const logout = asyncHandler(async (req, res) => {
-  const cookies = req.cookies;
+  const cookies = req?.cookies;
   if (!cookies?.jwt) {
     return res.sendStatus(204); //No content
   }

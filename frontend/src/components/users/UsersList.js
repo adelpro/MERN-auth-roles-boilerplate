@@ -1,24 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import { AccessToken } from "../../recoil/atom";
 import { MdDeleteOutline } from "react-icons/md";
-import { MdBorderColor } from "react-icons/md";
+import { MdBorderColor, MdAdd } from "react-icons/md";
 import styles from "../../App.module.css";
 export default function UsersList() {
   const axiosPrivate = useAxiosPrivate();
-  const [accessToken, setAccessToken] = useRecoilState(AccessToken);
-  const [persist] = useLocalStorage("persist", false);
   const [data, setData] = useState(null);
   const [isLoading, setIsloading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const messageRef = useRef();
   const navigate = useNavigate();
-
   useEffect(() => {
+    //TODO working on...
     setIsloading(true);
     const controller = new AbortController();
     const getUsers = async () => {
@@ -40,31 +35,18 @@ export default function UsersList() {
     return () => {
       controller?.abort();
     };
-  }, [accessToken, persist, setAccessToken, axiosPrivate]);
+  }, [axiosPrivate]);
+
   const handleDeleteUser = async (id) => {
-    await fetch(`${process.env.REACT_APP_BASEURL}/users`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json ",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ id }),
-    })
-      .then((res) => {
-        if (res.status === 403 && persist) {
-        }
-        if (res.status === 200) {
-          setData((prev) => {
-            return prev.filter((item) => item._id !== id);
-          });
-        }
-        return res.json();
-      })
-      .then((result) => {
-        setMessage(result);
-        messageRef.current.focus();
-      })
-      .catch((err) => console.log({ err }));
+    try {
+      const result = await axiosPrivate.delete("/users", { data: { id } });
+      setData((prev) => data.filter((item) => item._id !== id));
+      setMessage(result?.data?.message);
+      messageRef.current.focus();
+    } catch (err) {
+      setMessage(err?.response?.data?.message);
+      messageRef.current.focus();
+    }
   };
   if (error) return <div>{error.message}</div>;
   if (isLoading) return <div>Loading...</div>;
@@ -78,12 +60,12 @@ export default function UsersList() {
 
   return (
     <>
-      <h1>UsersList</h1>
+      <h1>Users list</h1>
       <ul className={styles.list}>
         {data.map((user) => {
           return (
-            <>
-              <li key={user._id}>
+            <div key={user._id}>
+              <li>
                 <div>
                   {user.username} - [
                   {user.roles.map((role) => (
@@ -101,13 +83,24 @@ export default function UsersList() {
                 </div>
               </li>
               <div className={styles.divider}></div>
-            </>
+            </div>
           );
         })}
       </ul>
-
-      <button onClick={() => navigate("/dash/users/signin")}>
-        Add new user
+      <button
+        className={styles.button}
+        onClick={() => navigate("/dash/users/signin")}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <MdAdd size={30} style={{ marginRight: 10 }} />
+          Add
+        </div>
       </button>
       <p ref={messageRef} aria-live="assertive">
         {message?.message}

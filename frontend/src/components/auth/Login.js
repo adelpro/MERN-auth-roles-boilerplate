@@ -1,14 +1,14 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Ring } from "@uiball/loaders";
-import { useSetRecoilState } from "recoil";
-import { AccessToken } from "../../recoil/atom";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { AccessToken, Persist } from "../../recoil/atom";
+import { MdLogin } from "react-icons/md";
 import styles from "../../App.module.css";
 import axios from "../../api/axios";
 export default function Login() {
   const setAccessToken = useSetRecoilState(AccessToken);
-  const [persist, setPersist] = useLocalStorage("persist", false);
+  const [persist, setPersist] = useRecoilState(Persist);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isloading, setIsloading] = useState(false);
@@ -51,11 +51,22 @@ export default function Login() {
   useEffect(() => setError(null), [username, password]);
   return (
     <section>
-      <h1>Login</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <MdLogin size={30} style={{ marginRight: 10 }} />
+        <h1>Login </h1>
+      </div>
       <form onSubmit={handleSubmit} className={styles.form__container}>
         <div>
           <div className={styles.form__control__container}>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username" style={{ width: "100px" }}>
+              Username
+            </label>
             <input
               id="username"
               type="text"
@@ -66,7 +77,9 @@ export default function Login() {
             />
           </div>
           <div className={styles.form__control__container}>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" style={{ width: "100px" }}>
+              Password
+            </label>
             <input
               id="password"
               type="password"

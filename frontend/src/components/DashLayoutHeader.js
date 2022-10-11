@@ -30,7 +30,7 @@ export default function DashLayoutHeader() {
         {accessToken && (
           <>
             <button
-              className={styles.button}
+              className={styles.button__small}
               onClick={logoutHandler}
               disabled={isloading}
             >

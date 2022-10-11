@@ -71,6 +71,7 @@ h1 {
     background-color: #06283d;
     cursor: pointer;
     text-align: "center";
+    cursor: pointer;
 }
 
 .button:hover {
@@ -79,6 +80,28 @@ h1 {
     height: 41px;
     width: 204px;
     border-color: rgba(88, 88, 88, 0.8);
+
+}
+
+.button__small {
+    margin: 10px;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    color: #dff6ff;
+    background-color: #06283d;
+    cursor: pointer;
+    text-align: "center";
+    cursor: pointer;
+}
+
+.button__small:hover {
+    background-color: #083755;
+    font-weight: bold;
+    height: 41px;
+    width: 82px;
+    border-color: rgba(88, 88, 88, 0.8);
+
 }
 
 .loaders__container {
@@ -86,4 +109,37 @@ h1 {
     justify-content: center;
     align-items: center;
 
+}
+
+.list li {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin: 5px;
+    padding: 2px
+}
+
+.list li button {
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.list li button:hover {
+    background-color: rgba(156, 156, 156, 0.8);
+    border-color: #06283d;
+    border-width: 2;
+}
+
+.list li::marker {
+    content: "✓ ";
+    color: #083755
+}
+
+.divider {
+    width: 90%;
+    height: 2px;
+    background-color: rgba(156, 156, 156, 0.8);
 }

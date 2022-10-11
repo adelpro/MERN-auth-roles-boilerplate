@@ -4,6 +4,9 @@ import { useRecoilState } from "recoil";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { AccessToken } from "../../recoil/atom";
+import { MdDeleteOutline } from "react-icons/md";
+import { MdBorderColor } from "react-icons/md";
+import styles from "../../App.module.css";
 export default function UsersList() {
   const axiosPrivate = useAxiosPrivate();
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
@@ -76,20 +79,29 @@ export default function UsersList() {
   return (
     <>
       <h1>UsersList</h1>
-      <ul>
+      <ul className={styles.list}>
         {data.map((user) => {
           return (
-            <li key={user._id}>
-              {user.username} - [
-              {user.roles.map((role) => (
-                <span key={role}>{role} ,</span>
-              ))}
-              ]
-              <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
-              <button onClick={() => navigate(`/dash/users/${user._id}`)}>
-                Update
-              </button>
-            </li>
+            <>
+              <li key={user._id}>
+                <div>
+                  {user.username} - [
+                  {user.roles.map((role) => (
+                    <span key={role}>{role} ,</span>
+                  ))}
+                  ]
+                </div>
+                <div>
+                  <button onClick={() => handleDeleteUser(user._id)}>
+                    <MdDeleteOutline />
+                  </button>
+                  <button onClick={() => navigate(`/dash/users/${user._id}`)}>
+                    <MdBorderColor />
+                  </button>
+                </div>
+              </li>
+              <div className={styles.divider}></div>
+            </>
           );
         })}
       </ul>

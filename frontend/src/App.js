@@ -27,12 +27,16 @@ function App() {
           </Route>
           <Route
             element={
-              <ProtectedRoutes allowedRoles={[ROLES.Admin, ROLES.Manager]} />
+              <ProtectedRoutes
+                allowedRoles={[ROLES[2].value, ROLES[1].value]}
+              />
             }
           >
             <Route path="users">
               <Route index element={<UsersList />} />
-              <Route element={<ProtectedRoutes allowedRoles={[ROLES.Admin]} />}>
+              <Route
+                element={<ProtectedRoutes allowedRoles={[ROLES[2].value]} />}
+              >
                 <Route path="signin" element={<NewUserFrom />} />
                 <Route path=":id" element={<EditUserForm />} />
               </Route>

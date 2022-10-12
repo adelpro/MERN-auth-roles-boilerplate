@@ -3,12 +3,15 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import styles from "./NewUserFrom.module.css";
+import { MultiSelect } from "react-multi-select-component";
+import { ROLES } from "../../config/roles";
 
 export default function NewUserFrom() {
   const messageRef = useRef();
   const [isloading, setIsloading] = useState(false);
   const [message, setMessage] = useState(null);
-
+  const [selected, setSelected] = useState([]);
+  console.log(ROLES);
   const schema = yup.object().shape({
     username: yup.string().min(4).required("Username is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
@@ -30,6 +33,10 @@ export default function NewUserFrom() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const onchangeHandler = (e) => {
+    const roles = e.map((element) => element.value);
+    setSelected(roles);
+  };
   const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
@@ -87,11 +94,18 @@ export default function NewUserFrom() {
         {errors?.email && <p>{errors?.email?.message}</p>}
         <div className={styles.form__control__container}>
           <label htmlFor="roles">Roles</label>
-          <select multiple={true} size={3} {...register("roles")}>
+          <MultiSelect
+            options={ROLES}
+            value={selected}
+            onChange={onchangeHandler}
+            labelledBy="Select"
+            {...register("roles")}
+          />
+          {/*<select multiple={true} size={3} {...register("roles")}>
             <option value={"Admin"}>Admin</option>
             <option value={"Manager"}>Manager</option>
             <option value={"Employee"}>Employee</option>
-          </select>
+  </select>*/}
         </div>
         {errors?.roles && <p>{errors?.roles?.message}</p>}
         <div className={styles.form__control__container}>

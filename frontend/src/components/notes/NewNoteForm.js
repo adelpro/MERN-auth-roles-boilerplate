@@ -1,46 +1,37 @@
 import { useRef, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { MultiSelect } from "react-multi-select-component";
-import { ROLES } from "../../config/roles";
-import { MdAdd, MdAutorenew, MdSupervisorAccount } from "react-icons/md";
+import { MdAdd, MdAutorenew, MdNoteAdd } from "react-icons/md";
 import styles from "../../App.module.css";
+import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Ring } from "@uiball/loaders";
-export default function NewUserFrom() {
+
+export default function NewNoteForm() {
+  const { id } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const messageRef = useRef();
   const [isloading, setIsloading] = useState(false);
   const [message, setMessage] = useState(null);
   const schema = yup.object().shape({
-    username: yup.string().min(4).required("Username is required"),
-    email: yup.string().email("Invalid email").required("Email is required"),
-    password: yup
-      .string()
-      .min(6, "Min 6 characters")
-      .required("Password is required"),
-    //confirmationPassword: yup.string().oneOf([yupref("password"), null]),
-    roles: yup
-      .array()
-      .min(1, "Please select at least one role")
-      .required("Required: Please select at least one role"),
+    title: yup.string().min(4).required("Title is required"),
+    text: yup.string().min(10).required("Text is required"),
   });
   const {
     register,
     handleSubmit,
     reset,
-    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = async (data, e) => {
+  console.log(id);
+  const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
-    const newRoles = data?.roles.map((element) => element.value);
     await axiosPrivate
-      .post("/users", { ...data, roles: newRoles })
+      .post("/notes", { ...data, id })
       .then((result) => {
         setIsloading(false);
         setMessage(result?.data?.message);
@@ -52,10 +43,8 @@ export default function NewUserFrom() {
               ? err?.response?.statusText
               : "No server response"
           );
-        } else if (err?.response?.status === 409) {
-          setMessage("Username exist already");
-        } else if (err.status === 401) {
-          setMessage("Unauthorized");
+        } else if (err?.response?.status === 400) {
+          setMessage("Verify your data and proceed again");
         } else {
           setMessage(err?.response?.statusText);
         }
@@ -73,52 +62,24 @@ export default function NewUserFrom() {
           alignItems: "center",
         }}
       >
-        <MdSupervisorAccount size={30} style={{ marginRight: 10 }} />
-        <h1>Singup</h1>
+        <MdNoteAdd size={30} style={{ marginRight: 10 }} />
+        <h1>Add new note</h1>
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={styles.form__container}
       >
         <div className={styles.form__control__container}>
-          <label htmlFor="username">Username</label>
-          <input {...register("username")} type="text" />
+          <label htmlFor="title">Title</label>
+          <input {...register("title")} type="text" />
         </div>
-        {errors?.username && <p>{errors?.username?.message}</p>}
+        {errors?.title && <p>{errors?.title?.message}</p>}
         <div className={styles.form__control__container}>
-          <label htmlFor="password">Password</label>
-          <input type="password" {...register("password")} />
+          <label htmlFor="text">Text</label>
+          <input type="text" {...register("text")} />
         </div>
-        {errors?.password && <p>{errors?.password?.message}</p>}
-        <div className={styles.form__control__container}>
-          <label htmlFor="email">Email</label>
-          <input {...register("email")} type="text" />
-        </div>
-        {errors?.email && <p>{errors?.email?.message}</p>}
-        <div className={styles.form__control__container}>
-          <label htmlFor="roles">Roles</label>
-          <div
-            style={{
-              width: "210px",
-            }}
-          >
-            <Controller
-              control={control}
-              name="roles"
-              render={({ field: { onChange, value } }) => (
-                <MultiSelect
-                  options={ROLES}
-                  value={value ? value : []}
-                  onChange={onChange}
-                  labelledBy="Select"
-                  disableSearch
-                  hasSelectAll={false}
-                />
-              )}
-            />
-          </div>
-        </div>
-        {errors?.roles && <p>{errors?.roles?.message}</p>}
+        {errors?.text && <p>{errors?.text?.message}</p>}
+
         <div className={styles.form__control__container}>
           <button type="submit" disabled={isloading} className={styles.button}>
             {!isloading ? (

@@ -23,7 +23,6 @@ export default function DashLayoutHeader() {
       })
       .catch((err) => {
         setIsloading(false);
-        console.log(err);
       });
   };
   return (

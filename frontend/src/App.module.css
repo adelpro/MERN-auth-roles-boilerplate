@@ -36,11 +36,11 @@ section {
     font-size: larger;
 }
 
-
 input,
 label {
     margin: 2px;
     padding: 3px;
+    width: 100px;
     height: 30px;
     border-radius: 5px;
 }

@@ -23,7 +23,7 @@ export default function NotesList() {
           signal: controller.signal,
         });
         //setData(result?.data);
-        console.log(result?.data);
+
         setError(null);
         setIsloading(false);
       } catch (err) {

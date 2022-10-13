@@ -21,7 +21,11 @@ const login = asyncHandler(async (req, res) => {
   }
   const accessToken = jwt.sign(
     {
-      UserInfo: { username: foundUser.username, roles: foundUser.roles },
+      UserInfo: {
+        username: foundUser.username,
+        id: foundUser._id,
+        roles: foundUser.roles,
+      },
     },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "30s" }
@@ -38,7 +42,7 @@ const login = asyncHandler(async (req, res) => {
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
     SameSite: "None",
-    //secure: true, //-only for server with https
+    secure: process.env.NODE_ENV === "production", //-only for server with https
     maxAge: 24 * 60 * 60 * 1000,
   });
   //then send access token with username and roles
@@ -50,7 +54,6 @@ const login = asyncHandler(async (req, res) => {
 // @Access Public
 const refresh = asyncHandler(async (req, res) => {
   const cookies = req.cookies;
-  //TODO testing refresh
   if (!cookies?.jwt) {
     return res.status(401).json({ message: "Unauthorized r65472" });
   }
@@ -89,7 +92,7 @@ const logout = asyncHandler(async (req, res) => {
   res.clearCookie("jwt", {
     httpOnly: true,
     SamSite: "None",
-    //secure: true - only server with https
+    secure: process.env.NODE_ENV === "production", // - only server with https
   });
   res.json({ message: "Logged out successfully" });
 });

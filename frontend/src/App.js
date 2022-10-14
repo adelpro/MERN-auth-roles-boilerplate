@@ -11,6 +11,7 @@ import PersistLogin from "./components/auth/PersistLogin";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { ROLES } from "./config/roles";
 import EditUserForm from "./components/users/EditUserForm";
+import NewNoteForm from "./components/notes/NewNoteForm";
 function App() {
   return (
     <Routes>
@@ -24,6 +25,7 @@ function App() {
           <Route index element={<Welcome />} />
           <Route path="notes">
             <Route index element={<NotesList />} />
+            <Route path="addnote" element={<NewNoteForm />} />
           </Route>
           <Route
             element={

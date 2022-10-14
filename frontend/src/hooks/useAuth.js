@@ -6,6 +6,7 @@ const useAuth = () => {
   let isAdmin = false;
   let isManager = false;
   let status = "Employee";
+
   if (accessToken) {
     const decode = jwtDecode(accessToken);
     const { username, id, roles } = decode.UserInfo;

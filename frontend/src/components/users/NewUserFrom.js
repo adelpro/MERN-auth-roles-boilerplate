@@ -8,7 +8,10 @@ import { MdAdd, MdAutorenew, MdSupervisorAccount } from "react-icons/md";
 import styles from "../../App.module.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Ring } from "@uiball/loaders";
+import { useLocation, useNavigate } from "react-router-dom";
 export default function NewUserFrom() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const axiosPrivate = useAxiosPrivate();
   const messageRef = useRef();
   const [isloading, setIsloading] = useState(false);
@@ -44,6 +47,9 @@ export default function NewUserFrom() {
       .then((result) => {
         setIsloading(false);
         setMessage(result?.data?.message);
+        navigate(location.state?.from?.pathname || "/dash/users", {
+          replace: true,
+        });
       })
       .catch((err) => {
         if (!err?.response?.status) {

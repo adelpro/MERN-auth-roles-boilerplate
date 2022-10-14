@@ -23,7 +23,7 @@ const login = asyncHandler(async (req, res) => {
     {
       UserInfo: {
         username: foundUser.username,
-        id: foundUser._id,
+        id: foundUser.id,
         roles: foundUser.roles,
       },
     },

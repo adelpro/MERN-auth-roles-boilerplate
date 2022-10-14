@@ -45,6 +45,7 @@ label {
     border-radius: 5px;
 }
 
+textarea,
 input[type=text],
 input[type=password] {
     width: 200px;
@@ -61,6 +62,7 @@ h1 {
     font-family: "Montserrat";
     color: #802a36;
 }
+
 
 .button {
     margin: 10px;
@@ -95,8 +97,18 @@ h1 {
     display: flex;
     justify-content: space-between;
     width: 90%;
+    height: 50px;
     margin: 5px;
-    padding: 2px
+    padding: 2px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+}
+
+.list li:hover {
+    transform: scale(1.02, 1.2);
 }
 
 .list li button {

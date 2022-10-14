@@ -7,8 +7,11 @@ import styles from "../../App.module.css";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Ring } from "@uiball/loaders";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function NewNoteForm() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const messageRef = useRef();
@@ -26,15 +29,17 @@ export default function NewNoteForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  console.log(id);
   const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
     await axiosPrivate
-      .post("/notes", { ...data, id })
+      .post("/notes", { ...data, user: id })
       .then((result) => {
         setIsloading(false);
         setMessage(result?.data?.message);
+        navigate(location.state?.from?.pathname || "/dash/notes", {
+          replace: true,
+        });
       })
       .catch((err) => {
         if (!err?.response?.status) {
@@ -76,7 +81,7 @@ export default function NewNoteForm() {
         {errors?.title && <p>{errors?.title?.message}</p>}
         <div className={styles.form__control__container}>
           <label htmlFor="text">Text</label>
-          <input type="text" {...register("text")} />
+          <textarea rows="5" type="text" {...register("text")} />
         </div>
         {errors?.text && <p>{errors?.text?.message}</p>}
 

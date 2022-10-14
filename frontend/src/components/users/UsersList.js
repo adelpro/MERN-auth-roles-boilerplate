@@ -13,7 +13,6 @@ export default function UsersList() {
   const messageRef = useRef();
   const navigate = useNavigate();
   useEffect(() => {
-    //TODO working on...
     setIsloading(true);
     const controller = new AbortController();
     const getUsers = async () => {
@@ -40,7 +39,7 @@ export default function UsersList() {
   const handleDeleteUser = async (id) => {
     try {
       const result = await axiosPrivate.delete("/users", { data: { id } });
-      setData((prev) => data.filter((item) => item._id !== id));
+      setData(() => data.filter((item) => item._id !== id));
       setMessage(result?.data?.message);
       messageRef.current.focus();
     } catch (err) {
@@ -82,7 +81,6 @@ export default function UsersList() {
                   </button>
                 </div>
               </li>
-              <div className={styles.divider}></div>
             </div>
           );
         })}

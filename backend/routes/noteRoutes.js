@@ -11,4 +11,5 @@ router
   .patch(noteController.updateNote)
   .delete(noteController.deleteNote);
 
+router.route("/one").post(noteController.getOneNote);
 module.exports = router;

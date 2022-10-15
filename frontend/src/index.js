@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-//import RecoilizeDebugger from "recoilize";
 import { disabledevtools } from "@fvilers/disable-react-devtools";
 if (process.env.NODE_ENV === "production") {
   disabledevtools();
@@ -14,15 +13,7 @@ root.render(
     <RecoilRoot>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/*"
-            element={
-              <>
-                {/*<RecoilizeDebugger />*/}
-                <App />
-              </>
-            }
-          />
+          <Route path="/*" element={<App />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>

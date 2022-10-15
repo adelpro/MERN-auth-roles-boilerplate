@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { MdDeleteOutline } from "react-icons/md";
+import { MdArrowForwardIos, MdDeleteOutline } from "react-icons/md";
 import { MdBorderColor, MdAdd } from "react-icons/md";
 import styles from "../../App.module.css";
+import { useRecoilValue } from "recoil";
+import { AccessToken } from "../../recoil/atom";
 
 export default function NotesList() {
+  const accessToken = useRecoilValue(AccessToken);
   const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState(null);
   const [isLoading, setIsloading] = useState(false);
@@ -23,18 +26,18 @@ export default function NotesList() {
         });
         setData(result?.data);
         setError(null);
-        setIsloading(false);
       } catch (err) {
         setData(null);
-        setIsloading(false);
         setError(err?.response?.message);
+      } finally {
+        setIsloading(false);
       }
     };
-    getNotes();
+    if (accessToken) getNotes();
     return () => {
       controller?.abort();
     };
-  }, [axiosPrivate]);
+  }, [axiosPrivate, accessToken]);
 
   const handleDeleteNote = async (id) => {
     try {
@@ -47,7 +50,6 @@ export default function NotesList() {
       messageRef.current.focus();
     }
   };
-  console.log(data);
   if (error) return <div>{error.message}</div>;
   if (isLoading) return <div>Loading...</div>;
   let content = (
@@ -65,17 +67,25 @@ export default function NotesList() {
           {data.map((note) => {
             return (
               <div key={note._id}>
-                <li style={{ height: "120px" }}>
-                  <div>
-                    <p>Title: {note.title}</p>
-                    <p>Text: {note.text}</p>
-                    <p>User: {note.user}</p>
+                <li style={{ height: "100%" }}>
+                  <div style={{ marginLeft: 10 }}>
+                    <h3>
+                      <MdArrowForwardIos style={{ marginRight: 10 }} />
+                      {note.title}
+                    </h3>
+                    <hr className="dashed"></hr>
+                    <p>{note.text}</p>
+                    {note.completed ? (
+                      <p>✅ Completed</p>
+                    ) : (
+                      <p>❌ Not completed</p>
+                    )}
                   </div>
                   <div>
                     <button onClick={() => handleDeleteNote(note._id)}>
                       <MdDeleteOutline />
                     </button>
-                    <button onClick={() => navigate(`/dash/users/${note._id}`)}>
+                    <button onClick={() => navigate(`/dash/notes/${note._id}`)}>
                       <MdBorderColor />
                     </button>
                   </div>
@@ -91,21 +101,17 @@ export default function NotesList() {
   return (
     <>
       {content}
-      <button
-        className={styles.button}
-        onClick={() => navigate("/dash/notes/addnote")}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+      <div className={styles.center}>
+        <button
+          className={styles.button}
+          onClick={() => navigate("/dash/notes/addnote")}
         >
-          <MdAdd size={30} style={{ marginRight: 10 }} />
-          Add
-        </div>
-      </button>
+          <div className={styles.center}>
+            <MdAdd size={30} style={{ marginRight: 10 }} />
+            Add
+          </div>
+        </button>
+      </div>
       <p ref={messageRef} aria-live="assertive">
         {message?.message}
       </p>

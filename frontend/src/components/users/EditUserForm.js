@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import styles from "./EditUserForm.module.css";
+import styles from "../../App.module.css";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { AccessToken } from "../../recoil/atom";
 import { useParams } from "react-router-dom";
+import { MdAutorenew, MdEditNote, MdSystemUpdateAlt } from "react-icons/md";
 export default function EditUserForm() {
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
   const [persist] = useLocalStorage("persist", false);
@@ -14,6 +15,8 @@ export default function EditUserForm() {
   const [isloading, setIsloading] = useState(false);
   const [message, setMessage] = useState(null);
   const { id } = useParams();
+  //TODO migrate all fetch api to axios private in edit and new user
+  //TODO working on second password check
   const schema = yup.object().shape({
     username: yup.string().min(4).required("Username is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
@@ -119,8 +122,11 @@ export default function EditUserForm() {
 
   if (isloading) return <p>Loading ...</p>;
   return (
-    <>
-      <h1>Update user</h1>
+    <section>
+      <div className={styles.center}>
+        <MdSystemUpdateAlt size={30} style={{ marginRight: 10 }} />
+        <h1>Update user</h1>
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={styles.form__container}
@@ -150,15 +156,23 @@ export default function EditUserForm() {
         </div>
         {errors?.roles && <p>{errors?.roles?.message}</p>}
         <div className={styles.form__control__container}>
-          <button type="submit" disabled={isloading}>
-            {isloading ? "Loading..." : "Submit"}
+          <button type="submit" disabled={isloading} className={styles.button}>
+            <div className={styles.center}>
+              <MdEditNote size={30} style={{ marginRight: 10 }} />
+              {isloading ? "Loading..." : "Update"}
+            </div>
           </button>
-          <button onClick={() => reset()}>Reset</button>
+          <button onClick={() => reset()} className={styles.button}>
+            <div className={styles.center}>
+              <MdAutorenew size={30} style={{ marginRight: 10 }} />
+              Reset
+            </div>
+          </button>
         </div>
         <p ref={messageRef} aria-live="assertive">
           {message && JSON.stringify(message)}
         </p>
       </form>
-    </>
+    </section>
   );
 }

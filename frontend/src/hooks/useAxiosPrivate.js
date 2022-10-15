@@ -7,7 +7,6 @@ import { AccessToken } from "../recoil/atom";
 const useAxiosPrivate = () => {
   //TODO testing refresh error here !!!
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
-
   const getNewToken = useRefreshAccessToken();
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(

@@ -4,7 +4,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { MultiSelect } from "react-multi-select-component";
 import { ROLES } from "../../config/roles";
-import { MdAdd, MdAutorenew, MdSupervisorAccount } from "react-icons/md";
+import {
+  MdAdd,
+  MdAutorenew,
+  MdRemoveRedEye,
+  MdPassword,
+  MdSupervisorAccount,
+} from "react-icons/md";
 import styles from "../../App.module.css";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Ring } from "@uiball/loaders";
@@ -14,6 +20,7 @@ export default function NewUserFrom() {
   const location = useLocation();
   const axiosPrivate = useAxiosPrivate();
   const messageRef = useRef();
+  const [passwordType, setPasswordType] = useState("type");
   const [isloading, setIsloading] = useState(false);
   const [message, setMessage] = useState(null);
   const schema = yup.object().shape({
@@ -72,13 +79,7 @@ export default function NewUserFrom() {
   if (isloading) return <p>Loading ...</p>;
   return (
     <section>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className={styles.center}>
         <MdSupervisorAccount size={30} style={{ marginRight: 10 }} />
         <h1>Singup</h1>
       </div>
@@ -93,7 +94,33 @@ export default function NewUserFrom() {
         {errors?.username && <p>{errors?.username?.message}</p>}
         <div className={styles.form__control__container}>
           <label htmlFor="password">Password</label>
-          <input type="password" {...register("password")} />
+          <div
+            className={styles.center}
+            style={{
+              position: "relative",
+              border: "2px solid",
+              borderRadius: "4px",
+            }}
+          >
+            <input
+              style={{ border: "none", borderRadius: 0 }}
+              type={passwordType ? "password" : "text"}
+              {...register("password")}
+            />
+            <button
+              style={{
+                cursor: "pointer",
+                position: "absolute",
+                top: 0,
+                right: 0,
+                bottom: 0,
+                border: "none",
+              }}
+              onClick={() => setPasswordType((prev) => !prev)}
+            >
+              {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
+            </button>
+          </div>
         </div>
         {errors?.password && <p>{errors?.password?.message}</p>}
         <div className={styles.form__control__container}>
@@ -128,13 +155,7 @@ export default function NewUserFrom() {
         <div className={styles.form__control__container}>
           <button type="submit" disabled={isloading} className={styles.button}>
             {!isloading ? (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <div className={styles.center}>
                 <MdAdd size={30} style={{ marginRight: 10 }} />
                 Add
               </div>
@@ -145,13 +166,7 @@ export default function NewUserFrom() {
             )}
           </button>
           <button onClick={() => reset()} className={styles.button}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <div className={styles.center}>
               <MdAutorenew size={30} style={{ marginRight: 10 }} />
               Reset
             </div>

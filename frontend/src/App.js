@@ -12,6 +12,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 import { ROLES } from "./config/roles";
 import EditUserForm from "./components/users/EditUserForm";
 import NewNoteForm from "./components/notes/NewNoteForm";
+import EditNoteForm from "./components/notes/EditNoteForm";
 function App() {
   return (
     <Routes>
@@ -26,6 +27,7 @@ function App() {
           <Route path="notes">
             <Route index element={<NotesList />} />
             <Route path="addnote" element={<NewNoteForm />} />
+            <Route path=":id" element={<EditNoteForm />} />
           </Route>
           <Route
             element={

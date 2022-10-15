@@ -1,3 +1,27 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "../App.module.css";
+import componentStyles from "./PageNotFound.module.css";
 export default function PageNotFound() {
-  return <div>404</div>;
+  const navigate = useNavigate();
+  const location = useLocation();
+  return (
+    <div className={componentStyles.notfound}>
+      <h1>
+        <span>4</span>
+        <span>0</span>
+        <span>4</span>
+      </h1>
+      <div>
+        <button
+          className={styles.button}
+          style={{ width: 200 }}
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          Go back
+        </button>
+      </div>
+    </div>
+  );
 }

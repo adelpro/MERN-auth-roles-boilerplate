@@ -14,7 +14,7 @@ const getAllNotes = asyncHandler(async (req, res) => {
   res.json(notes);
 });
 
-// @desc Create new notes
+// @desc Create new note
 // @Route POST /notes
 // @Access Private
 const createNewNote = asyncHandler(async (req, res) => {
@@ -40,19 +40,42 @@ const createNewNote = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Update a notes
+// @desc Get a note by id
+// @Route PATCH /notes/one
+// @Access Private
+const getOneNote = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+  console.log(req.body);
+  //Confirm data
+
+  if (!id) {
+    return res
+      .status(400)
+      .json({ message: "Verify your data and proceed again r35475" });
+  }
+  // Check if the note exist
+  const oneNote = await note.findById(id).lean();
+  if (!oneNote) {
+    return res
+      .status(400)
+      .json({ message: `Can't find a note with this id: ${id}` });
+  }
+  res.json(oneNote);
+});
+
+// @desc Update a note
 // @Route PATCH /notes
 // @Access Private
 const updateNote = asyncHandler(async (req, res) => {
   const { id, title, text, completed } = req.body;
   //Confirm data
-
+  console.log(req.body);
   if (
     !id ||
     !title ||
     !text ||
     text.length < 10 ||
-    typeof completed !== boolean
+    typeof completed !== "boolean"
   ) {
     return res
       .status(400)
@@ -95,4 +118,10 @@ const deleteNote = asyncHandler(async (req, res) => {
   }
   res.json({ message: `Note with id: ${id} deleted with success` });
 });
-module.exports = { createNewNote, updateNote, getAllNotes, deleteNote };
+module.exports = {
+  createNewNote,
+  updateNote,
+  getAllNotes,
+  getOneNote,
+  deleteNote,
+};

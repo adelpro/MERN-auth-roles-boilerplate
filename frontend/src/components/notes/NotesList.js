@@ -68,13 +68,13 @@ export default function NotesList() {
             return (
               <div key={note._id}>
                 <li style={{ height: "100%" }}>
-                  <div style={{ marginLeft: 10 }}>
+                  <div style={{ marginLeft: 10, width: "80%" }}>
                     <h3>
                       <MdArrowForwardIos style={{ marginRight: 10 }} />
                       {note.title}
                     </h3>
                     <hr className="dashed"></hr>
-                    <p>{note.text}</p>
+                    <p style={{ wordWrap: "break-word" }}>{note.text}</p>
                     {note.completed ? (
                       <p>✅ Completed</p>
                     ) : (

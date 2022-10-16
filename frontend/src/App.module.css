@@ -48,20 +48,6 @@ section {
     font-size: larger;
 }
 
-@media only screen and (max-width:480px) {
-    section {
-        margin: 0;
-    }
-
-    .form__control__container {
-        margin: 2px;
-    }
-
-    .form__container {
-        width: 350px;
-    }
-}
-
 input,
 label {
     margin: 2px;
@@ -159,4 +145,24 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media only screen and (max-width:480px) {
+    section {
+        margin: 0;
+    }
+
+    .form__control__container {
+        margin: 2px;
+    }
+
+    .form__container {
+        width: 350px;
+    }
+
+    .list {
+        padding: 2px;
+    }
+
+
 }

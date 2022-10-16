@@ -89,16 +89,7 @@ const logout = asyncHandler(async (req, res) => {
   if (!cookies?.jwt) {
     return res.sendStatus(204); //No content
   }
-<<<<<<< HEAD
-  res.clearCookie("jwt", {
-    httpOnly: true,
-    SamSite: "None",
-    secure: process.env.NODE_ENV === "production", // - only server with https
-  });
-=======
   res.clearCookie("jwt", { httpOnly: true, samSite: "None", secure: true });
->>>>>>> b572c022652c61bc3d385e172040ca766474fafc
-  res.json({ message: "Logged out successfully" });
 });
 
 module.exports = { login, refresh, logout };

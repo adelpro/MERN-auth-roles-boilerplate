@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -7,7 +7,16 @@ import styles from "../../App.module.css";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { AccessToken } from "../../recoil/atom";
 import { useParams } from "react-router-dom";
-import { MdAutorenew, MdEditNote, MdSystemUpdateAlt } from "react-icons/md";
+import {
+  MdAutorenew,
+  MdEditNote,
+  MdPassword,
+  MdRemoveRedEye,
+  MdSystemUpdateAlt,
+} from "react-icons/md";
+import { MultiSelect } from "react-multi-select-component";
+import { ROLES } from "../../config/roles";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 export default function EditUserForm() {
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
   const [persist] = useLocalStorage("persist", false);
@@ -15,11 +24,12 @@ export default function EditUserForm() {
   const [isloading, setIsloading] = useState(false);
   const [message, setMessage] = useState(null);
   const { id } = useParams();
-  //TODO migrate all fetch api to axios private in edit and new user
-  //TODO working on second password check
+  const [passwordType, setPasswordType] = useState(true);
+  const axiosPrivate = useAxiosPrivate();
   const schema = yup.object().shape({
     username: yup.string().min(4).required("Username is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
+    active: yup.boolean(),
     //password: yup.string().min(6, "Min 6 characters"),
     //.required("Password is required"),
     //confirmationPassword: yup.string().oneOf([yupref("password"), null]),
@@ -32,6 +42,7 @@ export default function EditUserForm() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm({
     //shouldUseNativeValidation: true,
@@ -39,82 +50,68 @@ export default function EditUserForm() {
   });
   //fetching default user data with id:
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BASEURL}/users`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json ",
-        authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((res) => {
-        if (res.status === 403 && persist) {
-          //Refresh token only on trusted devices
-          fetch(`${process.env.REACT_APP_BASEURL}/auth/refresh`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json ",
-              authorization: `Bearer ${accessToken}`,
-            },
-          })
-            .then((res) => {
-              return res.json();
-            })
-            .then((result) => {
-              setAccessToken(result.accessToken);
-              setIsloading(false);
-              setMessage(null);
-            });
-        }
-        return res.json();
-      })
-      .then((result) => {
-        const UserToEdit = result.find((item) => (item._id = id));
-        const { username, email, roles, active } = UserToEdit;
-        reset({ username, email, roles, active });
+    setIsloading(true);
+    const controller = new AbortController();
+    const getUser = async () => {
+      try {
+        const result = await axiosPrivate.post(
+          "/users/one",
+          { id },
+          {
+            signal: controller.signal,
+          }
+        );
+        const { username, email, roles, active } = result?.data;
+        const newRoles = roles.map((element) => {
+          return { label: element, value: element };
+        });
+        reset({ username, email, roles: newRoles, active });
         setMessage(null);
+      } catch (err) {
+        setMessage(err?.response?.message);
+      } finally {
         setIsloading(false);
-      })
-
-      .catch((err) => {
-        setIsloading(false);
-        setMessage(err);
-      });
-  }, [accessToken, id, persist, reset, setAccessToken]);
+      }
+    };
+    if (accessToken) getUser();
+    return () => {
+      controller?.abort();
+    };
+  }, [accessToken, axiosPrivate, id, persist, reset, setAccessToken]);
 
   const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
     const { username, password, email, roles, active } = data;
+    const newRoles = roles.map((element) => element.value);
     let body = null;
-
     if (password) {
-      body = JSON.stringify({ ...data, id });
+      body = { ...data, roles: newRoles, id };
     } else {
-      body = JSON.stringify({ id, username, email, roles, active });
+      body = { id, username, email, roles: newRoles, active };
     }
-    fetch(`${process.env.REACT_APP_BASEURL}/users`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json ",
-      },
-      body,
-    })
-      .then((res) => {
-        return res.json();
-      })
+    console.log(body);
+    await axiosPrivate
+      .patch(`/users`, body)
       .then((result) => {
         setIsloading(false);
-        setMessage(result.message);
+        setMessage(result?.response?.message);
+        console.log("ok");
       })
       .catch((err) => {
-        if (!err.status) {
-          setMessage(err.statusText ? err.statusText : "No server response");
-        } else if (err.status === 409) {
+        console.log("error");
+        if (!err?.response?.status) {
+          setMessage(
+            err?.response?.statusText
+              ? err?.response?.statusText
+              : "No server response"
+          );
+        } else if (err?.response?.status === 409) {
           setMessage("Username exist already");
-        } else if (err.status === 401) {
+        } else if (err?.response?.status === 401) {
           setMessage("Unauthorized");
         } else {
-          setMessage(err.statusText);
+          setMessage(err?.response?.statusText);
         }
         setIsloading(false);
       });
@@ -138,7 +135,33 @@ export default function EditUserForm() {
         {errors?.username && <p>{errors?.username?.message}</p>}
         <div className={styles.form__control__container}>
           <label htmlFor="password">Password</label>
-          <input type="password" {...register("password")} />
+          <div
+            className={styles.center}
+            style={{
+              position: "relative",
+              border: "2px solid",
+              borderRadius: "4px",
+            }}
+          >
+            <input
+              style={{ border: "none", borderRadius: 0, outline: "none" }}
+              type={passwordType ? "password" : "text"}
+              {...register("password")}
+            />
+            <div
+              style={{
+                cursor: "pointer",
+                position: "absolute",
+                width: 20,
+                padding: 5,
+                right: 0,
+                border: "none",
+              }}
+              onClick={() => setPasswordType((prev) => !prev)}
+            >
+              {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
+            </div>
+          </div>
         </div>
         {errors?.password && <p>{errors?.password?.message}</p>}
         <div className={styles.form__control__container}>
@@ -148,13 +171,33 @@ export default function EditUserForm() {
         {errors?.email && <p>{errors?.email?.message}</p>}
         <div className={styles.form__control__container}>
           <label htmlFor="roles">Roles</label>
-          <select multiple={true} size={3} {...register("roles")}>
-            <option value={"Admin"}>Admin</option>
-            <option value={"Manager"}>Manager</option>
-            <option value={"Employee"}>Employee</option>
-          </select>
+          <div
+            style={{
+              width: "210px",
+            }}
+          >
+            <Controller
+              control={control}
+              name="roles"
+              render={({ field: { onChange, value } }) => (
+                <MultiSelect
+                  options={ROLES}
+                  value={value ? value : []}
+                  onChange={onChange}
+                  labelledBy="Select"
+                  disableSearch
+                  hasSelectAll={false}
+                />
+              )}
+            />
+          </div>
         </div>
         {errors?.roles && <p>{errors?.roles?.message}</p>}
+        <div className={styles.form__control__container__checkbox}>
+          <input type="checkbox" {...register("active")} />
+          <label htmlFor="active">Active</label>
+        </div>
+        {errors?.completed && <p>{errors?.completed?.message}</p>}
         <div className={styles.form__control__container}>
           <button type="submit" disabled={isloading} className={styles.button}>
             <div className={styles.center}>

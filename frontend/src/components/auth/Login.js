@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Ring } from "@uiball/loaders";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { AccessToken, Persist } from "../../recoil/atom";
-import { MdLogin } from "react-icons/md";
+import { MdLogin, MdPassword, MdRemoveRedEye } from "react-icons/md";
 import styles from "../../App.module.css";
 import axios from "../../api/axios";
 export default function Login() {
@@ -14,6 +14,7 @@ export default function Login() {
   const [isloading, setIsloading] = useState(false);
   const [error, setError] = useState(null);
   const usernameRef = useRef();
+  const [passwordType, setPasswordType] = useState(true);
   const errorRef = useRef();
   const location = useLocation();
   const navigate = useNavigate();
@@ -77,20 +78,42 @@ export default function Login() {
             />
           </div>
           <div className={styles.form__control__container}>
-            <label htmlFor="password" style={{ width: "100px" }}>
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              ref={usernameRef}
-            />
+            <label htmlFor="password">Password</label>
+            <div
+              className={styles.center}
+              style={{
+                position: "relative",
+                border: "2px solid",
+                borderRadius: "4px",
+              }}
+            >
+              <input
+                id="password"
+                type={passwordType ? "password" : "text"}
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                ref={usernameRef}
+                style={{ border: "none", borderRadius: 0, outline: "none" }}
+              />
+
+              <div
+                style={{
+                  cursor: "pointer",
+                  position: "absolute",
+                  width: 20,
+                  padding: 5,
+                  right: 0,
+                  border: "none",
+                }}
+                onClick={() => setPasswordType((prev) => !prev)}
+              >
+                {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
+              </div>
+            </div>
           </div>
         </div>
-        <div className={styles.form__control__container}>
+        <div className={styles.form__control__container__checkbox}>
           <input
             id="persist"
             type="checkbox"
@@ -101,9 +124,12 @@ export default function Login() {
         </div>
         <button className={styles.button} type="submit" disabled={isloading}>
           {!isloading ? (
-            "Login"
+            <div className={styles.center}>
+              <MdLogin size={30} style={{ marginRight: 10 }} />
+              Login
+            </div>
           ) : (
-            <div className={styles.loaders__container}>
+            <div className={styles.center}>
               {<Ring size={18} color="white" />}
             </div>
           )}

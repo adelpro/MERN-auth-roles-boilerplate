@@ -39,7 +39,6 @@ export default function EditUserForm() {
       try {
         const result = await axiosPrivate.post(
           "/notes/one",
-
           { id },
           {
             signal: controller.signal,
@@ -64,8 +63,6 @@ export default function EditUserForm() {
     setIsloading(true);
     setMessage(null);
     console.log(data);
-    //const body = JSON.stringify({ ...data });
-
     await axiosPrivate
       .patch(`/notes`, data)
 
@@ -114,8 +111,8 @@ export default function EditUserForm() {
           <input type="text" {...register("text")} />
         </div>
         {errors?.text && <p>{errors?.text?.message}</p>}
-        <div className={styles.form__control__container}>
-          <input type="checkbox" {...register("completed")} />{" "}
+        <div className={styles.form__control__container__checkbox}>
+          <input type="checkbox" {...register("completed")} />
           <label htmlFor="completed">Completed</label>
         </div>
         {errors?.completed && <p>{errors?.completed?.message}</p>}

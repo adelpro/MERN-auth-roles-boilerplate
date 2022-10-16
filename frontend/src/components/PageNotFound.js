@@ -1,9 +1,8 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "../App.module.css";
 import componentStyles from "./PageNotFound.module.css";
 export default function PageNotFound() {
   const navigate = useNavigate();
-  const location = useLocation();
   return (
     <div className={componentStyles.notfound}>
       <h1>

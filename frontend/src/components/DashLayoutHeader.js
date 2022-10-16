@@ -28,8 +28,8 @@ export default function DashLayoutHeader() {
   return (
     <>
       <div className={dashstyles.dash__header__container}>
-        MERN - auth - roles
-        <div>
+        <h1>MERN - auth - roles</h1>
+        <div className={styles.center}>
           <button
             className={styles.button}
             onClick={() => {
@@ -38,13 +38,7 @@ export default function DashLayoutHeader() {
               });
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <div className={styles.center}>
               <MdHome size={30} style={{ marginRight: 10 }} />
               Home
             </div>
@@ -55,18 +49,12 @@ export default function DashLayoutHeader() {
             disabled={isloading}
           >
             {!isloading ? (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <div className={styles.center}>
                 <MdLogout size={30} style={{ marginRight: 10 }} />
                 Logout
               </div>
             ) : (
-              <div className={styles.loaders__container}>
+              <div className={styles.center}>
                 {<Ring size={18} color="white" />}
               </div>
             )}

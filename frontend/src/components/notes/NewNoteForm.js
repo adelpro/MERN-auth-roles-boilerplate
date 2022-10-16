@@ -99,7 +99,7 @@ export default function NewNoteForm() {
                 Add
               </div>
             ) : (
-              <div className={styles.loaders__container}>
+              <div className={styles.center}>
                 {<Ring size={18} color="white" />}
               </div>
             )}

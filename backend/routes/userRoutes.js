@@ -9,5 +9,5 @@ router
   .get(userController.getAllUsers)
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
-
+router.route("/one").post(userController.getOneUser);
 module.exports = router;

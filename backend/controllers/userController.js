@@ -7,11 +7,30 @@ const bcrypt = require("bcrypt");
 // @Route GET /users
 // @Access Private
 const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await user.find().select("-password").lean();
+  const users = await user.find().select("-password").lean().exec();
   if (!users) {
     return res.status(400).json({ message: "No users found" });
   }
   res.json(users);
+});
+// @desc Get one user by ID
+// @Route POST /users/one
+// @Access Private
+const getOneUser = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+  if (!id) {
+    return res
+      .status(400)
+      .json({ message: "Verify your data and proceed again r35476" });
+  }
+  // Check if the note exist
+  const oneUser = await user.findById(id).lean().exec();
+  if (!oneUser) {
+    return res
+      .status(400)
+      .json({ message: `Can't find a user with this id: ${id}` });
+  }
+  res.json(oneUser);
 });
 
 // @desc Create new users
@@ -60,18 +79,17 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @Private access
 const updateUser = asyncHandler(async (req, res) => {
   const { id, username, password, roles, active } = req.body;
+  console.log({ id, username, password, roles, active });
   //Confirm data
   if (
     !username ||
-    !password ||
-    password.length < 5 ||
     !Array.isArray(roles) ||
     !roles.length ||
-    typeof active !== Boolean
+    typeof active !== "boolean"
   ) {
     return res
       .status(400)
-      .json({ message: "Verify your data and proceed again" });
+      .json({ message: "Verify your data and proceed again r98451" });
   }
   // Check for duplicate
   const updateUser = await user.findById(id).exec();
@@ -91,7 +109,9 @@ const updateUser = asyncHandler(async (req, res) => {
   updateUser.username = username;
   updateUser.roles = roles;
   updateUser.active = active;
-  updateUser.password = await bcrypt.hash(password, 10);
+  if (password) {
+    updateUser.password = await bcrypt.hash(password, 10);
+  }
   const save = await updateUser.save();
   res.json({ message: `User: ${username} updated with success` });
 });
@@ -127,4 +147,10 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
   res.json({ message: `User with id: ${id} deleted with success` });
 });
-module.exports = { createNewUser, updateUser, getAllUsers, deleteUser };
+module.exports = {
+  createNewUser,
+  updateUser,
+  getAllUsers,
+  getOneUser,
+  deleteUser,
+};

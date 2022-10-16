@@ -45,7 +45,7 @@ export default function NewUserFrom() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = async (data, e) => {
+  const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
     const newRoles = data?.roles.map((element) => element.value);
@@ -103,23 +103,23 @@ export default function NewUserFrom() {
             }}
           >
             <input
-              style={{ border: "none", borderRadius: 0 }}
+              style={{ border: "none", borderRadius: 0, outline: "none" }}
               type={passwordType ? "password" : "text"}
               {...register("password")}
             />
-            <button
+            <div
               style={{
                 cursor: "pointer",
                 position: "absolute",
-                top: 0,
+                width: 20,
+                padding: 5,
                 right: 0,
-                bottom: 0,
                 border: "none",
               }}
               onClick={() => setPasswordType((prev) => !prev)}
             >
               {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
-            </button>
+            </div>
           </div>
         </div>
         {errors?.password && <p>{errors?.password?.message}</p>}
@@ -160,7 +160,7 @@ export default function NewUserFrom() {
                 Add
               </div>
             ) : (
-              <div className={styles.loaders__container}>
+              <div className={styles.center}>
                 {<Ring size={18} color="white" />}
               </div>
             )}

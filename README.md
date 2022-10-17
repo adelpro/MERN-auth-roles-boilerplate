@@ -6,7 +6,7 @@ https://mern-auth-roles.onrender.com
 
 ## About
 
-MERN-auth-roles a web application that alow you to manage authentication and roles of users using MERN (MongoDB Express Angular Node)
+MERN-auth-roles a web application that alow you to manage authentication and roles of users using MERN (MongoDB Express React Node)
 ![MERN-auth-roles](https://i.imgur.com/7J6c8Rf.png)
 
 We have two parts in the application

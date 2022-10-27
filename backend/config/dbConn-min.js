@@ -1,0 +1,1 @@
+const mongoose=require("mongoose"),connectDB=async()=>{try{mongoose.connect(process.env.DATABASE_URI)}catch(o){}};module.exports=connectDB;

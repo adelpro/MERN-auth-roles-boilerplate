@@ -15,27 +15,27 @@ We have two parts in the application
 
 ### Futures
 
-. User with roles (Admin, Manager, user)
+✓ User with roles (Admin, Manager, user)
 
-. NodeJS server
+✓ NodeJS server
 
-. Token and refresh token
+✓ Token and refresh token
 
-. async/await syntax 
+✓ async/await syntax 
 
-. Server side validation
+✓ Server side validation
 
-. .env file configuration
+✓ .env file configuration
 
-. Image upload with Multer (comming)
+✓ Image upload with Multer (comming)
 
-. Cross-origin resource sharing (CORS)
+✓ Cross-origin resource sharing (CORS)
 
-. Limit repeated requests such as password reset.
+✓ Limit repeated requests such as password reset.
 
-. Cookies
+✓ Cookies
 
-. Password Hashing
+✓ Password Hashing
 
 
 to execute the code run this command
@@ -49,21 +49,21 @@ to execute the code run this command
 ## MERN-AUTH-ROLES-Frontend (client)
 
 ### Futures
-. React DevTools desabled in production
+✓ React DevTools desabled in production
 
-. Axios with Interceptors to manage fetchs
+✓ Axios with Interceptors to manage fetchs
 
-. Token persist only in memory
+✓ Token persist only in memory
 
-. Hookform: to manage form inputs
+✓ Hookform: to manage form inputs
 
-. YUP: to validate inputs
+✓ YUP: to validate inputs
 
-. react-multi-select-component
+✓ react-multi-select-component
 
-. Recoil and Recoil-persist: to manage states
+✓ Recoil and Recoil-persist: to manage states
 
-. react-icons and @uiball/loaders to give a nice look to the UI
+✓ react-icons and @uiball/loaders to give a nice look to the UI
 
 to execute the code run this command
 

@@ -65,6 +65,10 @@ to execute the code run this command
 
 ✓ react-icons and @uiball/loaders to give a nice look to the UI
 
+✓ Protected routes with Higher order components
+
+✓ Layout component, it will be very easy to navigation and footer
+
 to execute the code run this command
 
 ```

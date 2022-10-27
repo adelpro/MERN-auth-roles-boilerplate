@@ -6,24 +6,70 @@ https://mern-auth-roles.onrender.com
 
 ## About
 
-MERN-auth-roles a web application that alow you to manage authentication and roles of users using MERN (MongoDB Express React Node)
+MERN-auth-roles a fullstack MERN (MongoDB Express React Node) boilerplate starter application with React, Recoil, authentication, roles, JWT, protected api
 ![MERN-auth-roles](https://i.imgur.com/7J6c8Rf.png)
 
 We have two parts in the application
 
-> MERN-AUTH-ROLES-Backend
+## MERN-AUTH-ROLES-Backend (sever)
+
+### Futures
+
+. User with roles (Admin, Manager, user)
+
+. NodeJS server
+
+. Token and refresh token
+
+. async/await syntax 
+
+. Server side validation
+
+. .env file configuration
+
+. Image upload with Multer (comming)
+
+. Cross-origin resource sharing (CORS)
+
+. Limit repeated requests such as password reset.
+
+. Cookies
+
+. Password Hashing
+
 
 to execute the code run this command
 
 ```
   cd backend
+  npm install
   npm run dev
 ```
 
-> MERN-AUTH-ROLES-Frontend
+## MERN-AUTH-ROLES-Frontend (client)
+
+### Futures
+. React DevTools desabled in production
+
+. Axios with Interceptors to manage fetchs
+
+. Token persist only in memory
+
+. Hookform: to manage form inputs
+
+. YUP: to validate inputs
+
+. react-multi-select-component
+
+. Recoil and Recoil-persist: to manage states
+
+. react-icons and @uiball/loaders to give a nice look to the UI
+
+to execute the code run this command
 
 ```
 cd frontend
+npm install
 npm start
 ```
 

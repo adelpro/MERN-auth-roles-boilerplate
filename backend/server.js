@@ -26,8 +26,8 @@ app.all("*", require("./routes/404"));
 
 app.use(errorHandler);
 mongoose.connection.once("open", () => {
-  app.listen(port, () => {
-    console.log("Successfully Connected to MongoDB");
+  console.log("Successfully Connected to MongoDB");
+  app.listen(port, () => {    
     console.log(`Application running on port: ${port}`);
   });
 });

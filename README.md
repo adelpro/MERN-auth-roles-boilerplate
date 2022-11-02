@@ -103,12 +103,20 @@ npm start
 [![twitter][1.1]][1]
 [![facebook][2.1]][2]
 [![github][3.1]][3]
+[![medium][6.1]][6]
 
 ## Support us ❤️
 
 [![Buymeacoffee](https://badgen.net/badge/icon/buymeacoffee?icon=buymeacoffee&label)](https://www.buymeacoffee.com/Adel.benyahia/)
 [![PayPal](https://badgen.net/badge/icon/PayPal?icon=https://simpleicons.now.sh/paypal/fff&label)](https://www.paypal.com/paypalme/adelbenyahia)
 [![BitCoin](https://badgen.net/badge/icon/bitcoin?icon=bitcoin&label)](bitcoin:1PstR1HYTG8FbVRR7YZhQftYumVAURXuq7?label=Quranipfs&message=Payment%20to%20Quranipfs)
+
+## Thank you
+
+[![Stargazers repo roster for @adelpro/check-hadith](https://reporoster.com/stars/adelpro/MERN-auth-roles-boilerplate)](https://github.com/adelpro/MERN-auth-roles-boilerplate/stargazers)
+
+[![Forkers repo roster for @adelpro/check-hadith](https://reporoster.com/forks/adelpro/MERN-auth-roles-boilerplate)](https://github.com/adelpro/MERN-auth-roles-boilerplate/network/members)
+
 
 ##
 
@@ -120,3 +128,5 @@ npm start
 [1]: https://www.twitter.com/adelpro
 [2]: https://www.facebook.com/adel.benyahia
 [3]: https://github.com/adelpro
+[6]: adelpro.medium.com
+[6.1]:https://i.imgur.com/tijdQEw.png "medium icon with padding"

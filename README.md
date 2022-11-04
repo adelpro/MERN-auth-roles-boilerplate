@@ -21,7 +21,7 @@ We have two parts in the application
 
 ✓ Token and refresh token
 
-✓ async/await syntax 
+✓ async/await syntax
 
 ✓ Server side validation
 
@@ -37,8 +37,7 @@ We have two parts in the application
 
 ✓ Password Hashing
 
-
-to execute the code run this command
+run this command
 
 ```
   cd backend
@@ -49,6 +48,7 @@ to execute the code run this command
 ## MERN-AUTH-ROLES-Frontend (client)
 
 ### Futures
+
 ✓ React DevTools desabled in production
 
 ✓ Axios with Interceptors to manage fetchs
@@ -69,7 +69,9 @@ to execute the code run this command
 
 ✓ Layout component, it will be very easy to navigation and footer
 
-to execute the code run this command
+### Run the code
+
+you can run the code by executing this command
 
 ```
 cd frontend

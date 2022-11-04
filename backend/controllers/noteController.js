@@ -1,7 +1,6 @@
 const user = require("../models/user");
 const note = require("../models/note");
 const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
 
 // @desc Get all notes
 // @Route GET /notes

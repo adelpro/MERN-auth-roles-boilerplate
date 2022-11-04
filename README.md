@@ -1,5 +1,9 @@
 # MERN-auth-roles
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8a4f92ef7e004d4b9e42cf70fc0376f9)](https://www.codacy.com/gh/adelpro/MERN-auth-roles-boilerplate/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=adelpro/MERN-auth-roles-boilerplate&amp;utm_campaign=Badge_Grade)
+
+![](https://komarev.com/ghpvc/?username=adelpro&style=flat-squar&color=brightgreen)
+
 ## Live website
 
 https://mern-auth-roles.onrender.com
@@ -116,11 +120,6 @@ npm start
 [![Stargazers repo roster for @adelpro/check-hadith](https://reporoster.com/stars/adelpro/MERN-auth-roles-boilerplate)](https://github.com/adelpro/MERN-auth-roles-boilerplate/stargazers)
 
 [![Forkers repo roster for @adelpro/check-hadith](https://reporoster.com/forks/adelpro/MERN-auth-roles-boilerplate)](https://github.com/adelpro/MERN-auth-roles-boilerplate/network/members)
-
-
-##
-
-![](https://komarev.com/ghpvc/?username=adelpro&style=flat-squar&color=brightgreen)
 
 [1.1]: http://i.imgur.com/tXSoThF.png "twitter icon with padding"
 [2.1]: http://i.imgur.com/P3YfQoD.png "facebook icon with padding"

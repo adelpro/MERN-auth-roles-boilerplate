@@ -40,6 +40,27 @@ We have two parts in the application
 
 ✓ Password Hashing
 
+### Dependencies
+
+```
+{
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "date-fns": "^2.29.3",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "express-async-handler": "^1.2.0",
+    "express-rate-limit": "^6.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decoder": "^0.0.0",
+    "mongoose": "^6.6.1",
+    "mongoose-sequence": "^5.3.1",
+    "nodemon": "^2.0.20",
+    "uuid": "^9.0.0"
+  }
+```
+
 ### How to run
 
 to run the code execute this command
@@ -73,6 +94,30 @@ to run the code execute this command
 ✓ Protected routes with Higher order components
 
 ✓ Layout component, it will be very easy to navigation and footer
+
+### Dependencies
+
+```
+{
+    "@fvilers/disable-react-devtools": "^1.3.0",
+    "@hookform/resolvers": "^2.9.8",
+    "@uiball/loaders": "^1.2.6",
+    "axios": "^1.1.2",
+    "jwt-decode": "^3.1.2",
+    "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.36.0",
+    "react-icons": "^4.4.0",
+    "react-multi-select-component": "^4.3.4",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "^5.0.1",
+    "recoil": "^0.7.5",
+    "recoil-persist": "^4.2.0",
+    "yup": "^0.32.11"
+  },
+
+```
 
 ### How to run
 

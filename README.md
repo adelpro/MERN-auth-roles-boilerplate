@@ -81,11 +81,11 @@ npm start
 
 ## Screenshots
 
-### Home page:
+### Home page
 
 ![MERN-auth-roles](https://i.imgur.com/mdgQyZl.png)
 
-### Dash:
+### Dash
 
 ![MERN-auth-roles](https://i.imgur.com/gtNEg1i.png)
 
@@ -94,7 +94,7 @@ npm start
 ![MERN-auth-roles](https://i.imgur.com/om4vVoP.png)
 ![MERN-auth-roles](https://i.imgur.com/blwnrf2.png)
 
-### Notes:
+### Notes
 
 ![MERN-auth-roles](https://i.imgur.com/H6bnSRm.png)
 

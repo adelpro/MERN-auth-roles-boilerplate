@@ -27,7 +27,7 @@ We have two parts in the application
 
 ✓ .env file configuration
 
-✓ Image upload with Multer (comming)
+✓ Image upload with Multer (coming)
 
 ✓ Cross-origin resource sharing (CORS)
 
@@ -38,7 +38,7 @@ We have two parts in the application
 ✓ Password Hashing
 
 
-to execute the code run this command
+To run the code execute this command
 
 ```
   cd backend

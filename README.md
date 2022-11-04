@@ -1,7 +1,6 @@
 # MERN-auth-roles
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8a4f92ef7e004d4b9e42cf70fc0376f9)](https://www.codacy.com/gh/adelpro/MERN-auth-roles-boilerplate/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=adelpro/MERN-auth-roles-boilerplate&amp;utm_campaign=Badge_Grade)
-
 ![](https://komarev.com/ghpvc/?username=adelpro&style=flat-squar&color=brightgreen)
 
 ## Live website

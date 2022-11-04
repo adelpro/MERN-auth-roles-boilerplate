@@ -44,7 +44,7 @@ section {
   justify-content: center;
   align-items: center;
   flex: 1;
-  font-family: "Montserrat";
+  font-family: "Montserrat", sans-serif;
   font-size: larger;
 }
 
@@ -72,7 +72,7 @@ h1 {
 .error {
   margin: 3px;
   text-align: center;
-  font-family: "Montserrat";
+  font-family: "Montserrat", sans-serif;
   color: #802a36;
 }
 

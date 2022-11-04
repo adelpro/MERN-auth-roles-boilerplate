@@ -1,6 +1,6 @@
 # MERN-auth-roles
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8a4f92ef7e004d4b9e42cf70fc0376f9)](https://www.codacy.com/gh/adelpro/MERN-auth-roles-boilerplate/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=adelpro/MERN-auth-roles-boilerplate&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8a4f92ef7e004d4b9e42cf70fc0376f9)](https://www.codacy.com/gh/adelpro/MERN-auth-roles-boilerplate/dashboard?utm_source=github.com&utm_medium=referral&utm_content=adelpro/MERN-auth-roles-boilerplate&utm_campaign=Badge_Grade)
 ![](https://komarev.com/ghpvc/?username=adelpro&style=flat-squar&color=brightgreen)
 
 ## Live website
@@ -24,7 +24,7 @@ We have two parts in the application
 
 ✓ Token and refresh token
 
-✓ async/await syntax 
+✓ async/await syntax
 
 ✓ Server side validation
 
@@ -40,8 +40,9 @@ We have two parts in the application
 
 ✓ Password Hashing
 
+### How to run
 
-To run the code execute this command
+to run the code execute this command
 
 ```
   cd backend
@@ -52,6 +53,7 @@ To run the code execute this command
 ## MERN-AUTH-ROLES-Frontend (client)
 
 ### Futures
+
 ✓ React DevTools desabled in production
 
 ✓ Axios with Interceptors to manage fetchs
@@ -72,7 +74,9 @@ To run the code execute this command
 
 ✓ Layout component, it will be very easy to navigation and footer
 
-to execute the code run this command
+### How to run
+
+to run the code execute this command
 
 ```
 cd frontend
@@ -82,7 +86,7 @@ npm start
 
 ## Screenshots
 
-### Home page:
+### Home page
 
 ![MERN-auth-roles](https://i.imgur.com/mdgQyZl.png)
 
@@ -95,7 +99,7 @@ npm start
 ![MERN-auth-roles](https://i.imgur.com/om4vVoP.png)
 ![MERN-auth-roles](https://i.imgur.com/blwnrf2.png)
 
-### Notes:
+### Notes
 
 ![MERN-auth-roles](https://i.imgur.com/H6bnSRm.png)
 
@@ -127,4 +131,4 @@ npm start
 [2]: https://www.facebook.com/adel.benyahia
 [3]: https://github.com/adelpro
 [6]: adelpro.medium.com
-[6.1]:https://i.imgur.com/tijdQEw.png "medium icon with padding"
+[6.1]: https://i.imgur.com/tijdQEw.png "medium icon with padding"

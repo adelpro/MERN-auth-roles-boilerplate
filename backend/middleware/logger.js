@@ -15,8 +15,8 @@ const logEvents = async (message, logFileName) => {
       path.join(__dirname, "..", "logs", logFileName),
       logItem
     );
-  } catch {
-    (err) => console.log("Error: " + err);
+  } catch (err) {
+    console.log("Error: " + err);
   }
 };
 const logger = (req, res, next) => {

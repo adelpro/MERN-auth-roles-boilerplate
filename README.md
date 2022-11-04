@@ -90,7 +90,7 @@ npm start
 
 ![MERN-auth-roles](https://i.imgur.com/mdgQyZl.png)
 
-### Dash:
+### Dash
 
 ![MERN-auth-roles](https://i.imgur.com/gtNEg1i.png)
 

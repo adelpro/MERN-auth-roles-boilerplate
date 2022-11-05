@@ -3,7 +3,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { MultiSelect } from 'react-multi-select-component'
-import { ROLES } from '../../config/roles'
+import ROLES from '../../config/roles'
 import {
     MdAdd,
     MdAutorenew,

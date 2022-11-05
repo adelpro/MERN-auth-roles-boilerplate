@@ -15,7 +15,7 @@ import {
     MdSystemUpdateAlt,
 } from 'react-icons/md'
 import { MultiSelect } from 'react-multi-select-component'
-import { ROLES } from '../../config/roles'
+import ROLES from '../../config/roles'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 export default function EditUserForm() {
     const [accessToken, setAccessToken] = useRecoilState(AccessToken)

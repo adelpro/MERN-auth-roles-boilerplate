@@ -79,17 +79,16 @@ export default function Login() {
             </label>
           </div>
           <div className={styles.form__control__container}>
-            <div
-              className={styles.center}
-              style={{
-                position: "relative",
-                border: "2px solid",
-                borderRadius: "4px",
-              }}
-            >
-              {" "}
-              <label htmlFor="password">
-                Password
+            <label htmlFor="password">
+              Password
+              <div
+                className={styles.center}
+                style={{
+                  position: "relative",
+                  border: "2px solid",
+                  borderRadius: "4px",
+                }}
+              >
                 <input
                   id="password"
                   type={passwordType ? "password" : "text"}
@@ -99,22 +98,22 @@ export default function Login() {
                   ref={usernameRef}
                   style={{ border: "none", borderRadius: 0, outline: "none" }}
                 />
-              </label>
-              <div
-                style={{
-                  cursor: "pointer",
-                  position: "absolute",
-                  width: 20,
-                  padding: 5,
-                  right: 0,
-                  border: "none",
-                }}
-                aria-hidden="true"
-                onClick={() => setPasswordType((prev) => !prev)}
-              >
-                {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
+                <div
+                  style={{
+                    cursor: "pointer",
+                    position: "absolute",
+                    width: 20,
+                    padding: 5,
+                    right: 0,
+                    border: "none",
+                  }}
+                  aria-hidden="true"
+                  onClick={() => setPasswordType((prev) => !prev)}
+                >
+                  {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
+                </div>
               </div>
-            </div>
+            </label>
           </div>
         </div>
         <div className={styles.form__control__container__checkbox}>

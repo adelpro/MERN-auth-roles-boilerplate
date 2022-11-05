@@ -1,4 +1,5 @@
 .dash__header__container {
+<<<<<<< HEAD
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -9,4 +10,16 @@
   .dash__header__container {
     flex-direction: column;
   }
+=======
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media only screen and (max-width: 480px) {
+    .dash__header__container {
+        flex-direction: column;
+    }
+>>>>>>> v4.0.6
 }

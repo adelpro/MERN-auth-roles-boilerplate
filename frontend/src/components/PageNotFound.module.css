@@ -9,21 +9,20 @@
     transform: translate(-50%, -50%);
 }
 
-.notfound>h1 {
+.notfound > h1 {
     font-family: Montserrat;
     font-size: 252px;
     font-weight: bold;
     letter-spacing: -40px;
     margin: 0;
-
 }
 
-.notfound>h1>span {
+.notfound > h1 > span {
     text-shadow: -8px 0 0 #fff;
 }
 
-@media only screen and (max-width:480px) {
-    .notfound>h1 {
+@media only screen and (max-width: 480px) {
+    .notfound > h1 {
         font-size: 126px;
         letter-spacing: -20px;
     }

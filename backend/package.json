@@ -1,32 +1,34 @@
 {
-  "name": "mern-auth-roles-backend",
-  "version": "4.0.0",
-  "description": "MERN-auth-roles a web application that alow you to manage authentication and roles of users using MERN (MongoDB Express Angular Node)",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server",
-    "dev": "nodemon server"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "date-fns": "^2.29.3",
-    "dotenv": "^16.0.2",
-    "express": "^4.18.1",
-    "express-async-handler": "^1.2.0",
-    "express-rate-limit": "^6.6.0",
-    "jsonwebtoken": "^8.5.1",
-    "jwt-decoder": "^0.0.0",
-    "mongoose": "^6.6.1",
-    "mongoose-sequence": "^5.3.1",
-    "nodemon": "^2.0.20",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {
-    "eslint-config-prettier": "^8.5.0"
-  }
+    "name": "mern-auth-roles-backend",
+    "version": "4.0.0",
+    "description": "MERN-auth-roles a web application that alow you to manage authentication and roles of users using MERN (MongoDB Express Angular Node)",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server",
+        "dev": "nodemon server"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "date-fns": "^2.29.3",
+        "dotenv": "^16.0.2",
+        "express": "^4.18.1",
+        "express-async-handler": "^1.2.0",
+        "express-rate-limit": "^6.6.0",
+        "jsonwebtoken": "^8.5.1",
+        "jwt-decoder": "^0.0.0",
+        "mongoose": "^6.6.1",
+        "mongoose-sequence": "^5.3.1",
+        "nodemon": "^2.0.20",
+        "uuid": "^9.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^8.26.0",
+        "eslint-config-prettier": "^8.5.0",
+        "prettier": "^2.7.1"
+    }
 }

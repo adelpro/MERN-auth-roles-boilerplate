@@ -1,6 +1,8 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../App.module.css";
 import componentStyles from "./PageNotFound.module.css";
+
 export default function PageNotFound() {
   const navigate = useNavigate();
   return (
@@ -12,6 +14,7 @@ export default function PageNotFound() {
       </h1>
       <div>
         <button
+          type="button"
           className={styles.button}
           style={{ width: 200 }}
           onClick={() => {

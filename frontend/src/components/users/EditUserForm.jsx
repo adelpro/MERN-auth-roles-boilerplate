@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import styles from "../../App.module.css";
-import useLocalStorage from "../../hooks/useLocalStorage";
-import { AccessToken } from "../../recoil/atom";
+import { MultiSelect } from "react-multi-select-component";
 import { useParams } from "react-router-dom";
 import {
   MdAutorenew,
@@ -14,9 +12,12 @@ import {
   MdRemoveRedEye,
   MdSystemUpdateAlt,
 } from "react-icons/md";
-import { MultiSelect } from "react-multi-select-component";
+import { AccessToken } from "../../recoil/atom";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { ROLES } from "../../config/roles";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import styles from "../../App.module.css";
+
 export default function EditUserForm() {
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
   const [persist] = useLocalStorage("persist", false);
@@ -30,9 +31,11 @@ export default function EditUserForm() {
     username: yup.string().min(4).required("Username is required"),
     email: yup.string().email("Invalid email").required("Email is required"),
     active: yup.boolean(),
-    //password: yup.string().min(6, "Min 6 characters"),
-    //.required("Password is required"),
-    //confirmationPassword: yup.string().oneOf([yupref("password"), null]),
+    // password: yup.string().min(6, "Min 6 characters"),
+
+    // .required("Password is required"),
+
+    // confirmationPassword: yup.string().oneOf([yupref("password"), null]),
     roles: yup
       .array()
       .min(1, "Please select at least one role")
@@ -45,10 +48,10 @@ export default function EditUserForm() {
     control,
     formState: { errors },
   } = useForm({
-    //shouldUseNativeValidation: true,
+    // shouldUseNativeValidation: true,
     resolver: yupResolver(schema),
   });
-  //fetching default user data with id:
+  // fetching default user data with id:
   useEffect(() => {
     setIsloading(true);
     const controller = new AbortController();
@@ -61,10 +64,14 @@ export default function EditUserForm() {
             signal: controller.signal,
           }
         );
-        const { username, email, roles, active } = result?.data;
-        const newRoles = roles.map((element) => {
-          return { label: element, value: element };
-        });
+
+        const { username, email, roles, active } = result?.data
+          ? result.data
+          : null;
+        const newRoles = roles.map((element) => ({
+          label: element,
+          value: element,
+        }));
         reset({ username, email, roles: newRoles, active });
         setMessage(null);
       } catch (err) {
@@ -78,7 +85,9 @@ export default function EditUserForm() {
       controller?.abort();
     };
   }, [accessToken, axiosPrivate, id, persist, reset, setAccessToken]);
-
+  const usernameRef = register("username");
+  const passwordRef = register("password");
+  const emailRef = register("email");
   const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
@@ -90,16 +99,14 @@ export default function EditUserForm() {
     } else {
       body = { id, username, email, roles: newRoles, active };
     }
-    console.log(body);
+
     await axiosPrivate
       .patch(`/users`, body)
       .then((result) => {
         setIsloading(false);
         setMessage(result?.response?.message);
-        console.log("ok");
       })
       .catch((err) => {
-        console.log("error");
         if (!err?.response?.status) {
           setMessage(
             err?.response?.statusText
@@ -129,68 +136,78 @@ export default function EditUserForm() {
         className={styles.form__container}
       >
         <div className={styles.form__control__container}>
-          <label htmlFor="username">Username</label>
-          <input {...register("username")} type="text" />
+          <label htmlFor="username">
+            Username
+            <input ref={usernameRef} type="text" />
+          </label>
         </div>
         {errors?.username && <p>{errors?.username?.message}</p>}
         <div className={styles.form__control__container}>
-          <label htmlFor="password">Password</label>
-          <div
-            className={styles.center}
-            style={{
-              position: "relative",
-              border: "2px solid",
-              borderRadius: "4px",
-            }}
-          >
-            <input
-              style={{ border: "none", borderRadius: 0, outline: "none" }}
-              type={passwordType ? "password" : "text"}
-              {...register("password")}
-            />
+          <label htmlFor="password">
+            Password
             <div
+              className={styles.center}
               style={{
-                cursor: "pointer",
-                position: "absolute",
-                width: 20,
-                padding: 5,
-                right: 0,
-                border: "none",
+                position: "relative",
+                border: "2px solid",
+                borderRadius: "4px",
               }}
-              onClick={() => setPasswordType((prev) => !prev)}
             >
-              {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
+              <input
+                style={{ border: "none", borderRadius: 0, outline: "none" }}
+                type={passwordType ? "password" : "text"}
+                ref={passwordRef}
+              />
+              <div
+                style={{
+                  cursor: "pointer",
+                  position: "absolute",
+                  width: 20,
+                  padding: 5,
+                  right: 0,
+                  border: "none",
+                }}
+                onClick={() => setPasswordType((prev) => !prev)}
+                aria-hidden="true"
+              >
+                {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
+              </div>
             </div>
-          </div>
+          </label>
         </div>
         {errors?.password && <p>{errors?.password?.message}</p>}
         <div className={styles.form__control__container}>
-          <label htmlFor="email">Email</label>
-          <input {...register("email")} type="text" />
+          <label htmlFor="email">
+            Email
+            <input ref={emailRef} type="text" />{" "}
+          </label>
         </div>
+
         {errors?.email && <p>{errors?.email?.message}</p>}
         <div className={styles.form__control__container}>
-          <label htmlFor="roles">Roles</label>
-          <div
-            style={{
-              width: "210px",
-            }}
-          >
-            <Controller
-              control={control}
-              name="roles"
-              render={({ field: { onChange, value } }) => (
-                <MultiSelect
-                  options={ROLES}
-                  value={value ? value : []}
-                  onChange={onChange}
-                  labelledBy="Select"
-                  disableSearch
-                  hasSelectAll={false}
-                />
-              )}
-            />
-          </div>
+          <label htmlFor="roles">
+            Roles
+            <div
+              style={{
+                width: "210px",
+              }}
+            >
+              <Controller
+                control={control}
+                name="roles"
+                render={({ field: { onChange, value } }) => (
+                    <MultiSelect
+                    options={ROLES}
+                    value={value ? value : []}
+                    onChange={onChange}
+                    labelledBy="Select"
+                    disableSearch
+                    hasSelectAll={false}
+                  />
+                )}
+              />
+            </div>
+          </label>
         </div>
         {errors?.roles && <p>{errors?.roles?.message}</p>}
         <div className={styles.form__control__container__checkbox}>

@@ -1,11 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { MdArrowForwardIos, MdDeleteOutline } from "react-icons/md";
-import { MdBorderColor, MdAdd } from "react-icons/md";
-import styles from "../../App.module.css";
+import {
+  MdArrowForwardIos,
+  MdDeleteOutline,
+  MdBorderColor,
+  MdAdd,
+} from "react-icons/md";
 import { useRecoilValue } from "recoil";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { AccessToken } from "../../recoil/atom";
+import styles from "../../App.module.css";
+
 export default function UsersList() {
   const accessToken = useRecoilValue(AccessToken);
   const axiosPrivate = useAxiosPrivate();
@@ -56,37 +61,41 @@ export default function UsersList() {
   if (data && data.length > 0) {
     content = (
       <ul className={styles.list}>
-        {data.map((user) => {
-          return (
-            <div key={user._id}>
-              <li>
-                <div>
-                  <MdArrowForwardIos style={{ marginRight: 10 }} />
-                  <span>{user.username}</span>
-                  <span>
-                    [
-                    {user.roles.map((role, i, roles) =>
-                      i + 1 === roles.length ? (
-                        <span key={role}>{role}</span>
-                      ) : (
-                        <span key={role}>{role} ,</span>
-                      )
-                    )}
-                    ]
-                  </span>
-                </div>
-                <div>
-                  <button onClick={() => handleDeleteUser(user._id)}>
-                    <MdDeleteOutline />
-                  </button>
-                  <button onClick={() => navigate(`/dash/users/${user._id}`)}>
-                    <MdBorderColor />
-                  </button>
-                </div>
-              </li>
-            </div>
-          );
-        })}
+        {data.map((user) => (
+          <div key={user._id}>
+            <li>
+              <div>
+                <MdArrowForwardIos style={{ marginRight: 10 }} />
+                <span>{user.username}</span>
+                <span>
+                  [
+                  {user.roles.map((role, i, roles) =>
+                    i + 1 === roles.length ? (
+                      <span key={role}>{role}</span>
+                    ) : (
+                      <span key={role}>{role} ,</span>
+                    )
+                  )}
+                  ]
+                </span>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteUser(user._id)}
+                >
+                  <MdDeleteOutline />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate(`/dash/users/${user._id}`)}
+                >
+                  <MdBorderColor />
+                </button>
+              </div>
+            </li>
+          </div>
+        ))}
       </ul>
     );
   }
@@ -97,6 +106,7 @@ export default function UsersList() {
       {content}
       <div className={styles.center}>
         <button
+          type="button"
           className={styles.button}
           onClick={() => navigate("/dash/users/signin")}
         >

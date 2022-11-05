@@ -11,9 +11,9 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "no-underscore-dangle": ["error", { "allow": ["_id"] }],
   "rules": {
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
   },
   "ignorePatterns": ["node_modules", "/public/**", "/ressources/**"]
 }

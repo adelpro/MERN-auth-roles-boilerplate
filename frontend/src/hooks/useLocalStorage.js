@@ -8,7 +8,7 @@ const useLocalStorage = (item, defaultValue) => {
   );
   useEffect(() => {
     localStorage.setItem(item, JSON.stringify(persist));
-    return () => (effectRef.current = true);
+    effectRef.current = true;
   }, [item, persist]);
   return [persist, setPersist];
 };

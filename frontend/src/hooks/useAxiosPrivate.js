@@ -1,18 +1,19 @@
 import { useEffect } from "react";
-import { axiosPrivate } from "../api/axios";
-import useRefreshAccessToken from "./useRefreshAccessToken";
 import { useRecoilState } from "recoil";
+import useRefreshAccessToken from "./useRefreshAccessToken";
+import { axiosPrivate } from "../api/axios";
 import { AccessToken } from "../recoil/atom";
 
 const useAxiosPrivate = () => {
-  //TODO testing refresh error here !!!
+  // TODO testing refresh error here !!!
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
   const getNewToken = useRefreshAccessToken();
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
-        if (!config.headers["Authorization"] && accessToken) {
-          config.headers["Authorization"] = `Bearer ${accessToken}`;
+        if (!config.headers.Authorization && accessToken) {
+          // eslint-disable-next-line no-param-reassign
+          config.headers.Authorization = `Bearer ${accessToken}`;
         }
         return config;
       },
@@ -30,7 +31,7 @@ const useAxiosPrivate = () => {
 
           setAccessToken(newAccessToken);
 
-          prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          prevRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axiosPrivate(prevRequest);
         }
         return Promise.reject(error);

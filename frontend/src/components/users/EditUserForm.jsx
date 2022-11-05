@@ -14,7 +14,7 @@ import {
 } from "react-icons/md";
 import { AccessToken } from "../../recoil/atom";
 import useLocalStorage from "../../hooks/useLocalStorage";
-import { ROLES } from "../../config/roles";
+import ROLES from "../../config/roles";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import styles from "../../App.module.css";
 

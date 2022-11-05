@@ -1,6 +1,7 @@
+import jwtDecode from "jwt-decode";
 import { useRecoilValue } from "recoil";
 import { AccessToken } from "../recoil/atom";
-import jwtDecode from "jwt-decode";
+
 const useAuth = () => {
   const accessToken = useRecoilValue(AccessToken);
   let isAdmin = false;

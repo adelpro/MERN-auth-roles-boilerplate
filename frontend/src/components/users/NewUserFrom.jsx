@@ -14,7 +14,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Ring } from "@uiball/loaders";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import styles from "../../App.module.css";
-import { ROLES } from "../../config/roles";
+import ROLES from "../../config/roles";
 
 export default function NewUserFrom() {
   const navigate = useNavigate();

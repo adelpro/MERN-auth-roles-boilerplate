@@ -51,6 +51,7 @@ export default function EditUserForm() {
     // shouldUseNativeValidation: true,
     resolver: yupResolver(schema),
   });
+  const activeRef = register("active");
   // fetching default user data with id:
   useEffect(() => {
     setIsloading(true);
@@ -185,6 +186,7 @@ export default function EditUserForm() {
 
         {errors?.email && <p>{errors?.email?.message}</p>}
         <div className={styles.form__control__container}>
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="roles">
             Roles
             <div
@@ -196,9 +198,9 @@ export default function EditUserForm() {
                 control={control}
                 name="roles"
                 render={({ field: { onChange, value } }) => (
-                    <MultiSelect
+                  <MultiSelect
                     options={ROLES}
-                    value={value ? value : []}
+                    value={value || []}
                     onChange={onChange}
                     labelledBy="Select"
                     disableSearch
@@ -211,8 +213,10 @@ export default function EditUserForm() {
         </div>
         {errors?.roles && <p>{errors?.roles?.message}</p>}
         <div className={styles.form__control__container__checkbox}>
-          <input type="checkbox" {...register("active")} />
-          <label htmlFor="active">Active</label>
+          <label htmlFor="active">
+            <input type="checkbox" ref={activeRef} />
+            Active
+          </label>
         </div>
         {errors?.completed && <p>{errors?.completed?.message}</p>}
         <div className={styles.form__control__container}>
@@ -222,7 +226,11 @@ export default function EditUserForm() {
               {isloading ? "Loading..." : "Update"}
             </div>
           </button>
-          <button onClick={() => reset()} className={styles.button}>
+          <button
+            type="button"
+            onClick={() => reset()}
+            className={styles.button}
+          >
             <div className={styles.center}>
               <MdAutorenew size={30} style={{ marginRight: 10 }} />
               Reset

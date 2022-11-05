@@ -1,13 +1,13 @@
-import { useRef, useState } from "react";
+import React,{ useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { MdAdd, MdAutorenew, MdNoteAdd } from "react-icons/md";
-import styles from "../../App.module.css";
-import useAuth from "../../hooks/useAuth";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { Ring } from "@uiball/loaders";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Ring } from "@uiball/loaders";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import useAuth from "../../hooks/useAuth";
+import styles from "../../App.module.css";
 
 export default function NewNoteForm() {
   const navigate = useNavigate();
@@ -29,6 +29,8 @@ export default function NewNoteForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const titleRef=register("title")
+  const textRef = register("text")
   const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
@@ -75,13 +77,17 @@ export default function NewNoteForm() {
         className={styles.form__container}
       >
         <div className={styles.form__control__container}>
-          <label htmlFor="title">Title</label>
-          <input {...register("title")} type="text" />
+          <label htmlFor="title">
+            Title
+            <input ref={titleRef} type="text" />
+          </label>
         </div>
         {errors?.title && <p>{errors?.title?.message}</p>}
         <div className={styles.form__control__container}>
-          <label htmlFor="text">Text</label>
-          <textarea rows="5" type="text" {...register("text")} />
+          <label htmlFor="text">
+            Text
+            <textarea rows="5" type="text" ref={textRef} />
+          </label>
         </div>
         {errors?.text && <p>{errors?.text?.message}</p>}
 
@@ -100,11 +106,11 @@ export default function NewNoteForm() {
               </div>
             ) : (
               <div className={styles.center}>
-                {<Ring size={18} color="white" />}
+                <Ring size={18} color="white" />
               </div>
             )}
           </button>
-          <button onClick={() => reset()} className={styles.button}>
+          <button type="button" onClick={() => reset()} className={styles.button}>
             <div
               style={{
                 display: "flex",

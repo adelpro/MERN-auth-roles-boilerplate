@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import styles from "../../App.module.css";
-import { AccessToken } from "../../recoil/atom";
 import { useParams } from "react-router-dom";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { MdAutorenew, MdEditNote, MdSystemUpdateAlt } from "react-icons/md";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { AccessToken } from "../../recoil/atom";
+import styles from "../../App.module.css";
+
 export default function EditUserForm() {
   const axiosPrivate = useAxiosPrivate();
   const [accessToken] = useRecoilState(AccessToken);
@@ -30,8 +31,12 @@ export default function EditUserForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
-  //Fetching default note data with id:at component mount
+  const idRef = register("id");
+  const userRef = register("user");
+  const titleRef = register("title");
+  const textRef = register("text");
+  const completeRef = register("complete");
+  // Fetching default note data with id:at component mount
   useEffect(() => {
     setIsloading(true);
     const controller = new AbortController();
@@ -44,7 +49,7 @@ export default function EditUserForm() {
             signal: controller.signal,
           }
         );
-        const { _id, user, title, text, completed } = result?.data;
+        const { _id, user, title, text, completed } = result?.data || null;
         reset({ id: _id, user, title, text, completed });
         setMessage(null);
       } catch (err) {
@@ -62,7 +67,6 @@ export default function EditUserForm() {
   const onSubmit = async (data) => {
     setIsloading(true);
     setMessage(null);
-    console.log(data);
     await axiosPrivate
       .patch(`/notes`, data)
 
@@ -99,21 +103,27 @@ export default function EditUserForm() {
         onSubmit={handleSubmit(onSubmit)}
         className={styles.form__container}
       >
-        <input {...register("id")} type="hidden" />
-        <input {...register("user")} type="hidden" />
+        <input ref={idRef} type="hidden" />
+        <input ref={userRef} type="hidden" />
         <div className={styles.form__control__container}>
-          <label htmlFor="title">Text</label>
-          <input {...register("title")} type="text" />
+          <label htmlFor="title">
+            Text
+            <input ref={titleRef} type="text" />
+          </label>
         </div>
         {errors?.title && <p>{errors?.title?.message}</p>}
         <div className={styles.form__control__container}>
-          <label htmlFor="text">Text</label>
-          <input type="text" {...register("text")} />
+          <label htmlFor="text">
+            Text
+            <input type="text" ref={textRef} />
+          </label>
         </div>
         {errors?.text && <p>{errors?.text?.message}</p>}
         <div className={styles.form__control__container__checkbox}>
-          <input type="checkbox" {...register("completed")} />
-          <label htmlFor="completed">Completed</label>
+          <label htmlFor="completed">
+            <input type="checkbox" ref={completeRef} />
+            Completed
+          </label>
         </div>
         {errors?.completed && <p>{errors?.completed?.message}</p>}
         <div className={styles.form__control__container}>
@@ -123,7 +133,11 @@ export default function EditUserForm() {
               {isloading ? "Loading..." : "Update"}
             </div>
           </button>
-          <button onClick={() => reset()} className={styles.button}>
+          <button
+            type="button"
+            onClick={() => reset()}
+            className={styles.button}
+          >
             <div className={styles.center}>
               <MdAutorenew size={30} style={{ marginRight: 10 }} />
               Reset

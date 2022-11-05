@@ -1,11 +1,12 @@
-import { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Ring } from "@uiball/loaders";
+import { MdLogin, MdPassword, MdRemoveRedEye } from "react-icons/md";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { AccessToken, Persist } from "../../recoil/atom";
-import { MdLogin, MdPassword, MdRemoveRedEye } from "react-icons/md";
 import styles from "../../App.module.css";
 import axios from "../../api/axios";
+
 export default function Login() {
   const setAccessToken = useSetRecoilState(AccessToken);
   const [persist, setPersist] = useRecoilState(Persist);
@@ -67,18 +68,17 @@ export default function Login() {
           <div className={styles.form__control__container}>
             <label htmlFor="username" style={{ width: "100px" }}>
               Username
+              <input
+                id="username"
+                type="text"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                ref={usernameRef}
+              />{" "}
             </label>
-            <input
-              id="username"
-              type="text"
-              required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              ref={usernameRef}
-            />
           </div>
           <div className={styles.form__control__container}>
-            <label htmlFor="password">Password</label>
             <div
               className={styles.center}
               style={{
@@ -87,16 +87,19 @@ export default function Login() {
                 borderRadius: "4px",
               }}
             >
-              <input
-                id="password"
-                type={passwordType ? "password" : "text"}
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                ref={usernameRef}
-                style={{ border: "none", borderRadius: 0, outline: "none" }}
-              />
-
+              {" "}
+              <label htmlFor="password">
+                Password
+                <input
+                  id="password"
+                  type={passwordType ? "password" : "text"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  ref={usernameRef}
+                  style={{ border: "none", borderRadius: 0, outline: "none" }}
+                />
+              </label>
               <div
                 style={{
                   cursor: "pointer",
@@ -106,6 +109,7 @@ export default function Login() {
                   right: 0,
                   border: "none",
                 }}
+                aria-hidden="true"
                 onClick={() => setPasswordType((prev) => !prev)}
               >
                 {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
@@ -114,13 +118,15 @@ export default function Login() {
           </div>
         </div>
         <div className={styles.form__control__container__checkbox}>
-          <input
-            id="persist"
-            type="checkbox"
-            checked={persist}
-            onChange={() => setPersist((current) => !current)}
-          />
-          <label htmlFor="persist">Trust this device</label>
+          <label htmlFor="persist">
+            <input
+              id="persist"
+              type="checkbox"
+              checked={persist}
+              onChange={() => setPersist((current) => !current)}
+            />
+            Trust this device
+          </label>
         </div>
         <button className={styles.button} type="submit" disabled={isloading}>
           {!isloading ? (
@@ -130,7 +136,7 @@ export default function Login() {
             </div>
           ) : (
             <div className={styles.center}>
-              {<Ring size={18} color="white" />}
+              <Ring size={18} color="white" />
             </div>
           )}
         </button>

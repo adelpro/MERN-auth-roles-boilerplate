@@ -1,3 +1,4 @@
+import React from "react"
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/auth/Login";
@@ -13,13 +14,14 @@ import { ROLES } from "./config/roles";
 import EditUserForm from "./components/users/EditUserForm";
 import NewNoteForm from "./components/notes/NewNoteForm";
 import EditNoteForm from "./components/notes/EditNoteForm";
+
 function App() {
   return (
     <Routes>
-      {/* Public routes*/}
+      {/* Public routes */}
       <Route index element={<Home />} />
       <Route path="login" element={<Login />} />
-      {/* TODO add roles privileges*/}
+      {/* TODO add roles privileges */}
       {/* Private routes */}
       <Route element={<PersistLogin />}>
         <Route path="dash" element={<DashLayout />}>

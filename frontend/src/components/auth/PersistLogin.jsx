@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
@@ -24,7 +24,7 @@ export default function PersistLogin() {
         <Navigate to="/" state={{ from: location }} replace />;
       }
     }
-    return () => (effectRan.current = true);
+    effectRan.current = true;
   }, [accessToken, getNewToken, location, persist, setAccessToken]);
   return <Outlet />;
 }

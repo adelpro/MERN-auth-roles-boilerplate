@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { MdArrowForwardIos, MdDeleteOutline } from "react-icons/md";
-import { MdBorderColor, MdAdd } from "react-icons/md";
-import styles from "../../App.module.css";
+import {
+  MdArrowForwardIos,
+  MdDeleteOutline,
+  MdBorderColor,
+  MdAdd,
+} from "react-icons/md";
 import { useRecoilValue } from "recoil";
 import { AccessToken } from "../../recoil/atom";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import styles from "../../App.module.css";
 
 export default function NotesList() {
   const accessToken = useRecoilValue(AccessToken);
@@ -64,35 +68,39 @@ export default function NotesList() {
       <>
         <h1>Notes list</h1>
         <ul className={styles.list}>
-          {data.map((note) => {
-            return (
-              <div key={note._id}>
-                <li style={{ height: "100%" }}>
-                  <div style={{ marginLeft: 10, width: "80%" }}>
-                    <h3>
-                      <MdArrowForwardIos style={{ marginRight: 10 }} />
-                      {note.title}
-                    </h3>
-                    <hr className="dashed"></hr>
-                    <p style={{ wordWrap: "break-word" }}>{note.text}</p>
-                    {note.completed ? (
-                      <p>✅ Completed</p>
-                    ) : (
-                      <p>❌ Not completed</p>
-                    )}
-                  </div>
-                  <div>
-                    <button onClick={() => handleDeleteNote(note._id)}>
-                      <MdDeleteOutline />
-                    </button>
-                    <button onClick={() => navigate(`/dash/notes/${note._id}`)}>
-                      <MdBorderColor />
-                    </button>
-                  </div>
-                </li>
-              </div>
-            );
-          })}
+          {data.map((note) => (
+            <div key={note._id}>
+              <li style={{ height: "100%" }}>
+                <div style={{ marginLeft: 10, width: "80%" }}>
+                  <h3>
+                    <MdArrowForwardIos style={{ marginRight: 10 }} />
+                    {note.title}
+                  </h3>
+                  <hr className="dashed" />
+                  <p style={{ wordWrap: "break-word" }}>{note.text}</p>
+                  {note.completed ? (
+                    <p>✅ Completed</p>
+                  ) : (
+                    <p>❌ Not completed</p>
+                  )}
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteNote(note._id)}
+                  >
+                    <MdDeleteOutline />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/dash/notes/${note._id}`)}
+                  >
+                    <MdBorderColor />
+                  </button>
+                </div>
+              </li>
+            </div>
+          ))}
         </ul>
       </>
     );
@@ -103,6 +111,7 @@ export default function NotesList() {
       {content}
       <div className={styles.center}>
         <button
+          type="button"
           className={styles.button}
           onClick={() => navigate("/dash/notes/addnote")}
         >

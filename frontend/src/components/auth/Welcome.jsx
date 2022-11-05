@@ -1,9 +1,11 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import { useRecoilValue } from "recoil";
+import { MdArrowForwardIos } from "react-icons/md";
+import useAuth from "../../hooks/useAuth";
 import { AccessToken } from "../../recoil/atom";
 import styles from "../../App.module.css";
-import { MdArrowForwardIos } from "react-icons/md";
+
 export default function Welcome() {
   const accessToken = useRecoilValue(AccessToken);
   const { username, status, isAdmin } = useAuth();

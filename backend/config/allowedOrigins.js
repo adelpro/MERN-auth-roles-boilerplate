@@ -4,4 +4,5 @@ const allowedOrigins = [
     'http://188.166.150.76:3000',
     'https://mern-auth-roles.onrender.com',
 ]
+
 module.exports = allowedOrigins

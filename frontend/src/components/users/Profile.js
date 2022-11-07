@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { axiosPrivate } from '../../api/axios'
 
-export default function User() {
+export default function Profile() {
   const [image, setImage] = useState({ preview: '', data: '' })
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -9,6 +9,7 @@ export default function User() {
     formData.append('file', image.data)
     try {
       await axiosPrivate.post('/users', { body: formData })
+      
     } catch {
       return
     }

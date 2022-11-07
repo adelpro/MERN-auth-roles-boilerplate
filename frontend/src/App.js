@@ -13,7 +13,7 @@ import ROLES from './config/roles'
 import EditUserForm from './components/users/EditUserForm'
 import NewNoteForm from './components/notes/NewNoteForm'
 import EditNoteForm from './components/notes/EditNoteForm'
-import User from './components/users/User'
+import Profile from './components/users/Profile'
 function App() {
   return (
     <Routes>
@@ -22,7 +22,7 @@ function App() {
       <Route path="login" element={<Login />} />
       {/* Private routes */}
       <Route element={<PersistLogin />}>
-        <Route path="/me" element={<User />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="dash" element={<DashLayout />}>
           <Route index element={<Welcome />} />
           <Route path="notes">

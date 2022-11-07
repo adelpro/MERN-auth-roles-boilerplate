@@ -41,14 +41,14 @@ export default function DashLayoutHeader() {
           >
             <div className={styles.center}>
               <MdDashboard size={30} style={{ marginRight: 10 }} />
-              Home
+              Dash
             </div>
           </button>
           <button
             className={styles.button}
             type="button"
             onClick={() => {
-              navigate(location.state?.from?.pathname || '/me', {
+              navigate(location.state?.from?.pathname || '/profile', {
                 replace: true,
               })
             }}

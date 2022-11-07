@@ -9,6 +9,7 @@ const corsConfigs = require('./config/corsConfigs')
 const mongoose = require('mongoose')
 const connectDB = require('./config/dbConn')
 const credentials = require('./middleware/credentials')
+const multer = require('multer')
 const app = express()
 const port = process.env.PORT || 3500
 connectDB()

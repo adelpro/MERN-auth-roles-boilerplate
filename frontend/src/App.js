@@ -14,6 +14,7 @@ import EditUserForm from './components/users/EditUserForm'
 import NewNoteForm from './components/notes/NewNoteForm'
 import EditNoteForm from './components/notes/EditNoteForm'
 import Profile from './components/users/Profile'
+
 function App() {
   return (
     <Routes>
@@ -22,7 +23,7 @@ function App() {
       <Route path="login" element={<Login />} />
       {/* Private routes */}
       <Route element={<PersistLogin />}>
-        <Route path="/profile" element={<Profile />} />
+        <Route path="profile" element={<Profile />} />
         <Route path="dash" element={<DashLayout />}>
           <Route index element={<Welcome />} />
           <Route path="notes">

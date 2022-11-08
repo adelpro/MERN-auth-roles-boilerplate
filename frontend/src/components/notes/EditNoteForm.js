@@ -62,7 +62,6 @@ export default function EditUserForm() {
     const onSubmit = async (data) => {
         setIsloading(true)
         setMessage(null)
-        console.log(data)
         await axiosPrivate
             .patch(`/notes`, data)
 

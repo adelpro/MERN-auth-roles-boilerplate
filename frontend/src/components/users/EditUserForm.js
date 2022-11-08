@@ -93,17 +93,14 @@ export default function EditUserForm() {
         } else {
             body = { id, username, email, roles: newRoles, active }
         }
-        console.log(body)
         await axiosPrivate
             .patch(`/users`, body)
             .then((result) => {
                 setIsloading(false)
                 setMessage(result?.response?.message)
-                console.log('ok')
             })
             .catch((err) => {
-                console.log('error')
-                if (!err?.response?.status) {
+                 if (!err?.response?.status) {
                     setMessage(
                         err?.response?.statusText
                             ? err?.response?.statusText

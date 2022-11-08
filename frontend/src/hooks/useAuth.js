@@ -13,10 +13,13 @@ const useAuth = () => {
     roles: [],
   })
   useEffect(() => {
+    setIsAdmin(true)
     if (accessToken) {
+      console.log({ accessToken })
       const decode = jwtDecode(accessToken)
       setUserInfo(decode.UserInfo)
       if (decode.UserInfo.roles.includes('Admin')) {
+        console.log('testvalid')
         setIsAdmin(true)
         setStatus('Admin')
       }
@@ -24,7 +27,6 @@ const useAuth = () => {
         setIsManager(true)
         setStatus('Manager')
       }
-    } else {
     }
   }, [accessToken])
   const { username, roles, id } = userInfo

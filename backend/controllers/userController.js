@@ -80,7 +80,6 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @Private access
 const updateUser = asyncHandler(async (req, res) => {
     const { id, username, password, roles, active } = req.body
-    console.log({ id, username, password, roles, active })
     //Confirm data
     if (
         !username ||
@@ -122,7 +121,6 @@ const updateUser = asyncHandler(async (req, res) => {
 // @Private access
 const deleteUser = asyncHandler(async (req, res) => {
     const { id } = req.body
-    console.log(id)
     if (!id) {
         return res
             .status(400)

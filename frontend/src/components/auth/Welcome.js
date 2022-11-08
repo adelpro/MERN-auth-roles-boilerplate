@@ -5,27 +5,29 @@ import { AccessToken } from '../../recoil/atom'
 import styles from '../../App.module.css'
 import { MdArrowForwardIos } from 'react-icons/md'
 import { useEffect } from 'react'
-import { io } from 'socket.io-client'
+import useSocketIo from '../../hooks/useSocketIo'
 export default function Welcome() {
   const accessToken = useRecoilValue(AccessToken)
   const { id, username, status, isAdmin } = useAuth()
-
-  const socket = io.connect(process.env.REACT_APP_BASEURL)
+  const { socket } = useSocketIo()
   useEffect(() => {
-    socket.on('connect', (data) => {
-      socket.emit('setUserId', id)
-      console.log(`user ${id} connect to socket`)
-    })
-    socket.on('disconnect', () => {
-      console.log('disconnect')
-    })
-    socket.on('notifications', (data) => {
-      console.log({ data })
-    })
+    socket &&
+      socket.on('connect', (data) => {
+        socket.emit('setUserId', id)
+        console.log(`user ${id} connect to socket`)
+      })
+    socket &&
+      socket.on('disconnect', () => {
+        console.log('disconnect')
+      })
+    socket &&
+      socket.on('notifications', (data) => {
+        console.log({ data })
+      })
     return () => {
-      socket.off('connect')
-      socket.off('disconnect')
-      socket.off('notifications')
+      socket && socket.off('connect')
+      socket && socket.off('disconnect')
+      socket && socket.off('notifications')
     }
   }, [id, socket])
   useEffect(() => {
@@ -40,7 +42,6 @@ export default function Welcome() {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        alignItem: 'center',
         flex: 1,
       }}
     >

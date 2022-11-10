@@ -19,13 +19,13 @@ const login = asyncHandler(async (req, res) => {
   if (!matchPassword) {
     res.status(401).json({ message: 'Unauthorized r97452' })
   }
-
   const accessToken = jwt.sign(
     {
       UserInfo: {
         username: foundUser.username,
         id: foundUser._id,
         roles: foundUser.roles,
+        profileImage: foundUser.profileImage,
       },
     },
     process.env.ACCESS_TOKEN_SECRET,
@@ -33,7 +33,12 @@ const login = asyncHandler(async (req, res) => {
   )
   const refreshToken = jwt.sign(
     {
-      UserInfo: { username: foundUser.username },
+      UserInfo: {
+        username: foundUser.username,
+        id: foundUser._id,
+        roles: foundUser.roles,
+        profileImage: foundUser.profileImage,
+      },
     },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '7d' }
@@ -74,13 +79,14 @@ const refresh = asyncHandler(async (req, res) => {
       const accessToken = jwt.sign(
         {
           UserInfo: {
-            id: foundUser._id,
             username: foundUser.username,
+            id: foundUser._id,
             roles: foundUser.roles,
+            profileImage: foundUser.profileImage,
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '30s' }
+        { expiresIn: '7d' }
       )
       //Send accessToken with username and roles
       res.json({ accessToken })

@@ -27,7 +27,7 @@ We have two parts in the application
 
 ✓ .env file configuration
 
-✓ Image upload with Multer (comming)
+✓ Profile image upload with Multer (delete old image and replace it with the new image),
 
 ✓ Cross-origin resource sharing (CORS)
 
@@ -69,6 +69,8 @@ run this command
 
 ✓ Layout component, it will be very easy to navigation and footer
 
+✓ Profile image upload
+
 ### Run the code
 
 you can run the code by executing this command
@@ -100,7 +102,7 @@ npm start
 
 ![MERN-auth-roles](https://i.imgur.com/08gyywr.png)
 
-## Contact us
+## Contact us 📨
 
 [![twitter][1.1]][1]
 [![facebook][2.1]][2]

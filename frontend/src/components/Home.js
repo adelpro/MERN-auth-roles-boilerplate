@@ -28,25 +28,6 @@ export default function Home() {
           Login
         </div>
       </button>
-      <button
-        className={styles.button}
-        onClick={() =>
-          navigate(location.state?.from?.pathname || '/dash', {
-            replace: true,
-          })
-        }
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <MdDashboard size={30} style={{ marginRight: 10 }} />
-          Dash
-        </div>
-      </button>
     </>
   )
 }

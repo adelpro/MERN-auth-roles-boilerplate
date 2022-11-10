@@ -1,6 +1,6 @@
 {
-  "name": "MERN-AUTH-ROLES-Frontend",
-  "version": "4.0.0",
+  "name": "mern-auth-roles-frontend",
+  "version": "4",
   "description": "MERN-auth-roles a web application that alow you to manage authentication and roles of users using MERN (MongoDB Express Angular Node)",
   "dependencies": {
     "@fvilers/disable-react-devtools": "^1.3.0",

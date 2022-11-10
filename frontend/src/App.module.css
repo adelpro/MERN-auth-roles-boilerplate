@@ -1,165 +1,165 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500&display=swap');
 
 body {
-    font-family: Montserrat, Arial, sans-serif;
+  font-family: Montserrat, Arial, sans-serif;
 }
 
 .form__container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #f8ede3;
-    width: 450px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    box-sizing: border-box;
-    padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8ede3;
+  width: 450px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+  padding: 5px;
 }
 
 .form__control__container {
-    display: flex;
-    flex-direction: row;
-    margin: 10px;
-    padding: 5px;
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  padding: 5px;
 }
 
 .form__control__container__checkbox {
-    display: flex;
-    flex-direction: row;
-    margin: 10px;
-    padding: 5px;
-    font-size: 15px;
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  padding: 5px;
+  font-size: 15px;
 }
 
 .form__control__container__checkbox > label {
-    width: 200px;
+  width: 200px;
 }
 
 section {
-    display: flex;
-    margin: 30px;
-    background-color: #7d6e83;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1;
-    font-family: 'Montserrat', sans-serif;
-    font-size: larger;
+  display: flex;
+  margin: 30px;
+  background-color: #7d6e83;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  font-family: 'Montserrat', sans-serif;
+  font-size: larger;
 }
 
 input,
 label {
-    margin: 2px;
-    padding: 3px;
-    width: 100px;
-    height: 30px;
-    border-radius: 5px;
+  margin: 2px;
+  padding: 3px;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
 }
 
 textarea,
 input[type='text'],
 input[type='password'] {
-    width: 200px;
-    font-size: 1rem;
+  width: 200px;
+  font-size: 1rem;
 }
 
 h1 {
-    font-size: 2rem;
-    font-weight: bold;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 .error {
-    margin: 3px;
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
-    color: #802a36;
+  margin: 3px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  color: #802a36;
 }
 
 .button {
-    margin: 10px;
-    width: 90px;
-    height: 40px;
-    border-radius: 5px;
-    color: #dff6ff;
-    background-color: #06283d;
-    cursor: pointer;
-    text-align: 'center';
-    cursor: pointer;
-    /*grow effect*/
-    transition: all 0.1s ease-in-out;
+  margin: 10px;
+  width: 90px;
+  height: 40px;
+  border-radius: 5px;
+  color: #dff6ff;
+  background-color: #06283d;
+  cursor: pointer;
+  text-align: 'center';
+  cursor: pointer;
+  /*grow effect*/
+  transition: all 0.1s ease-in-out;
 }
 
 .button:hover {
-    background-color: #083755;
-    font-weight: bold;
-    border-color: rgba(88, 88, 88, 0.8);
-    /*grow effect*/
-    transform: scale(1.1);
+  background-color: #083755;
+  font-weight: bold;
+  border-color: rgba(88, 88, 88, 0.8);
+  /*grow effect*/
+  transform: scale(1.1);
 }
 
 .list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-content: center;
-    width: 90%;
-    height: 50px;
-    margin: 7px;
-    padding: 2px 2px 2px 20px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  width: 90%;
+  height: 50px;
+  margin: 7px;
+  padding: 2px 2px 2px 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .list li:hover {
-    transform: scale(1.02, 1.2);
+  transform: scale(1.02, 1.2);
 }
 
 .list li button {
-    width: 30px;
-    height: 30px;
-    margin: 2px;
-    border-radius: 4px;
-    cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .list li button:hover {
-    background-color: rgba(156, 156, 156, 0.8);
-    border-color: #06283d;
-    border-width: 2;
+  background-color: rgba(156, 156, 156, 0.8);
+  border-color: #06283d;
+  border-width: 2;
 }
 
 .list li::marker {
-    content: '✓ ';
-    color: #083755;
+  content: '✓ ';
+  color: #083755;
 }
 
 .dashed {
-    border-top: 3px dashed #bbb;
+  border-top: 3px dashed #bbb;
 }
 
 .center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media only screen and (max-width: 480px) {
-    section {
-        margin: 0;
-    }
+  section {
+    margin: 0;
+  }
 
-    .form__control__container {
-        margin: 2px;
-    }
+  .form__control__container {
+    margin: 2px;
+  }
 
-    .form__container {
-        width: 350px;
-    }
+  .form__container {
+    width: 350px;
+  }
 
-    .list {
-        padding: 2px;
-    }
+  .list {
+    padding: 2px;
+  }
 }

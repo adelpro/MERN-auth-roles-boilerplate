@@ -110,6 +110,7 @@ npm start
 
 ## Support us ❤️
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fc67334666344d698de76c1d8d000562)](https://app.codacy.com/gh/adelpro/MERN-auth-roles-boilerplate?utm_source=github.com&utm_medium=referral&utm_content=adelpro/MERN-auth-roles-boilerplate&utm_campaign=Badge_Grade_Settings)
 [![Buymeacoffee](https://badgen.net/badge/icon/buymeacoffee?icon=buymeacoffee&label)](https://www.buymeacoffee.com/Adel.benyahia/)
 [![PayPal](https://badgen.net/badge/icon/PayPal?icon=https://simpleicons.now.sh/paypal/fff&label)](https://www.paypal.com/paypalme/adelbenyahia)
 [![BitCoin](https://badgen.net/badge/icon/bitcoin?icon=bitcoin&label)](bitcoin:1PstR1HYTG8FbVRR7YZhQftYumVAURXuq7?label=Quranipfs&message=Payment%20to%20Quranipfs)

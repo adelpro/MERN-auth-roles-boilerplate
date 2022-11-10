@@ -1,5 +1,8 @@
 # MERN-auth-roles
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8a4f92ef7e004d4b9e42cf70fc0376f9)](https://www.codacy.com/gh/adelpro/MERN-auth-roles-boilerplate/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=adelpro/MERN-auth-roles-boilerplate&amp;utm_campaign=Badge_Grade)
+![](https://komarev.com/ghpvc/?username=adelpro&style=flat-squar&color=brightgreen)
+
 ## Live website
 
 https://mern-auth-roles.onrender.com
@@ -102,25 +105,25 @@ npm start
 
 ![MERN-auth-roles](https://i.imgur.com/08gyywr.png)
 
-## Contact us 📨
+## Contact me 📨
 
 [![twitter][1.1]][1]
 [![facebook][2.1]][2]
 [![github][3.1]][3]
+[![medium][4.1]][4]
 
-## Support us ❤️
+## Support me ❤️
 
+[![Ko-fi](https://badgen.net/badge/icon/Kofi?icon=kofi&label)](https://ko-fi.com/adelbenyahia)
 [![Buymeacoffee](https://badgen.net/badge/icon/buymeacoffee?icon=buymeacoffee&label)](https://www.buymeacoffee.com/Adel.benyahia/)
 [![PayPal](https://badgen.net/badge/icon/PayPal?icon=https://simpleicons.now.sh/paypal/fff&label)](https://www.paypal.com/paypalme/adelbenyahia)
 [![BitCoin](https://badgen.net/badge/icon/bitcoin?icon=bitcoin&label)](bitcoin:1PstR1HYTG8FbVRR7YZhQftYumVAURXuq7?label=Quranipfs&message=Payment%20to%20Quranipfs)
 
-##
-
-![](https://komarev.com/ghpvc/?username=adelpro&style=flat-squar&color=brightgreen)
-
-[1.1]: http://i.imgur.com/tXSoThF.png "twitter icon with padding"
-[2.1]: http://i.imgur.com/P3YfQoD.png "facebook icon with padding"
-[3.1]: http://i.imgur.com/0o48UoR.png "github icon with padding"
 [1]: https://www.twitter.com/adelpro
+[1.1]: http://i.imgur.com/tXSoThF.png "twitter icon with padding"
 [2]: https://www.facebook.com/adel.benyahia
+[2.1]: http://i.imgur.com/P3YfQoD.png "facebook icon with padding"
 [3]: https://github.com/adelpro
+[3.1]: http://i.imgur.com/0o48UoR.png "github icon with padding"
+[4]: adelpro.medium.com
+[4.1]: https://i.imgur.com/tijdQEw.png "medium icon with padding"

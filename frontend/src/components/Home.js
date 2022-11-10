@@ -1,12 +1,11 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from '../App.module.css'
-import { MdLogin, MdDashboard } from 'react-icons/md'
+import { MdLogin } from 'react-icons/md'
 import { useRecoilValue } from 'recoil'
 import { AccessToken } from '../recoil/atom'
 
 export default function Home() {
   const navigate = useNavigate()
-  const location = useLocation()
   const accessToken = useRecoilValue(AccessToken)
   return (
     <>

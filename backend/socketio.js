@@ -1,5 +1,4 @@
 const user = require('./models/user')
-const asyncHandler = require('express-async-handler')
 
 module.exports = function (io) {
   let users = []
@@ -7,15 +6,15 @@ module.exports = function (io) {
   io.on('connection', (socket) => {
     socket.on(
       'setUserId',
-      asyncHandler(async (userId) => {
+      async (userId) => {
         if (userId) {
           const oneUser = await user.findById(userId).lean().exec()
           if (oneUser) {
             users[userId] = socket
-            console.log(`user with id ${userId} connected to socket`)
+            console.log(`🔗 user with id ${userId} connected to socket`)
           }
         }
-      })
+      }
     )
 
     socket.on('getNotifications', (userId) => {

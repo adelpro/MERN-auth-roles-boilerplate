@@ -1,5 +1,6 @@
-const express = require('express')
 require('dotenv').config()
+require('express-async-errors')
+const express = require('express')
 const path = require('path')
 const { logger, logEvents } = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')

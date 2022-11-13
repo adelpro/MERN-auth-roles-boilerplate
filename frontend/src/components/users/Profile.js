@@ -1,65 +1,61 @@
-import { useEffect, useRef, useState } from 'react'
-import useAxiosPrivate from '../../hooks/useAxiosPrivate'
-import styles from '../../App.module.css'
-import useAuth from '../../hooks/useAuth'
-import { MdOutlinePersonOutline, MdFileUpload } from 'react-icons/md'
-import { Ring } from '@uiball/loaders'
+import { useEffect, useRef, useState } from 'react';
+import { MdOutlinePersonOutline, MdFileUpload } from 'react-icons/md';
+import { Ring } from '@uiball/loaders';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import styles from '../../App.module.css';
+import useAuth from '../../hooks/useAuth';
 
 export default function Profile() {
-  const axiosPrivate = useAxiosPrivate()
-  const { username, roles, profileImage, id } = useAuth()
+  const axiosPrivate = useAxiosPrivate();
+  const { username, roles, profileImage, id } = useAuth();
   const [image, setImage] = useState({
     preview: null,
-    data: null,
-  })
-  const [isloading, setIsloading] = useState(false)
-  const [message, setMessage] = useState('')
-  const messageRef = useRef()
+    data: null
+  });
+  const [isloading, setIsloading] = useState(false);
+  const [message, setMessage] = useState('');
+  const messageRef = useRef();
   useEffect(() => {
-    setImage((prev) => ({ ...prev, preview: profileImage }))
-  }, [profileImage])
+    setImage((prev) => ({ ...prev, preview: profileImage }));
+  }, [profileImage]);
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsloading(true)
-    setMessage(null)
-    let formData = new FormData()
-    formData.append('image', image.data)
-    formData.append('id', id)
+    e.preventDefault();
+    setIsloading(true);
+    setMessage(null);
+    const formData = new FormData();
+    formData.append('image', image.data);
+    formData.append('id', id);
     await axiosPrivate
-      .post(`/users/image`, formData, {
+      .post('/users/image', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((result) => {
-        setIsloading(false)
-        setMessage(result?.response?.message)
-      })
-      .catch((err) => {
-        setIsloading(false)
-        if (!err?.response?.status) {
-          setMessage(
-            err?.response?.statusText
-              ? err?.response?.statusText
-              : 'No server response'
-          )
-        } else if (err?.response?.status === 409) {
-          setMessage('Username exist already')
-        } else if (err?.response?.status === 401) {
-          setMessage('Unauthorized')
-        } else {
-          setMessage(err?.response?.statusText)
+          'Content-Type': 'multipart/form-data'
         }
       })
-  }
+      .then((result) => {
+        setIsloading(false);
+        setMessage(result?.response?.message);
+      })
+      .catch((err) => {
+        setIsloading(false);
+        if (!err?.response?.status) {
+          setMessage(err?.response?.statusText ? err?.response?.statusText : 'No server response');
+        } else if (err?.response?.status === 409) {
+          setMessage('Username exist already');
+        } else if (err?.response?.status === 401) {
+          setMessage('Unauthorized');
+        } else {
+          setMessage(err?.response?.statusText);
+        }
+      });
+  };
 
   const handleFileChange = (e) => {
     const img = {
       preview: URL.createObjectURL(e.target.files[0]),
-      data: e.target.files[0],
-    }
-    setImage(img)
-  }
+      data: e.target.files[0]
+    };
+    setImage(img);
+  };
   return (
     <section>
       <div className={styles.form__container}>
@@ -73,8 +69,8 @@ export default function Profile() {
         <div className={styles.form__control__container}>
           <span>
             [
-            {roles.map((role, i, roles) =>
-              i + 1 === roles.length ? (
+            {roles.map((role, i, Roles) =>
+              i + 1 === Roles.length ? (
                 <span key={role}>{role}</span>
               ) : (
                 <span key={role}>{role} ,</span>
@@ -97,7 +93,7 @@ export default function Profile() {
               width: '300px',
               height: '300px',
               backgroundColor: '#cccc',
-              border: '1px solid black',
+              border: '1px solid black'
             }}
           />
         )}
@@ -113,11 +109,7 @@ export default function Profile() {
             />
           </div>
           <div className={styles.center}>
-            <button
-              type="submit"
-              disabled={isloading || !image.preview}
-              className={styles.button}
-            >
+            <button type="submit" disabled={isloading || !image.preview} className={styles.button}>
               <div className={styles.center}>
                 {!isloading ? (
                   <div className={styles.center}>
@@ -126,7 +118,7 @@ export default function Profile() {
                   </div>
                 ) : (
                   <div className={styles.center}>
-                    {<Ring size={18} color="white" />}
+                    <Ring size={18} color="white" />
                   </div>
                 )}
               </div>
@@ -140,5 +132,5 @@ export default function Profile() {
         </form>
       </div>
     </section>
-  )
+  );
 }

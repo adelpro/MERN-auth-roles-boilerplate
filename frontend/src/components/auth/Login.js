@@ -1,67 +1,62 @@
-import { useRef, useState, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { Ring } from '@uiball/loaders'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { MdLogin, MdPassword, MdRemoveRedEye } from 'react-icons/md'
-import { AccessToken, Persist } from '../../recoil/atom'
-import styles from '../../App.module.css'
-import axios from '../../api/axios'
+import { useRef, useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Ring } from '@uiball/loaders';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { MdLogin, MdPassword, MdRemoveRedEye } from 'react-icons/md';
+import { AccessToken, Persist } from '../../recoil/atom';
+import styles from '../../App.module.css';
+import axios from '../../api/axios';
 
 export default function Login() {
-  const setAccessToken = useSetRecoilState(AccessToken)
-  const [persist, setPersist] = useRecoilState(Persist)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [isloading, setIsloading] = useState(false)
-  const [error, setError] = useState(null)
-  const usernameRef = useRef()
-  const [passwordType, setPasswordType] = useState(true)
-  const errorRef = useRef()
-  const location = useLocation()
-  const navigate = useNavigate()
+  const setAccessToken = useSetRecoilState(AccessToken);
+  const [persist, setPersist] = useRecoilState(Persist);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isloading, setIsloading] = useState(false);
+  const [error, setError] = useState(null);
+  const usernameRef = useRef();
+  const [passwordType, setPasswordType] = useState(true);
+  const errorRef = useRef();
+  const location = useLocation();
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsloading(true)
-    setError(null)
+    e.preventDefault();
+    setIsloading(true);
+    setError(null);
     try {
-      const result = await axios.post(
-        '/auth',
-        { username, password },
-        { withCredentials: true }
-      )
-      setAccessToken(result?.data?.accessToken)
-      setIsloading(false)
-      setError(null)
-      setUsername('')
-      setPassword('')
+      const result = await axios.post('/auth', { username, password }, { withCredentials: true });
+      setAccessToken(result?.data?.accessToken);
+      setIsloading(false);
+      setError(null);
+      setUsername('');
+      setPassword('');
       navigate(location.state?.from?.pathname || '/dash', {
-        replace: true,
-      })
+        replace: true
+      });
     } catch (err) {
       if (!err?.response?.status) {
-        setError('No server response')
+        setError('No server response');
       } else if (err?.response?.status === 400) {
-        setError('Missing username or password')
+        setError('Missing username or password');
       } else if (err?.response?.status === 401) {
-        setError('Unauthorized')
+        setError('Unauthorized');
       } else {
-        setError(err?.message)
+        setError(err?.message);
       }
-      setIsloading(false)
-      errorRef.current.focus()
+      setIsloading(false);
+      errorRef.current.focus();
     }
-  }
-  useEffect(() => usernameRef.current.focus(), [])
-  useEffect(() => setError(null), [username, password])
+  };
+  useEffect(() => usernameRef.current.focus(), []);
+  useEffect(() => setError(null), [username, password]);
   return (
     <section>
       <div
         style={{
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+          alignItems: 'center'
+        }}>
         <MdLogin size={30} style={{ marginRight: 10 }} />
         <h1>Login </h1>
       </div>
@@ -87,9 +82,8 @@ export default function Login() {
               style={{
                 position: 'relative',
                 border: '2px solid',
-                borderRadius: '4px',
-              }}
-            >
+                borderRadius: '4px'
+              }}>
               <input
                 id="password"
                 type={passwordType ? 'password' : 'text'}
@@ -100,7 +94,7 @@ export default function Login() {
                 style={{
                   border: 'none',
                   borderRadius: 0,
-                  outline: 'none',
+                  outline: 'none'
                 }}
               />
 
@@ -111,11 +105,10 @@ export default function Login() {
                   width: 20,
                   padding: 5,
                   right: 0,
-                  border: 'none',
+                  border: 'none'
                 }}
                 aria-hidden="true"
-                onClick={() => setPasswordType((prev) => !prev)}
-              >
+                onClick={() => setPasswordType((prev) => !prev)}>
                 {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
               </div>
             </div>
@@ -147,5 +140,5 @@ export default function Login() {
         </p>
       </form>
     </section>
-  )
+  );
 }

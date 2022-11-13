@@ -1,29 +1,29 @@
 .notfound {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .notfound > h1 {
-    font-family: Montserrat;
-    font-size: 252px;
-    font-weight: bold;
-    letter-spacing: -40px;
-    margin: 0;
+  font-family: Montserrat;
+  font-size: 252px;
+  font-weight: bold;
+  letter-spacing: -40px;
+  margin: 0;
 }
 
 .notfound > h1 > span {
-    text-shadow: -8px 0 0 #fff;
+  text-shadow: -8px 0 0 #fff;
 }
 
 @media only screen and (max-width: 480px) {
-    .notfound > h1 {
-        font-size: 126px;
-        letter-spacing: -20px;
-    }
+  .notfound > h1 {
+    font-size: 126px;
+    letter-spacing: -20px;
+  }
 }

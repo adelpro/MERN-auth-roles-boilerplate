@@ -1,92 +1,83 @@
-import { useRef, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { MultiSelect } from 'react-multi-select-component'
-import ROLES from '../../config/roles'
+import { useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { MultiSelect } from 'react-multi-select-component';
 import {
   MdAdd,
   MdAutorenew,
   MdRemoveRedEye,
   MdPassword,
-  MdSupervisorAccount,
-} from 'react-icons/md'
-import styles from '../../App.module.css'
-import useAxiosPrivate from '../../hooks/useAxiosPrivate'
-import { Ring } from '@uiball/loaders'
-import { useLocation, useNavigate } from 'react-router-dom'
+  MdSupervisorAccount
+} from 'react-icons/md';
+import { Ring } from '@uiball/loaders';
+import { useLocation, useNavigate } from 'react-router-dom';
+import ROLES from '../../config/roles';
+import styles from '../../App.module.css';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+
 export default function NewUserFrom() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const axiosPrivate = useAxiosPrivate()
-  const messageRef = useRef()
-  const [passwordType, setPasswordType] = useState('type')
-  const [isloading, setIsloading] = useState(false)
-  const [message, setMessage] = useState(null)
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosPrivate = useAxiosPrivate();
+  const messageRef = useRef();
+  const [passwordType, setPasswordType] = useState('type');
+  const [isloading, setIsloading] = useState(false);
+  const [message, setMessage] = useState(null);
   const schema = yup.object().shape({
     username: yup.string().min(4).required('Username is required'),
     email: yup.string().email('Invalid email').required('Email is required'),
-    password: yup
-      .string()
-      .min(6, 'Min 6 characters')
-      .required('Password is required'),
-    //confirmationPassword: yup.string().oneOf([yupref("password"), null]),
+    password: yup.string().min(6, 'Min 6 characters').required('Password is required'),
+    // confirmationPassword: yup.string().oneOf([yupref("password"), null]),
     roles: yup
       .array()
       .min(1, 'Please select at least one role')
-      .required('Required: Please select at least one role'),
-  })
+      .required('Required: Please select at least one role')
+  });
   const {
     register,
     handleSubmit,
     reset,
     control,
-    formState: { errors },
+    formState: { errors }
   } = useForm({
-    resolver: yupResolver(schema),
-  })
+    resolver: yupResolver(schema)
+  });
   const onSubmit = async (data) => {
-    setIsloading(true)
-    setMessage(null)
-    const newRoles = data?.roles.map((element) => element.value)
+    setIsloading(true);
+    setMessage(null);
+    const newRoles = data?.roles.map((element) => element.value);
     await axiosPrivate
       .post('/users', { ...data, roles: newRoles })
       .then((result) => {
-        setIsloading(false)
-        setMessage(result?.data?.message)
+        setIsloading(false);
+        setMessage(result?.data?.message);
         navigate(location.state?.from?.pathname || '/dash/users', {
-          replace: true,
-        })
+          replace: true
+        });
       })
       .catch((err) => {
         if (!err?.response?.status) {
-          setMessage(
-            err?.response?.statusText
-              ? err?.response?.statusText
-              : 'No server response'
-          )
+          setMessage(err?.response?.statusText ? err?.response?.statusText : 'No server response');
         } else if (err?.response?.status === 409) {
-          setMessage('Username exist already')
+          setMessage('Username exist already');
         } else if (err.status === 401) {
-          setMessage('Unauthorized')
+          setMessage('Unauthorized');
         } else {
-          setMessage(err?.response?.statusText)
+          setMessage(err?.response?.statusText);
         }
-        setIsloading(false)
-      })
-  }
+        setIsloading(false);
+      });
+  };
 
-  if (isloading) return <p>Loading ...</p>
+  if (isloading) return <p>Loading ...</p>;
   return (
     <section>
       <div className={styles.center}>
         <MdSupervisorAccount size={30} style={{ marginRight: 10 }} />
         <h1>Singup</h1>
       </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles.form__container}
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form__container}>
         <div className={styles.form__control__container}>
           <label htmlFor="username">Username</label>
           <input {...register('username')} type="text" />
@@ -99,14 +90,13 @@ export default function NewUserFrom() {
             style={{
               position: 'relative',
               border: '2px solid',
-              borderRadius: '4px',
-            }}
-          >
+              borderRadius: '4px'
+            }}>
             <input
               style={{
                 border: 'none',
                 borderRadius: 0,
-                outline: 'none',
+                outline: 'none'
               }}
               type={passwordType ? 'password' : 'text'}
               {...register('password')}
@@ -118,10 +108,10 @@ export default function NewUserFrom() {
                 width: 20,
                 padding: 5,
                 right: 0,
-                border: 'none',
+                border: 'none'
               }}
-              onClick={() => setPasswordType((prev) => !prev)}
-            >
+              aria-hidden="true"
+              onClick={() => setPasswordType((prev) => !prev)}>
               {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
             </div>
           </div>
@@ -136,16 +126,15 @@ export default function NewUserFrom() {
           <label htmlFor="roles">Roles</label>
           <div
             style={{
-              width: '210px',
-            }}
-          >
+              width: '210px'
+            }}>
             <Controller
               control={control}
               name="roles"
               render={({ field: { onChange, value } }) => (
                 <MultiSelect
                   options={ROLES}
-                  value={value ? value : []}
+                  value={value || []}
                   onChange={onChange}
                   labelledBy="Select"
                   disableSearch
@@ -165,11 +154,11 @@ export default function NewUserFrom() {
               </div>
             ) : (
               <div className={styles.center}>
-                {<Ring size={18} color="white" />}
+                <Ring size={18} color="white" />
               </div>
             )}
           </button>
-          <button onClick={() => reset()} className={styles.button}>
+          <button type="button" onClick={() => reset()} className={styles.button}>
             <div className={styles.center}>
               <MdAutorenew size={30} style={{ marginRight: 10 }} />
               Reset
@@ -181,5 +170,5 @@ export default function NewUserFrom() {
         </p>
       </form>
     </section>
-  )
+  );
 }

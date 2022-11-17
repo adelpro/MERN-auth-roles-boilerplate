@@ -1,130 +1,124 @@
-import { useEffect, useRef, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
-import { useRecoilState } from 'recoil'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import styles from '../../App.module.css'
-import useLocalStorage from '../../hooks/useLocalStorage'
-import { AccessToken } from '../../recoil/atom'
-import { useParams } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useRecoilState } from 'recoil';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useParams } from 'react-router-dom';
 import {
   MdAutorenew,
   MdEditNote,
   MdPassword,
   MdRemoveRedEye,
-  MdSystemUpdateAlt,
-} from 'react-icons/md'
-import { MultiSelect } from 'react-multi-select-component'
-import ROLES from '../../config/roles'
-import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+  MdSystemUpdateAlt
+} from 'react-icons/md';
+import { MultiSelect } from 'react-multi-select-component';
+import styles from '../../App.module.css';
+import useLocalStorage from '../../hooks/useLocalStorage';
+import { AccessToken } from '../../recoil/atom';
+import ROLES from '../../config/roles';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+
 export default function EditUserForm() {
-  const [accessToken, setAccessToken] = useRecoilState(AccessToken)
-  const [persist] = useLocalStorage('persist', false)
-  const messageRef = useRef()
-  const [isloading, setIsloading] = useState(false)
-  const [message, setMessage] = useState(null)
-  const { id } = useParams()
-  const [passwordType, setPasswordType] = useState(true)
-  const axiosPrivate = useAxiosPrivate()
+  const [accessToken, setAccessToken] = useRecoilState(AccessToken);
+  const [persist] = useLocalStorage('persist', false);
+  const messageRef = useRef();
+  const [isloading, setIsloading] = useState(false);
+  const [message, setMessage] = useState(null);
+  const { id } = useParams();
+  const [passwordType, setPasswordType] = useState(true);
+  const axiosPrivate = useAxiosPrivate();
   const schema = yup.object().shape({
     username: yup.string().min(4).required('Username is required'),
     email: yup.string().email('Invalid email').required('Email is required'),
     active: yup.boolean(),
-    //password: yup.string().min(6, "Min 6 characters"),
-    //.required("Password is required"),
-    //confirmationPassword: yup.string().oneOf([yupref("password"), null]),
+    // password: yup.string().min(6, "Min 6 characters"),
+    // .required("Password is required"),
+    // confirmationPassword: yup.string().oneOf([yupref("password"), null]),
     roles: yup
       .array()
       .min(1, 'Please select at least one role')
-      .required('Required: Please select at least one role'),
-  })
+      .required('Required: Please select at least one role')
+  });
   const {
     register,
     handleSubmit,
     reset,
     control,
-    formState: { errors },
+    formState: { errors }
   } = useForm({
-    //shouldUseNativeValidation: true,
-    resolver: yupResolver(schema),
-  })
-  //fetching default user data with id:
+    // shouldUseNativeValidation: true,
+    resolver: yupResolver(schema)
+  });
+  // fetching default user data with id:
   useEffect(() => {
-    setIsloading(true)
-    const controller = new AbortController()
+    setIsloading(true);
+    const controller = new AbortController();
     const getUser = async () => {
       try {
         const result = await axiosPrivate.post(
           '/users/one',
           { id },
           {
-            signal: controller.signal,
+            signal: controller.signal
           }
-        )
-        const { username, email, roles, active } = result?.data
+        );
+        const { username, email, roles, active } = result.data;
         const newRoles = roles.map((element) => {
-          return { label: element, value: element }
-        })
-        reset({ username, email, roles: newRoles, active })
-        setMessage(null)
+          return { label: element, value: element };
+        });
+        reset({ username, email, roles: newRoles, active });
+        setMessage(null);
       } catch (err) {
-        setMessage(err?.response?.message)
+        setMessage(err?.response?.message);
       } finally {
-        setIsloading(false)
+        setIsloading(false);
       }
-    }
-    if (accessToken) getUser()
+    };
+    if (accessToken) getUser();
     return () => {
-      controller?.abort()
-    }
-  }, [accessToken, axiosPrivate, id, persist, reset, setAccessToken])
+      controller?.abort();
+    };
+  }, [accessToken, axiosPrivate, id, persist, reset, setAccessToken]);
 
   const onSubmit = async (data) => {
-    setIsloading(true)
-    setMessage(null)
-    const { username, password, email, roles, active } = data
-    const newRoles = roles.map((element) => element.value)
-    let body = null
+    setIsloading(true);
+    setMessage(null);
+    const { username, password, email, roles, active } = data;
+    const newRoles = roles.map((element) => element.value);
+    let body = null;
     if (password) {
-      body = { ...data, roles: newRoles, id }
+      body = { ...data, roles: newRoles, id };
     } else {
-      body = { id, username, email, roles: newRoles, active }
+      body = { id, username, email, roles: newRoles, active };
     }
     await axiosPrivate
-      .patch(`/users`, body)
+      .patch('/users', body)
       .then((result) => {
-        setIsloading(false)
-        setMessage(result?.response?.message)
+        setIsloading(false);
+        setMessage(result?.response?.message);
       })
       .catch((err) => {
         if (!err?.response?.status) {
-          setMessage(
-            err?.response?.statusText
-              ? err?.response?.statusText
-              : 'No server response'
-          )
+          setMessage(err?.response?.statusText ? err?.response?.statusText : 'No server response');
         } else if (err?.response?.status === 409) {
-          setMessage('Username exist already')
+          setMessage('Username exist already');
         } else if (err?.response?.status === 401) {
-          setMessage('Unauthorized')
+          setMessage('Unauthorized');
         } else {
-          setMessage(err?.response?.statusText)
+          setMessage(err?.response?.statusText);
         }
-        setIsloading(false)
-      })
-  }
+        setIsloading(false);
+      });
+  };
 
-  if (isloading) return <p>Loading ...</p>
+  if (isloading) return <p>Loading ...</p>;
   return (
     <section>
       <div className={styles.center}>
         <MdSystemUpdateAlt size={30} style={{ marginRight: 10 }} />
         <h1>Update user</h1>
       </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className={styles.form__container}
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form__container}>
         <div className={styles.form__control__container}>
           <label htmlFor="username">Username</label>
           <input {...register('username')} type="text" />
@@ -137,14 +131,13 @@ export default function EditUserForm() {
             style={{
               position: 'relative',
               border: '2px solid',
-              borderRadius: '4px',
-            }}
-          >
+              borderRadius: '4px'
+            }}>
             <input
               style={{
                 border: 'none',
                 borderRadius: 0,
-                outline: 'none',
+                outline: 'none'
               }}
               type={passwordType ? 'password' : 'text'}
               {...register('password')}
@@ -156,10 +149,10 @@ export default function EditUserForm() {
                 width: 20,
                 padding: 5,
                 right: 0,
-                border: 'none',
+                border: 'none'
               }}
-              onClick={() => setPasswordType((prev) => !prev)}
-            >
+              aria-hidden="true"
+              onClick={() => setPasswordType((prev) => !prev)}>
               {passwordType ? <MdPassword /> : <MdRemoveRedEye />}
             </div>
           </div>
@@ -174,16 +167,15 @@ export default function EditUserForm() {
           <label htmlFor="roles">Roles</label>
           <div
             style={{
-              width: '210px',
-            }}
-          >
+              width: '210px'
+            }}>
             <Controller
               control={control}
               name="roles"
               render={({ field: { onChange, value } }) => (
                 <MultiSelect
                   options={ROLES}
-                  value={value ? value : []}
+                  value={value || []}
                   onChange={onChange}
                   labelledBy="Select"
                   disableSearch
@@ -206,7 +198,7 @@ export default function EditUserForm() {
               {isloading ? 'Loading...' : 'Update'}
             </div>
           </button>
-          <button onClick={() => reset()} className={styles.button}>
+          <button type="button" onClick={() => reset()} className={styles.button}>
             <div className={styles.center}>
               <MdAutorenew size={30} style={{ marginRight: 10 }} />
               Reset
@@ -218,5 +210,5 @@ export default function EditUserForm() {
         </p>
       </form>
     </section>
-  )
+  );
 }

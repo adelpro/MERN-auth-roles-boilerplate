@@ -1,24 +1,24 @@
 const user = require('../models/user')
 const note = require('../models/note')
-const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
 const fs = require('fs')
 const path = require('path')
+const notification = require('../models/notification')
 
 // @desc Get all users
 // @Route GET /users
 // @Access Private
-const getAllUsers = asyncHandler(async (req, res) => {
+const getAllUsers = async (req, res) => {
   const users = await user.find().select('-password').lean().exec()
   if (!users) {
     return res.status(400).json({ message: 'No users found' })
   }
   res.json(users)
-})
+}
 // @desc Get one user by ID
 // @Route POST /users/one
 // @Access Private
-const getOneUser = asyncHandler(async (req, res) => {
+const getOneUser = async (req, res) => {
   const { id } = req.body
   if (!id) {
     return res
@@ -33,12 +33,12 @@ const getOneUser = asyncHandler(async (req, res) => {
       .json({ message: `Can't find a user with this id: ${id}` })
   }
   res.json(oneUser)
-})
+}
 
 // @desc Create new user
 // @Route POST /users
 // @Access Private
-const createNewUser = asyncHandler(async (req, res) => {
+const createNewUser = async (req, res) => {
   const { username, password, email, roles } = req.body
   //Confirm data
   if (
@@ -74,12 +74,12 @@ const createNewUser = asyncHandler(async (req, res) => {
       message: 'user creation failed, please verify your data and try again',
     })
   }
-})
+}
 
 // @desc Update a user
 // @Route PATCH /users
 // @Private access
-const updateUser = asyncHandler(async (req, res) => {
+const updateUser = async (req, res) => {
   const { id, username, password, roles, active } = req.body
   //Confirm data
   if (
@@ -115,12 +115,12 @@ const updateUser = asyncHandler(async (req, res) => {
   }
   await updateUser.save()
   res.json({ message: `User: ${username} updated with success` })
-})
+}
 
 // @desc delete a user
 // @Route DELETE /users
 // @Private access
-const deleteUser = asyncHandler(async (req, res) => {
+const deleteUser = async (req, res) => {
   const { id } = req.body
   if (!id) {
     return res
@@ -144,14 +144,12 @@ const deleteUser = asyncHandler(async (req, res) => {
       .json({ message: `Can't delete the user with id: ${id}` })
   }
   res.json({ message: `User with id: ${id} deleted with success` })
-})
+}
 
 // @desc Update a user image
 // @Route POST /users
 // @Private access
-const updateUserImage = asyncHandler(async (req, res) => {
-  // TODO Add image link to mongodb
-  //const url = req.protocol + '://' + req.get('host')
+const updateUserImage = async (req, res) => {
   const fileName = req.file.filename
   // Adding image to mongodb
   const { id } = req.body
@@ -182,8 +180,16 @@ const updateUserImage = asyncHandler(async (req, res) => {
   updateUser.profileImage = '/images/' + fileName
   await updateUser.save()
 
+  // add notification for updated profile image
+  await notification.create({
+    user: id,
+    title: 'updated profile image',
+    type: 1,
+    text: `Profile image updated at ${new Date()}`,
+    read: false,
+  })
   res.json({ message: 'image uploaded wtih success' })
-})
+}
 module.exports = {
   createNewUser,
   updateUser,

@@ -1,21 +1,20 @@
 const note = require('../models/note')
-const asyncHandler = require('express-async-handler')
 
 // @desc Get all notes
 // @Route GET /notes
 // @Access Private
-const getAllNotes = asyncHandler(async (req, res) => {
+const getAllNotes = async (req, res) => {
   const notes = await note.find().lean()
   if (!notes) {
     return res.status(400).json({ message: 'No Notes found' })
   }
   res.json(notes)
-})
+}
 
 // @desc Create new note
 // @Route POST /notes
 // @Access Private
-const createNewNote = asyncHandler(async (req, res) => {
+const createNewNote = async (req, res) => {
   const { user, title, text } = req.body
   //Confirm data
   if (!user.match(/^[0-9a-fA-F]{24}$/) || !title || !text) {
@@ -38,12 +37,12 @@ const createNewNote = asyncHandler(async (req, res) => {
       message: 'Note creation failed, please verify your data and try again',
     })
   }
-})
+}
 
 // @desc Get a note by id
 // @Route PATCH /notes/one
 // @Access Private
-const getOneNote = asyncHandler(async (req, res) => {
+const getOneNote = async (req, res) => {
   const { id } = req.body
   //Confirm data
 
@@ -51,6 +50,9 @@ const getOneNote = asyncHandler(async (req, res) => {
     return res
       .status(400)
       .json({ message: 'Verify your data and proceed again r35475' })
+  }
+  if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) {
+    return res.status(400).json({ message: `You must give a valid id: ${id}` })
   }
   // Check if the note exist
   const oneNote = await note.findById(id).lean()
@@ -60,12 +62,12 @@ const getOneNote = asyncHandler(async (req, res) => {
       .json({ message: `Can't find a note with this id: ${id}` })
   }
   res.json(oneNote)
-})
+}
 
 // @desc Update a note
 // @Route PATCH /notes
 // @Access Private
-const updateNote = asyncHandler(async (req, res) => {
+const updateNote = async (req, res) => {
   const { id, title, text, completed } = req.body
   //Confirm data
   if (
@@ -91,12 +93,12 @@ const updateNote = asyncHandler(async (req, res) => {
   updateNote.completed = completed
   await updateNote.save()
   res.json({ message: `Note with title: ${title} updated with success` })
-})
+}
 
 // @desc delete a note
 // @Route DELETE /notes
 // @Private access
-const deleteNote = asyncHandler(async (req, res) => {
+const deleteNote = async (req, res) => {
   const { id } = req.body
   if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) {
     return res.status(400).json({ message: `You must give a valid id: ${id}` })
@@ -113,7 +115,7 @@ const deleteNote = asyncHandler(async (req, res) => {
       .json({ message: `Can't delete the note with id: ${id}` })
   }
   res.json({ message: `Note with id: ${id} deleted with success` })
-})
+}
 module.exports = {
   createNewNote,
   updateNote,

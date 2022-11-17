@@ -1,50 +1,47 @@
-import { Link } from 'react-router-dom'
-import useAuth from '../../hooks/useAuth'
-import { useRecoilValue } from 'recoil'
-import { AccessToken } from '../../recoil/atom'
-import styles from '../../App.module.css'
-import { MdArrowForwardIos } from 'react-icons/md'
-import { useEffect } from 'react'
-import useSocketIo from '../../hooks/useSocketIo'
+import { Link } from 'react-router-dom';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { MdArrowForwardIos } from 'react-icons/md';
+import { useEffect } from 'react';
+import useAuth from '../../hooks/useAuth';
+import { AccessToken, NotificationsLength } from '../../recoil/atom';
+import styles from '../../App.module.css';
+import useSocketIo from '../../hooks/useSocketIo';
+
 export default function Welcome() {
-  const accessToken = useRecoilValue(AccessToken)
-  const { id, username, status, isAdmin } = useAuth()
-  const { socket } = useSocketIo()
+  const accessToken = useRecoilValue(AccessToken);
+  const { id, username, status, isAdmin } = useAuth();
+  const { socket } = useSocketIo();
+  const setNotificationsLength = useSetRecoilState(NotificationsLength);
   useEffect(() => {
-    socket &&
-      socket.on('connect', (data) => {
-        socket.emit('setUserId', id)
-        console.log(`user ${id} connect to socket`)
-      })
-    socket &&
-      socket.on('disconnect', () => {
-        console.log('disconnect')
-      })
-    socket &&
-      socket.on('notifications', (data) => {
-        console.log({ data })
-      })
+    let timer;
+    socket?.on('connect', () => {
+      socket.emit('setUserId', id);
+      // getting first notifications length
+      socket.emit('getNotificationsLength', id);
+      socket?.on('notificationsLength', (data) => {
+        setNotificationsLength(data);
+      });
+      timer = setTimeout(() => {
+        socket.emit('getNotificationsLength', id);
+      }, 10000); // run every 10 seconds
+      socket?.on('disconnect', () => {});
+    });
+
     return () => {
-      socket && socket.off('connect')
-      socket && socket.off('disconnect')
-      socket && socket.off('notifications')
-    }
-  }, [id, socket])
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      socket.emit('getNotifications', id)
-      console.log('sending getNotifications')
-    }, 10000) //run every 10 seconds
-    return () => clearTimeout(timer)
-  }, [id, socket])
+      socket?.off('connect');
+      socket?.off('disconnect');
+      socket?.off('notifications');
+      clearTimeout(timer);
+    };
+  }, [id, socket]);
+
   return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
-        flex: 1,
-      }}
-    >
+        flex: 1
+      }}>
       <h1>
         Welcome {username} [ {status} ]
       </h1>
@@ -77,5 +74,5 @@ export default function Welcome() {
         )}
       </ul>
     </div>
-  )
+  );
 }

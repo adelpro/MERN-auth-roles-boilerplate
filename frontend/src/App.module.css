@@ -97,7 +97,7 @@ h1 {
   /*grow effect*/
   transform: scale(1.1);
 }
-
+.button:disabled {  background-color: #b2cee0;color:whitesmoke}
 .list li {
   display: flex;
   justify-content: space-between;

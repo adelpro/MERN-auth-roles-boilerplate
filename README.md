@@ -1,6 +1,6 @@
 # MERN-auth-roles
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8a4f92ef7e004d4b9e42cf70fc0376f9)](https://www.codacy.com/gh/adelpro/MERN-auth-roles-boilerplate/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=adelpro/MERN-auth-roles-boilerplate&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/8a4f92ef7e004d4b9e42cf70fc0376f9)](https://www.codacy.com/gh/adelpro/MERN-auth-roles-boilerplate/dashboard?utm_source=github.com&utm_medium=referral&utm_content=adelpro/MERN-auth-roles-boilerplate&utm_campaign=Badge_Grade)
 ![](https://komarev.com/ghpvc/?username=adelpro&style=flat-squar&color=brightgreen)
 
 ## Live website
@@ -9,7 +9,7 @@ https://mern-auth-roles.onrender.com
 
 ## About
 
-MERN-auth-roles a fullstack MERN (MongoDB Express React Node) boilerplate starter application with React, Recoil, authentication, roles, JWT, protected api
+MERN-auth-roles a full-stack MERN (MongoDB Express React Node) boilerplate starter application with React, Recoil, authentication, roles, JWT, protected api
 ![MERN-auth-roles](https://i.imgur.com/7J6c8Rf.png)
 
 We have two parts in the application

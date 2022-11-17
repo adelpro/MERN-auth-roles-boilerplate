@@ -40,6 +40,8 @@ We have two parts in the application
 
 ✓ Password Hashing
 
+✓ Real-time notifications using Socket.io
+
 run this command
 
 ```
@@ -56,7 +58,9 @@ run this command
 
 ✓ Axios with Interceptors to manage fetchs
 
-✓ Token persist only in memory
+✓ Token persist only in memory and cookies
+
+✓ Refresh Token (in memory) and access token (in cookies)
 
 ✓ Hookform: to manage form inputs
 
@@ -73,6 +77,8 @@ run this command
 ✓ Layout component, it will be very easy to navigation and footer
 
 ✓ Profile image upload
+
+✓ Real-time notifications using Socket.io client
 
 ### Run the code
 

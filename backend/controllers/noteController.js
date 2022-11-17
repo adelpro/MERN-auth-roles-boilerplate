@@ -51,6 +51,9 @@ const getOneNote = async (req, res) => {
       .status(400)
       .json({ message: 'Verify your data and proceed again r35475' })
   }
+  if (!id || !id.match(/^[0-9a-fA-F]{24}$/)) {
+    return res.status(400).json({ message: `You must give a valid id: ${id}` })
+  }
   // Check if the note exist
   const oneNote = await note.findById(id).lean()
   if (!oneNote) {

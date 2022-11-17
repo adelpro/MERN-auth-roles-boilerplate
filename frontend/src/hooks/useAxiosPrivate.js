@@ -10,11 +10,11 @@ const useAxiosPrivate = () => {
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
+        const newConfig = config;
         if (!config.headers.Authorization && accessToken) {
-          // eslint-disable-next-line no-param-reassign
-          config.headers.Authorization = `Bearer ${accessToken}`;
+          newConfig.headers.Authorization = `Bearer ${accessToken}`;
         }
-        return config;
+        return newConfig;
       },
       (error) => {
         Promise.reject(error);

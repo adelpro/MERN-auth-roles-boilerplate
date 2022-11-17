@@ -3,6 +3,7 @@ const note = require('../models/note')
 const bcrypt = require('bcrypt')
 const fs = require('fs')
 const path = require('path')
+const notification = require('../models/notification')
 
 // @desc Get all users
 // @Route GET /users
@@ -149,8 +150,6 @@ const deleteUser = async (req, res) => {
 // @Route POST /users
 // @Private access
 const updateUserImage = async (req, res) => {
-  // TODO Add image link to mongodb
-  //const url = req.protocol + '://' + req.get('host')
   const fileName = req.file.filename
   // Adding image to mongodb
   const { id } = req.body
@@ -181,6 +180,14 @@ const updateUserImage = async (req, res) => {
   updateUser.profileImage = '/images/' + fileName
   await updateUser.save()
 
+  // add notification for updated profile image
+  await notification.create({
+    user: id,
+    title: 'updated profile image',
+    type: 1,
+    text: `Profile image updated at ${new Date()}`,
+    read: false,
+  })
   res.json({ message: 'image uploaded wtih success' })
 }
 module.exports = {

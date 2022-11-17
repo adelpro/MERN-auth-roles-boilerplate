@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { MdOutlinePersonOutline, MdLogout, MdDashboard } from 'react-icons/md';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+  MdOutlinePersonOutline,
+  MdLogout,
+  MdDashboard,
+  MdNotificationsNone,
+  MdNotificationsActive
+} from 'react-icons/md';
 import { Ring } from '@uiball/loaders';
-import { AccessToken } from '../recoil/atom';
+import { AccessToken, NotificationsLength } from '../recoil/atom';
 import axios from '../api/axios';
 import styles from '../App.module.css';
 import dashstyles from './DashLayoutHeader.module.css';
@@ -12,6 +18,7 @@ export default function DashLayoutHeader() {
   const navigate = useNavigate();
   const location = useLocation();
   const setAccessToken = useSetRecoilState(AccessToken);
+  const notificationsLength = useRecoilValue(NotificationsLength);
   const [isloading, setIsloading] = useState(false);
   const logoutHandler = async () => {
     // send logout request
@@ -48,13 +55,30 @@ export default function DashLayoutHeader() {
           className={styles.button}
           type="button"
           onClick={() => {
-            navigate(location.state?.from?.pathname || '/profile', {
+            navigate(location.state?.from?.pathname || '/dash/profile', {
               replace: true
             });
           }}>
           <div className={styles.center}>
             <MdOutlinePersonOutline size={30} style={{ marginRight: 10 }} />
             Profile
+          </div>
+        </button>
+        <button
+          className={styles.button}
+          type="button"
+          onClick={() => {
+            navigate(location.state?.from?.pathname || '/dash/notifications', {
+              replace: true
+            });
+          }}>
+          <div className={styles.center}>
+            {notificationsLength ? (
+              <MdNotificationsActive size={30} style={{ marginRight: 10 }} />
+            ) : (
+              <MdNotificationsNone size={30} style={{ marginRight: 10 }} />
+            )}
+            {`(${notificationsLength})`}
           </div>
         </button>
         <button

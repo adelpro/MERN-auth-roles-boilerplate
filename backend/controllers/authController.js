@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
+const notification = require('../models/notification')
 const jwt = require('jsonwebtoken')
 
 // @desc Login
@@ -50,8 +51,18 @@ const login = async (req, res) => {
     secure: process.env.NODE_ENV === 'production', //-only for server with https
     maxAge: 24 * 60 * 60 * 1000,
   })
+
   //then send access token with username and roles
   res.json({ accessToken })
+
+  // add notification for login
+  await notification.create({
+    user: foundUser._id,
+    title: 'login',
+    type: 1,
+    text: `New login at ${new Date()}`,
+    read: false,
+  })
 }
 
 // @desc Refresh
@@ -67,7 +78,7 @@ const refresh = async (req, res) => {
   jwt.verify(
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET,
-   async (err, decoded) => {
+    async (err, decoded) => {
       if (err) {
         return res.status(403).json({ message: 'Forbidden r74690' })
       }
@@ -89,7 +100,8 @@ const refresh = async (req, res) => {
       )
       //Send accessToken with username and roles
       res.json({ accessToken })
-    })  
+    }
+  )
 }
 
 // @desc Logout

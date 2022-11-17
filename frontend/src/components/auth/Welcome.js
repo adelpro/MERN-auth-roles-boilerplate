@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { MdArrowForwardIos } from 'react-icons/md';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
-import { AccessToken } from '../../recoil/atom';
+import { AccessToken, NotificationsLength } from '../../recoil/atom';
 import styles from '../../App.module.css';
 import useSocketIo from '../../hooks/useSocketIo';
 
@@ -11,37 +11,30 @@ export default function Welcome() {
   const accessToken = useRecoilValue(AccessToken);
   const { id, username, status, isAdmin } = useAuth();
   const { socket } = useSocketIo();
-  const [isConnected, setIsConnected] = useState();
+  const setNotificationsLength = useSetRecoilState(NotificationsLength);
   useEffect(() => {
+    let timer;
     socket?.on('connect', () => {
       socket.emit('setUserId', id);
-      setIsConnected(true);
-      console.log(`user ${id} connect to socket`);
+      // getting first notifications length
+      socket.emit('getNotificationsLength', id);
+      socket?.on('notificationsLength', (data) => {
+        setNotificationsLength(data);
+      });
+      timer = setTimeout(() => {
+        socket.emit('getNotificationsLength', id);
+      }, 10000); // run every 10 seconds
+      socket?.on('disconnect', () => {});
     });
 
-    socket?.on('disconnect', () => {
-      setIsConnected(false);
-      console.log('disconnect');
-    });
-
-    socket?.on('notifications', (data) => {
-      console.log({ data });
-    });
     return () => {
       socket?.off('connect');
       socket?.off('disconnect');
       socket?.off('notifications');
+      clearTimeout(timer);
     };
   }, [id, socket]);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (isConnected) {
-        socket.emit('getNotifications', id);
-      }
-      console.log('sending getNotifications');
-    }, 10000); // run every 10 seconds
-    return () => clearTimeout(timer);
-  }, [id, socket]);
+
   return (
     <div
       style={{

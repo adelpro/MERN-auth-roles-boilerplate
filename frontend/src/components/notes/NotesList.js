@@ -41,7 +41,6 @@ export default function NotesList() {
   const handleDeleteNote = async (id) => {
     try {
       const result = await axiosPrivate.delete('/notes', { data: { id } });
-      // eslint-disable-next-line no-underscore-dangle
       setData(() => data.filter((item) => item._id !== id));
       setMessage(result?.data?.message);
       messageRef.current.focus();

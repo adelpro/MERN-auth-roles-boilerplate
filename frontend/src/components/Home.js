@@ -1,20 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { MdLogin } from 'react-icons/md';
-import { useRecoilValue } from 'recoil';
-import { AccessToken } from '../recoil/atom';
 import styles from '../App.module.css';
 
 export default function Home() {
   const navigate = useNavigate();
-  const accessToken = useRecoilValue(AccessToken);
   return (
     <>
       <h1>Home</h1>
 
-      <p>Welcome to MERN auth with roles application</p>
-      <p style={{ wordWrap: 'break-word', margin: 10 }}>
-        <strong>accessToken: </strong>
-        {accessToken}
+      <h2>Welcome to MERN-auth-roles application</h2>
+      <p>
+        A full-stack application that allows you to manage authentication and roles for users, using
+        MERN and
       </p>
       <button className={styles.button} onClick={() => navigate('/login')} type="button">
         <div

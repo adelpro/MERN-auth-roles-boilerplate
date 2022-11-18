@@ -111,6 +111,18 @@ npm start
 
 ![MERN-auth-roles](https://i.imgur.com/08gyywr.png)
 
+### Notifications
+
+[MERN-auth-roles](https://i.imgur.com/yk2nrWy.png)
+
+### Youtube Video demonstration
+
+<div align="left">
+      <a href="https://www.youtube.com/watch?v=PXeMb2nmdm8">
+         <img src="https://img.youtube.com/vi/PXeMb2nmdm8/0.jpg" style="width:100%;">
+      </a>
+</div>
+
 ## Contact us 📨
 
 [![twitter][1.1]][1]

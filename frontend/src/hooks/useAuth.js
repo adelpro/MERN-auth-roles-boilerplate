@@ -12,7 +12,6 @@ const useAuth = () => {
   if (accessToken) {
     const decode = jwtDecode(accessToken);
     const { username, id, roles, profileImage } = decode.UserInfo;
-    console.log(username, id);
     const loadProfileImage =
       profileImage?.length !== 0 ? `${process.env.REACT_APP_BASEURL + profileImage}` : defaultImage;
     isAdmin = roles.includes('Admin');

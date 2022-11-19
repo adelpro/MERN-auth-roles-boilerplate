@@ -82,7 +82,6 @@ const refresh = async (req, res) => {
       if (err) {
         return res.status(403).json({ message: 'Forbidden r74690' });
       }
-      console.log(decoded?.UserInfo?.username);
       const foundUser = await User.findOne({
         username: decoded.UserInfo.username,
       }).exec();

@@ -11,13 +11,13 @@ export default function NotificationsList() {
   const [limit] = useState(3);
   const [page, setPage] = useState(0);
   const accessToken = useRecoilValue(AccessToken);
+  const notificationsLength = useRecoilValue(NotificationsLength);
   const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState(null);
   const [isLoading, setIsloading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const messageRef = useRef();
-  const notificationsLength = useRecoilValue(NotificationsLength);
   useEffect(() => {
     setIsloading(true);
     const controller = new AbortController();
@@ -68,7 +68,9 @@ export default function NotificationsList() {
   const handleDeleteNotification = async (notificationId) => {
     try {
       const result = await axiosPrivate.delete('/notifications', { data: { id: notificationId } });
-      setData(() => data.filter((item) => item._id !== notificationId));
+      const newData = data?.notifications?.filter((item) => item._id !== notificationId);
+      console.log(newData);
+      setData(newData);
       setMessage(result?.data?.message);
       messageRef.current.focus();
     } catch (err) {
@@ -101,7 +103,7 @@ export default function NotificationsList() {
       <>
         <h1>Notifications list</h1>
         <ul className={styles.list}>
-          {data.notifications.map((notification) => {
+          {data?.notifications?.map((notification) => {
             return (
               <div key={notification._id}>
                 <li style={{ height: '100%' }}>

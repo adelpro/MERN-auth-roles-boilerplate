@@ -17,6 +17,7 @@ export default function PersistLogin() {
       // React 18 Strict Mode
       const verifyRefreshToken = async () => {
         const newAccessToken = await getNewToken();
+        console.log('test');
         setAccessToken(newAccessToken);
       };
       if (!accessToken && persist) {

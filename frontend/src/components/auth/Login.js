@@ -25,7 +25,9 @@ export default function Login() {
     setError(null);
     try {
       const result = await axios.post('/auth', { username, password }, { withCredentials: true });
-      setAccessToken(result?.data?.accessToken);
+      if (result?.data?.accessToken) {
+        setAccessToken(result?.data?.accessToken);
+      }
       setIsloading(false);
       setError(null);
       setUsername('');

@@ -12,10 +12,9 @@ const useAuth = () => {
   if (accessToken) {
     const decode = jwtDecode(accessToken);
     const { username, id, roles, profileImage } = decode.UserInfo;
-    // check if th user has uploaded an image, if not load default image
-    const loadProfileImage = profileImage?.length
-      ? `${process.env.REACT_APP_BASEURL + profileImage}`
-      : defaultImage;
+    console.log(username, id);
+    const loadProfileImage =
+      profileImage?.length !== 0 ? `${process.env.REACT_APP_BASEURL + profileImage}` : defaultImage;
     isAdmin = roles.includes('Admin');
     isManager = roles.includes('Manager');
     if (isManager) status = 'Manager';

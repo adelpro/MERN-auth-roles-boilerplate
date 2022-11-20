@@ -9,7 +9,9 @@ module.exports = function (io) {
         const oneUser = await user.findById(userId).lean().exec();
         if (oneUser) {
           usersio[userId] = socket;
-          console.log(`⚡ Socket: User with id ${userId} connected`);
+           console.log(
+            `⚡ Socket: User: ${userId} connected`
+          );
         } else {
           console.log(`🚩 Socket: No user with id ${userId}`);
         }

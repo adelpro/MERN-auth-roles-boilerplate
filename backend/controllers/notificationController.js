@@ -15,7 +15,6 @@ const getAllNotifications = async (req, res) => {
   if (!notifications) {
     return res.status(400).json({ message: 'No notifications found' });
   }
-  console.log('total: ', total);
 
   res.json({ totalpage: Math.ceil(total / limit), notifications });
 };

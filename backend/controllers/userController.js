@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const fs = require('fs')
 const path = require('path')
 const notification = require('../models/notification')
+const validator = require('validator');
 
 // @desc Get all users
 // @Route GET /users
@@ -54,6 +55,13 @@ const createNewUser = async (req, res) => {
       .status(400)
       .json({ message: 'Verify your data and proceed again' })
   }
+ 
+  //check for email validity
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({ message: 'please enter a valid email address'})
+  }
+
+
   // Check for duplicate
   const duplicate = await user.findOne({ username }).lean().exec()
   if (duplicate) {

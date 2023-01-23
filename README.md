@@ -146,3 +146,9 @@ npm start
 [3.1]: http://i.imgur.com/0o48UoR.png "github icon with padding"
 [4]: adelpro.medium.com
 [4.1]: https://i.imgur.com/tijdQEw.png "medium icon with padding"
+
+## Thank you
+
+[![Stargazers repo roster for @adelpro/MERN-auth-roles-boilerplate](https://reporoster.com/stars/adelpro/MERN-auth-roles-boilerplate)](https://github.com/adelpro/MERN-auth-roles-boilerplate/stargazers)
+
+[![Forkers repo roster for @adelpro/MERN-auth-roles-boilerplate](https://reporoster.com/forks/adelpro/MERN-auth-roles-boilerplate)](https://github.com/adelpro/MERN-auth-roles-boilerplate/network/members)

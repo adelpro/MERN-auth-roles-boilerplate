@@ -19,9 +19,8 @@ export default function DashLayoutHeader() {
   const location = useLocation();
   const setAccessToken = useSetRecoilState(AccessToken);
   const notificationsLength = useRecoilValue(NotificationsLength);
-  const [isloading, setIsloading] = useState(false);
-  
-  
+  const [isloading, setIsloading] = useState(false);  
+
   const logoutHandler = async () => {
     // send logout request
     setIsloading(true);

@@ -20,6 +20,8 @@ export default function DashLayoutHeader() {
   const setAccessToken = useSetRecoilState(AccessToken);
   const notificationsLength = useRecoilValue(NotificationsLength);
   const [isloading, setIsloading] = useState(false);
+  
+  
   const logoutHandler = async () => {
     // send logout request
     setIsloading(true);
@@ -34,6 +36,8 @@ export default function DashLayoutHeader() {
         setIsloading(false);
       });
   };
+
+
   return (
     <div className={dashstyles.dash__header__container}>
       <h1>MERN - auth - roles</h1>

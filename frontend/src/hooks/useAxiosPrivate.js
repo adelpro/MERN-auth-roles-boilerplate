@@ -5,15 +5,14 @@ import useRefreshAccessToken from './useRefreshAccessToken';
 import { AccessToken } from '../recoil/atom';
 
 const useAxiosPrivate = () => {
-
   const [accessToken, setAccessToken] = useRecoilState(AccessToken);
   const getNewToken = useRefreshAccessToken();
 
   useEffect(() => {
-    //send this before making the request
+    // Send this before making the request
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
-         // Do something before request is sent
+        // Do something before request is sent
         const newConfig = config;
         if (!config.headers.Authorization && accessToken) {
           newConfig.headers.Authorization = `Bearer ${accessToken}`;
@@ -44,7 +43,7 @@ const useAxiosPrivate = () => {
       }
     );
 
-    // clean-up
+    // Cleanup function
     return () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);

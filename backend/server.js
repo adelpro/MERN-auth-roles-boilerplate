@@ -1,4 +1,5 @@
 const express = require('express')
+const compression = require('compression')
 require('dotenv').config()
 const path = require('path')
 const { logger, logEvents } = require('./middleware/logger')
@@ -13,6 +14,7 @@ const app = express()
 const port = process.env.PORT || 3500
 connectDB()
 app.use(logger)
+app.use(compression())
 app.use(credentials)
 app.use(cors(corsConfigs))
 app.use(express.json())

@@ -5,13 +5,14 @@
     "main": "server.js",
     "scripts": {
         "start": "node server",
-        "dev": "nodemon server"
+        "dev": "node --watch server"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
         "bcrypt": "^5.0.1",
+        "compression": "^1.7.4",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "date-fns": "^2.29.3",
@@ -23,7 +24,6 @@
         "jwt-decoder": "^0.0.0",
         "mongoose": "^6.6.1",
         "mongoose-sequence": "^5.3.1",
-        "nodemon": "^2.0.20",
         "uuid": "^9.0.0"
     },
     "devDependencies": {
